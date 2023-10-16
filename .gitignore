@@ -1,3 +1,7 @@
 # Runtime data
 .idea
 node_modules
+
+# misc
+.DS_Store
+
