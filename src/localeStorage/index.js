@@ -23,9 +23,8 @@ export function removeTodoToLocalStorage (id)  {
 export function editTodoToLocalStorage (newOptions, id) {
   let todos = getParsedLocaleStorage('todos')
     .map((todo) =>
-    todo.id === id ? { ...todo, ...newOptions } : todo,
+      todo.id === id ? { ...todo, ...newOptions } : todo,
   )
 
   localStorage.setItem('todos', JSON.stringify(todos))
 }
-
