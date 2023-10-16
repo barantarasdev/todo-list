@@ -8,20 +8,21 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./styles/style.css" />
   </head>
   <body>
-    <div>
-      <header>
-        <h1>My todos</h1>
+    <div id="app">
+      <header class="header">
+        <h1 class="header__title">My todos</h1>
 
-        <form>
-          <input type="text" placeholder="Add new todo" />
-          <button type="submit">Add</button>
+        <form class="header__form">
+          <input class="header__input" type="text" placeholder="Add new todo" />
+          <button class="header__button" type="submit">Add</button>
         </form>
       </header>
 
       <main>
-        <ul></ul>
+        <ul class="todos"></ul>
       </main>
     </div>
     <script src="./index.js"></script>
