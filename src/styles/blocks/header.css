@@ -1,0 +1,32 @@
+.header {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.header__input {
+  width: 100%;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  border: 1px solid transparent;
+}
+
+.header__input--red {
+  border-color: var(--color-red);
+}
+
+.header__button {
+  padding: 10px 20px;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+}
