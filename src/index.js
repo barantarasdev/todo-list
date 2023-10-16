@@ -23,7 +23,7 @@ form.addEventListener('submit', (e) => {
     `
       <li class='todo'>
         <input class='todo__input' type='checkbox' />
-        <input class='todo__value' type='text' value=${value} readonly>
+        <input class='todo__value' type='text' value=${value} readonly required>
         <button class='todo__button todo__button--save'>Save</button>
          <button class='todo__button todo__button--remove'>Remove</button>
       </li>
@@ -40,11 +40,20 @@ form.addEventListener('submit', (e) => {
 
   const saveNewValue = () => {
     todoValue.setAttribute('readonly', 'true')
+    todoValue.classList.remove('todo__value--edit')
     saveButton.classList.remove('todo__button--save--visible')
   }
 
   todo.addEventListener('click', (e) => {
     const { classList } = e.target
+
+    if (classList.contains('todo__value')) {
+      e.preventDefault()
+
+      todoValue.removeAttribute('readonly')
+      todoValue.classList.add('todo__value--edit')
+      saveButton.classList.add('todo__button--save--visible')
+    }
 
     if (classList.contains('todo__button--save')) {
       saveNewValue()
@@ -65,11 +74,6 @@ form.addEventListener('submit', (e) => {
 
   checkbox.addEventListener('change', ({ target }) => {
     todoValue.classList.toggle('todo__value--checked', target.checked)
-  })
-
-  todoValue.addEventListener('dblclick', () => {
-    todoValue.removeAttribute('readonly')
-    saveButton.classList.add('todo__button--save--visible')
   })
 
   todoValue.addEventListener('blur', () => {

@@ -1,0 +1,54 @@
+.main {
+  width: 100%;
+}
+
+.todos {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+}
+
+.todo__button {
+  padding: 5px 10px;
+  color: white;
+  border-radius: var(--primary-border-radius);
+}
+
+.todo__button--save {
+  display: none;
+  background-color: darkolivegreen;
+}
+
+.todo__button--remove {
+  background-color: var(--color-red);
+}
+
+.todo__button--save--visible {
+  display: block;
+}
+
+.todo__value {
+  width: 100%;
+  font-size: 16px;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+}
+
+.todo__value--checked {
+  text-decoration: line-through;
+}
+
+.todo__value--edit {
+  background-color: #b9b9b9;
+}
