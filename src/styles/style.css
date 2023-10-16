@@ -1,24 +1,29 @@
 @import url('./normalise.css');
 
 #app {
+  width: 60%;
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 20px auto;
+  border: 1px solid black;
 }
 
 .header {
+  width: 100%;
   margin-bottom: 20px;
 }
 
-.header__form {
+.form {
+  width: 100%;
   display: flex;
   gap: 10px;
 }
 
 .header__input {
+  width: 100%;
   border-radius: 10px;
-  width: 300px;
 }
 
 .header__input--red {
@@ -28,4 +33,56 @@
 .header__button {
   padding: 10px 20px;
   border-radius: 10px;
+}
+
+.main {
+  width: 100%;
+}
+
+.todos {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background-color: dimgray;
+  border-radius: 10px;
+}
+
+.todo__button {
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+}
+
+.todo__button--save {
+  display: none;
+  background-color: darkolivegreen;
+}
+
+.todo__button--remove {
+  background-color: darkred;
+}
+
+.todo__button--save--visible {
+  display: block;
+}
+
+.todo__value {
+  width: 100%;
+  font-size: 16px;
+  color: white;
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+.todo__value--checked {
+  text-decoration: line-through;
 }
