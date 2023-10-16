@@ -2,6 +2,9 @@
 .idea
 node_modules
 
+# Logs
+yarn-error.log
+
 # misc
 .DS_Store
 

@@ -1,0 +1,14 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:barantarasdev/todo-list.git",
+  "author": "Taras Baran <taras.baran@devico.io>",
+  "license": "MIT",
+  "dependencies": {
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.0.3"
+  }
+}
