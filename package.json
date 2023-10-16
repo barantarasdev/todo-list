@@ -5,6 +5,9 @@
   "repository": "git@github.com:barantarasdev/todo-list.git",
   "author": "Taras Baran <taras.baran@devico.io>",
   "license": "MIT",
+  "scripts": {
+    "start": "http-server src/"
+  },
   "dependencies": {
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
