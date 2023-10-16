@@ -17,8 +17,14 @@ ul {
 input {
   padding: 10px;
   border-width: 1px;
+  outline: none;
 }
 
 button {
   border: none;
+  cursor: pointer;
+}
+
+input[type='checkbox'] {
+  cursor: pointer;
 }
