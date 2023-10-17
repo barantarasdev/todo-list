@@ -14,18 +14,18 @@
   gap: 10px;
 }
 
-.header__input {
+.input {
   width: 100%;
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
   border: 1px solid transparent;
 }
 
-.header__input--red {
+.input--red {
   border-color: var(--color-red);
 }
 
-.header__button {
+.button {
   padding: 10px 20px;
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
