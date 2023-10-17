@@ -16,13 +16,30 @@
         <h1 class="title">My todos</h1>
 
         <form class="form">
-          <input class="header__input" type="text" placeholder="Add new todo" />
-          <button class="header__button" type="submit">Add</button>
+          <input
+            class="input"
+            type="text"
+            name="headerInput"
+            placeholder="Add new todo"
+          />
+          <button class="button" type="submit">Add</button>
         </form>
       </header>
 
       <main class="main">
         <ul class="todos"></ul>
+
+        <form class="form feature__form">
+          <input
+            class="input feature__input"
+            type="text"
+            name="featureInput"
+            placeholder="New feature"
+          />
+          <button class="button">Run</button>
+        </form>
+
+        <div class="feature__block"></div>
       </main>
     </div>
     <script type="module" src="./index.js"></script>

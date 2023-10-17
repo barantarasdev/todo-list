@@ -12,33 +12,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const app = document.querySelector('#app')
   const header = app.querySelector('.header')
   const form = header.querySelector('.form')
-  const input = form.querySelector('.header__input')
 
   const main = app.querySelector('.main')
   const todos = main.querySelector('.todos')
 
+  const featureForm = main.querySelector('.feature__form')
+
   renderTodoFromLocaleStorage(todos)
 
-  form.addEventListener('submit', (e) => {
+  app.addEventListener('submit', (e) => {
     e.preventDefault()
+    const { target } = e
 
+    if (target !== form && target !== featureForm) {
+      return
+    }
+
+    const input = target.querySelector('.input')
     const value = input.value
 
     if (value.length <= 0) {
-      input.classList.add('header__input--red')
+      input.classList.add('input--red')
 
       return
     }
 
-    input.classList.remove('header__input--red')
+    switch (target) {
+      case form:
+        handleSubmitForm(e, value, todos)
 
-    const newTodo = new Todo(value, false, generateId()).getElement()
+        break
+      default:
+        handleClickFeature(e, value)
+    }
 
-    todos.append(newTodo)
-
+    input.classList.remove('input--red')
     input.value = ''
-
-    saveTodoToLocalStorage(value, false, newTodo.dataset.id)
   })
   todos.addEventListener('click', handleClickTodos)
 })
@@ -115,6 +124,32 @@ function handleClickTodos(e) {
   }
 
   handleTodoClick()
+}
+
+function handleSubmitForm(e, value, todos) {
+  const newTodo = new Todo(value, false, generateId()).getElement()
+
+  todos.append(newTodo)
+
+  saveTodoToLocalStorage(value, false, newTodo.dataset.id)
+}
+
+function handleClickFeature(e, featureValue) {
+  const featureBlock = document.querySelector('.feature__block')
+
+  const methods = featureValue.slice(0, featureValue.indexOf('('))
+  const value = featureValue.slice(
+    methods.length + 1,
+    featureValue.indexOf(')'),
+  )
+
+  if (!!window[methods]) {
+    window[methods](value)
+
+    return
+  }
+
+  featureBlock.textContent = featureValue
 }
 
 function renderTodoFromLocaleStorage(todos) {
