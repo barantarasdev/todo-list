@@ -68,6 +68,10 @@ function handleClickTodos(e) {
   const { dataset } = todo
 
   todoValue.addEventListener('blur', saveNewValue)
+  todoValue.addEventListener(
+    'keydown',
+    (e) => e.key === 'Enter' && saveNewValue(),
+  )
 
   function saveNewValue() {
     todoValue.setAttribute('readonly', 'true')
@@ -137,7 +141,18 @@ function handleSubmitForm(e, value, todos) {
 function handleClickFeature(e, featureValue) {
   const featureBlock = document.querySelector('.feature__block')
 
-  featureBlock.innerHTML = featureValue
+  const methods = featureValue.slice(0, featureValue.indexOf('('))
+  const value = featureValue.slice(
+    methods.length + 1,
+    featureValue.indexOf(')'),
+  )
+  const isMethodsInclude = !!window[methods]
+
+  if (isMethodsInclude) {
+    window[methods](value)
+  }
+
+  featureBlock.textContent = isMethodsInclude ? value : featureValue
 }
 
 function renderTodoFromLocaleStorage(todos) {
