@@ -44,6 +44,9 @@
   font-size: 16px;
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .todo__value--checked {
