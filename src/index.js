@@ -137,19 +137,7 @@ function handleSubmitForm(e, value, todos) {
 function handleClickFeature(e, featureValue) {
   const featureBlock = document.querySelector('.feature__block')
 
-  const methods = featureValue.slice(0, featureValue.indexOf('('))
-  const value = featureValue.slice(
-    methods.length + 1,
-    featureValue.indexOf(')'),
-  )
-
-  if (!!window[methods]) {
-    window[methods](value)
-
-    return
-  }
-
-  featureBlock.textContent = featureValue
+  featureBlock.innerHTML = featureValue
 }
 
 function renderTodoFromLocaleStorage(todos) {
