@@ -1,3 +1,5 @@
+'use strict'
+
 export class Todo {
   constructor(value, isChecked, id) {
     this.value = value
@@ -5,20 +7,65 @@ export class Todo {
     this.id = id
   }
 
-  toHtml() {
-    const inputCheckedClass = `${this.isChecked ? 'todo__value--checked' : ''}`
+  getElement() {
+    const inputCheckedClass = this.isChecked ? 'todo__value--checked' : ''
 
-    return `
-     <li class='todo' data-id=${this.id}>
-       <input class='todo__input' type='checkbox' ${
-         this.isChecked ? 'checked' : ''
-       } />
-       <input class='todo__value ${inputCheckedClass}'  type='text' value=${
-         this.value
-       } readonly required>
-       <button class='todo__button todo__button--save'>Save</button>
-       <button class='todo__button todo__button--remove'>Remove</button>
-     </li>
-    `
+    const todo = document.createElement('li')
+    todo.classList.add('todo')
+    todo.dataset.id = this.id
+
+    const values = [
+      {
+        tag: 'input',
+        classes: ['todo__input'],
+        options: { type: 'checkbox', checked: this.isChecked },
+      },
+      {
+        tag: 'input',
+        classes: ['todo__value', inputCheckedClass],
+        options: {
+          type: 'text',
+          value: this.value,
+          readOnly: true,
+          required: true,
+        },
+      },
+      {
+        tag: 'button',
+        classes: ['todo__button', 'todo__button--save'],
+        value: 'Save',
+      },
+      {
+        tag: 'button',
+        classes: ['todo__button', 'todo__button--remove'],
+        value: 'Remove',
+      },
+    ]
+
+    values.forEach(({ tag, classes, value, options }) => {
+      const newValue = document.createElement(tag)
+
+      if (classes) {
+        classes.forEach((currentClass) => {
+          if (currentClass.length) {
+            newValue.classList.add(currentClass)
+          }
+        })
+      }
+
+      if (value) {
+        newValue.textContent = value
+      }
+
+      if (options) {
+        Object.entries(options).forEach(([key, value]) => {
+          newValue[key] = value
+        })
+      }
+
+      todo.appendChild(newValue)
+    })
+
+    return todo
   }
 }
