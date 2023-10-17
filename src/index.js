@@ -6,14 +6,59 @@ import {
   editTodoToLocalStorage,
   removeTodoToLocalStorage,
 } from './localeStorage/index.js'
+import { generateId } from './helpers/generateId.js'
 
-function addEventsToTodo(todo) {
+document.addEventListener('DOMContentLoaded', () => {
+  const app = document.querySelector('#app')
+  const header = app.querySelector('.header')
+  const form = header.querySelector('.form')
+  const input = form.querySelector('.header__input')
+
+  const main = app.querySelector('.main')
+  const todos = main.querySelector('.todos')
+
+  renderTodoFromLocaleStorage(todos)
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const value = input.value
+
+    if (value.length <= 0) {
+      input.classList.add('header__input--red')
+
+      return
+    }
+
+    input.classList.remove('header__input--red')
+
+    const newTodo = new Todo(value, false, generateId()).getElement()
+
+    todos.append(newTodo)
+
+    input.value = ''
+
+    saveTodoToLocalStorage(value, false, newTodo.dataset.id)
+  })
+  todos.addEventListener('click', handleClickTodos)
+})
+
+function handleClickTodos(e) {
+  const { target } = e
+  const todo = target.closest('li')
+
+  if (!todo) {
+    return
+  }
+
   const checkbox = todo.querySelector('.todo__input')
   const todoValue = todo.querySelector('.todo__value')
   const saveButton = todo.querySelector('.todo__button--save')
   const removeButton = todo.querySelector('.todo__button--remove')
 
   const { dataset } = todo
+
+  todoValue.addEventListener('blur', saveNewValue)
 
   function saveNewValue() {
     todoValue.setAttribute('readonly', 'true')
@@ -23,8 +68,8 @@ function addEventsToTodo(todo) {
     editTodoToLocalStorage({ value: todoValue.value }, dataset.id)
   }
 
-  function handleTodoClick(e) {
-    const { classList } = e.target
+  function handleTodoClick() {
+    const { classList } = target
     const isEditing =
       classList.contains('todo__value') &&
       !classList.contains('todo__value--checked')
@@ -58,25 +103,21 @@ function addEventsToTodo(todo) {
     }
   }
 
-  function handleCheckboxChange({ target: { checked } }) {
-    todoValue.classList.toggle('todo__value--checked', checked)
-    editTodoToLocalStorage({ isChecked: checked }, dataset.id)
+  function handleCheckboxChange() {
+    todoValue.classList.toggle('todo__value--checked', target.checked)
+    editTodoToLocalStorage({ isChecked: target.checked }, dataset.id)
   }
 
-  todo.addEventListener('click', handleTodoClick)
-  checkbox.addEventListener('change', handleCheckboxChange)
-  todoValue.addEventListener('blur', saveNewValue)
+  if (target === checkbox) {
+    handleCheckboxChange()
+
+    return
+  }
+
+  handleTodoClick()
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const app = document.querySelector('#app')
-  const header = app.querySelector('.header')
-  const form = header.querySelector('.form')
-  const input = form.querySelector('.header__input')
-
-  const main = app.querySelector('.main')
-  const todos = main.querySelector('.todos')
-
+function renderTodoFromLocaleStorage(todos) {
   const storedTodos = localStorage.getItem('todos')
 
   if (storedTodos) {
@@ -86,32 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const todo = new Todo(value, isChecked, id)
 
       todos.append(todo.getElement())
-
-      addEventsToTodo(todos.lastElementChild)
     })
   }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault()
-
-    const value = input.value
-
-    if (value.length <= 0) {
-      input.classList.add('header__input--red')
-
-      return
-    }
-
-    input.classList.remove('header__input--red')
-
-    const id = new Date().valueOf()
-    const newTodo = new Todo(value, false, id).getElement()
-
-    todos.append(newTodo)
-
-    input.value = ''
-
-    addEventsToTodo(newTodo)
-    saveTodoToLocalStorage(value, false, newTodo.dataset.id)
-  })
-})
+}
