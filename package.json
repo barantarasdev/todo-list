@@ -6,12 +6,13 @@
   "author": "Taras Baran <taras.baran@devico.io>",
   "license": "MIT",
   "scripts": {
-    "start": "http-server src/"
+    "start": "nodemon --exec 'http-server' src/ -o"
   },
   "dependencies": {
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "nodemon": "^3.0.1",
     "prettier": "^3.0.3"
   }
 }

@@ -1,7 +1,13 @@
-import {Todo} from './blocks/todo.js'
-import {saveTodoToLocalStorage, editTodoToLocalStorage, removeTodoToLocalStorage} from './localeStorage/index.js'
+'use strict'
 
-function addEventsToTodo (todo) {
+import { Todo } from './blocks/todo.js'
+import {
+  saveTodoToLocalStorage,
+  editTodoToLocalStorage,
+  removeTodoToLocalStorage,
+} from './localeStorage/index.js'
+
+function addEventsToTodo(todo) {
   const checkbox = todo.querySelector('.todo__input')
   const todoValue = todo.querySelector('.todo__value')
   const saveButton = todo.querySelector('.todo__button--save')
@@ -19,8 +25,9 @@ function addEventsToTodo (todo) {
 
   function handleTodoClick(e) {
     const { classList } = e.target
-    const isEditing = classList.contains('todo__value') &&
-      !classList.contains('todo__value--checked');
+    const isEditing =
+      classList.contains('todo__value') &&
+      !classList.contains('todo__value--checked')
 
     if (isEditing) {
       e.preventDefault()
@@ -52,8 +59,8 @@ function addEventsToTodo (todo) {
   }
 
   function handleCheckboxChange({ target: { checked } }) {
-    todoValue.classList.toggle('todo__value--checked', checked);
-    editTodoToLocalStorage({ isChecked: checked }, dataset.id);
+    todoValue.classList.toggle('todo__value--checked', checked)
+    editTodoToLocalStorage({ isChecked: checked }, dataset.id)
   }
 
   todo.addEventListener('click', handleTodoClick)
@@ -78,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     todosList.forEach(({ value, isChecked, id }) => {
       const todo = new Todo(value, isChecked, id)
 
-      todos.insertAdjacentHTML('beforeend', todo.toHtml())
+      todos.append(todo.getElement())
 
       addEventsToTodo(todos.lastElementChild)
     })
@@ -98,15 +105,13 @@ document.addEventListener('DOMContentLoaded', () => {
     input.classList.remove('header__input--red')
 
     const id = new Date().valueOf()
-    const newTodo = new Todo(value, false, id)
+    const newTodo = new Todo(value, false, id).getElement()
 
-    todos.insertAdjacentHTML('beforeend', newTodo.toHtml())
-
-    const todo = todos.lastElementChild
+    todos.append(newTodo)
 
     input.value = ''
 
-    addEventsToTodo(todo)
-    saveTodoToLocalStorage(value, false, todo.dataset.id)
+    addEventsToTodo(newTodo)
+    saveTodoToLocalStorage(value, false, newTodo.dataset.id)
   })
 })
