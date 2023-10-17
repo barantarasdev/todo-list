@@ -45,13 +45,11 @@ export class Todo {
     values.forEach(({ tag, classes, value, options }) => {
       const newValue = document.createElement(tag)
 
-      if (classes) {
-        classes.forEach((currentClass) => {
-          if (currentClass.length) {
-            newValue.classList.add(currentClass)
-          }
-        })
-      }
+      classes.forEach((currentClass) => {
+        if (currentClass.length) {
+          newValue.classList.add(currentClass)
+        }
+      })
 
       if (value) {
         newValue.textContent = value

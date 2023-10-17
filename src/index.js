@@ -68,6 +68,10 @@ function handleClickTodos(e) {
   const { dataset } = todo
 
   todoValue.addEventListener('blur', saveNewValue)
+  todoValue.addEventListener(
+    'keydown',
+    (e) => e.key === 'Enter' && saveNewValue(),
+  )
 
   function saveNewValue() {
     todoValue.setAttribute('readonly', 'true')
@@ -142,14 +146,13 @@ function handleClickFeature(e, featureValue) {
     methods.length + 1,
     featureValue.indexOf(')'),
   )
+  const isMethodsInclude = !!window[methods]
 
-  if (!!window[methods]) {
+  if (isMethodsInclude) {
     window[methods](value)
-
-    return
   }
 
-  featureBlock.textContent = featureValue
+  featureBlock.textContent = isMethodsInclude ? value : featureValue
 }
 
 function renderTodoFromLocaleStorage(todos) {
