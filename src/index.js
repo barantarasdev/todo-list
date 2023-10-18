@@ -1,12 +1,12 @@
 'use strict'
 
 import { Todo } from './blocks/todo.js'
+import { generateId } from './helpers/generateId.js'
 import {
   saveTodoToLocalStorage,
   editTodoToLocalStorage,
   removeTodoToLocalStorage,
 } from './localeStorage/index.js'
-import { generateId } from './helpers/generateId.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = document.querySelector('#app')
@@ -141,18 +141,7 @@ function handleSubmitForm(e, value, todos) {
 function handleClickFeature(e, featureValue) {
   const featureBlock = document.querySelector('.feature__block')
 
-  const methods = featureValue.slice(0, featureValue.indexOf('('))
-  const value = featureValue.slice(
-    methods.length + 1,
-    featureValue.indexOf(')'),
-  )
-  const isMethodsInclude = !!window[methods]
-
-  if (isMethodsInclude) {
-    window[methods](value)
-  }
-
-  featureBlock.textContent = isMethodsInclude ? value : featureValue
+  featureBlock.innerHTML = featureValue
 }
 
 function renderTodoFromLocaleStorage(todos) {

@@ -1,5 +1,3 @@
-'use strict'
-
 export class Todo {
   constructor(value, isChecked, id) {
     this.value = value
