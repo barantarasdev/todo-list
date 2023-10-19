@@ -6,7 +6,6 @@ import { ACTIONS } from '../constants/index.js'
 
 const {
   TODO: { TODO_REMOVE, TODO_UPDATE },
-  STATE_CHANGE,
 } = ACTIONS
 
 export class Todo {
@@ -23,13 +22,11 @@ export class Todo {
     const newOption = { isChecked: !this.isChecked }
 
     this.eventEmitter.emit(TODO_UPDATE, { id: this.id, options: newOption })
-    this.eventEmitter.emit(STATE_CHANGE)
     editTodoToLocalStorage(newOption, this.id)
   }
 
   onClickRemove = () => {
     this.eventEmitter.emit(TODO_REMOVE, { id: this.id })
-    this.eventEmitter.emit(STATE_CHANGE)
     removeTodoToLocalStorage(this.id)
   }
 

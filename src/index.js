@@ -1,7 +1,6 @@
 'use strict'
 
-import { EE } from './store/eventEmitter.js'
-import { store } from './store/store.js'
+import { eventEmitter, store } from './store/store.js'
 import {
   saveTodoToLocalStorage,
   editTodoToLocalStorage,
@@ -10,7 +9,6 @@ import { generateId } from './helpers/index.js'
 import { ACTIONS } from './constants/index.js'
 import { Todos } from './blocks/todos.js'
 
-const eventEmitter = new EE()
 const {
   TODO: { TODO_CREATE, TODO_UPDATE },
   TODO,
@@ -64,12 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function onAdd(newTodo) {
   eventEmitter.emit(TODO_CREATE, { ...newTodo })
-  eventEmitter.emit(STATE_CHANGE)
 }
 
 function onUpdate(options, id) {
   eventEmitter.emit(TODO_UPDATE, { id, options })
-  eventEmitter.emit(STATE_CHANGE)
 }
 
 function handleClickTodos(e) {
