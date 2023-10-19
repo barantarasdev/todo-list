@@ -1,11 +1,14 @@
 .header {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .title {
   text-align: center;
-  margin-bottom: 15px;
 }
 
 .form {
@@ -29,4 +32,46 @@
   padding: 10px 20px;
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 100px;
+}
+
+.avatar__icon {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  position: absolute;
+  bottom: calc(-1 * var(--menu-item-height));
+  right: 0;
+  z-index: 2;
+}
+
+.menu__button {
+  width: 150px;
+  height: var(--menu-item-height);
+  background-color: white;
+  border-radius: 0;
+  transition: background-color 0.3s;
+}
+
+.menu__button:hover {
+  background-color: lightgray;
+}
+
+.menu--disabled {
+  display: none;
 }

@@ -15,20 +15,58 @@
       <header class="header">
         <h1 class="title">My todos</h1>
 
+        <button class="avatar">
+          <img
+            class="avatar__icon"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4JCuHyuURcCyeNEc9v4iOma3HVgZgDSMaIQ&usqp=CAU"
+            alt="avatar"
+          />
+        </button>
+
+        <ul class="menu menu--disabled">
+          <li>
+            <button class="menu__button">Logout</button>
+          </li>
+        </ul>
+      </header>
+
+      <main class="main">
         <form class="form">
           <input
             class="input"
             type="text"
-            name="headerInput"
+            name="searchInput"
             placeholder="Add new todo"
           />
           <button class="button" type="submit">Add</button>
         </form>
-      </header>
 
-      <main class="main">
         <ul class="todos"></ul>
       </main>
+
+      <div class="login login__disabled">
+        <form class="form login__form">
+          <input
+            class="input login__input"
+            type="text"
+            name="user"
+            placeholder="User"
+            required
+          />
+
+          <input
+            class="input login__input"
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+
+          <button class="button login__button" type="submit">Register</button>
+        </form>
+
+        <a href="#">Login</a>
+      </div>
     </div>
     <script type="module" src="./index.js"></script>
   </body>

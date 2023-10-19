@@ -27,10 +27,12 @@ Object.values(TODO).forEach((item) => {
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = document.querySelector('#app')
-  const header = app.querySelector('.header')
-  const form = header.querySelector('.form')
+
+  const avatar = app.querySelector('.avatar')
+  const menu = app.querySelector('.menu')
 
   const main = app.querySelector('.main')
+  const form = main.querySelector('.form')
   const todos = main.querySelector('.todos')
 
   renderTodoFromLocaleStorage()
@@ -58,6 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
     input.value = ''
   })
   todos.addEventListener('click', handleClickTodos)
+  avatar.addEventListener('click', () => {
+    menu.classList.toggle('menu--disabled')
+  })
 })
 
 function onAdd(newTodo) {

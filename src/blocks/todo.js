@@ -56,12 +56,12 @@ export class Todo {
       },
       {
         tag: 'button',
-        classes: ['todo__button', 'todo__button--save'],
+        classes: ['button', 'todo__button', 'todo__button--save'],
         value: 'Save',
       },
       {
         tag: 'button',
-        classes: ['todo__button', 'todo__button--remove'],
+        classes: ['button', 'todo__button', 'todo__button--remove'],
         value: 'Remove',
         events: [{ event: 'click', callback: this.onClickRemove }],
       },
