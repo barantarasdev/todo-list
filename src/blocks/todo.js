@@ -1,25 +1,36 @@
-import { editTodoToLocalStorage } from '../localeStorage'
+import {
+  editTodoToLocalStorage,
+  removeTodoToLocalStorage,
+} from '../localeStorage/index.js'
+import { ACTIONS } from '../constants/index.js'
+
+const {
+  TODO: { TODO_REMOVE, TODO_UPDATE },
+  STATE_CHANGE,
+} = ACTIONS
 
 export class Todo {
-  constructor(value, isChecked, id, onRemove, onCheck) {
+  constructor(value, isChecked, id, eventEmitter) {
     this.value = value
     this.isChecked = isChecked
     this.id = id
-    this.onRemove = onRemove
-    this.onCheck = onCheck
-    this.onClickCheck = this.onClickCheck.bind(this)
+    this.eventEmitter = eventEmitter
+    this.onClickChange = this.onClickChange.bind(this)
     this.onClickRemove = this.onClickRemove.bind(this)
   }
 
-  onClickCheck = () => {
+  onClickChange = () => {
     const newOption = { isChecked: !this.isChecked }
 
+    this.eventEmitter.emit(TODO_UPDATE, { id: this.id, options: newOption })
+    this.eventEmitter.emit(STATE_CHANGE)
     editTodoToLocalStorage(newOption, this.id)
-    this.onCheck(newOption, this.id)
   }
 
   onClickRemove = () => {
-    this.onRemove(this.id)
+    this.eventEmitter.emit(TODO_REMOVE, { id: this.id })
+    this.eventEmitter.emit(STATE_CHANGE)
+    removeTodoToLocalStorage(this.id)
   }
 
   getElement() {
@@ -34,7 +45,7 @@ export class Todo {
         tag: 'input',
         classes: ['todo__input'],
         options: { type: 'checkbox', checked: this.isChecked },
-        events: [{ event: 'change', callback: this.onClickCheck }],
+        events: [{ event: 'change', callback: this.onClickChange }],
       },
       {
         tag: 'input',

@@ -1,25 +1,27 @@
 'use strict'
 
-import { Todo } from './blocks/todo.js'
-import { generateId } from './helpers/generateId.js'
+import { EE } from './store/eventEmitter.js'
+import { store } from './store/store.js'
 import {
   saveTodoToLocalStorage,
   editTodoToLocalStorage,
-  removeTodoToLocalStorage,
 } from './localeStorage/index.js'
-import { EE } from './store/eventEmitter.js'
-import { Store } from './store/store.js'
+import { generateId } from './helpers/index.js'
+import { ACTIONS } from './constants/index.js'
+import { Todos } from './blocks/todos.js'
 
-const subscribes = [
-  'add_todo',
-  'change_todo',
-  'remove_todo',
-  'change_checkbox_todo',
-]
 const eventEmitter = new EE()
-const store = new Store()
+const {
+  TODO: { TODO_CREATE, TODO_UPDATE },
+  TODO,
+  STATE_CHANGE,
+} = ACTIONS
 
-subscribes.forEach((item) => {
+eventEmitter.subscribe(STATE_CHANGE, () => {
+  new Todos(eventEmitter).render()
+})
+
+Object.values(TODO).forEach((item) => {
   eventEmitter.subscribe(item, (payload) => {
     store.dispatch(item, payload)
   })
@@ -33,17 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const main = app.querySelector('.main')
   const todos = main.querySelector('.todos')
 
-  const featureForm = main.querySelector('.feature__form')
-
   renderTodoFromLocaleStorage()
 
-  app.addEventListener('submit', (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault()
     const { target } = e
-
-    if (target !== form && target !== featureForm) {
-      return
-    }
 
     const input = target.querySelector('.input')
     const value = input.value
@@ -55,17 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const id = generateId()
-    const newTodo = new Todo(value, false, id, onRemove, onCheck)
+    const newTodo = { value, isChecked: false, id }
 
-    switch (target) {
-      case form:
-        onAdd(newTodo)
-        saveTodoToLocalStorage({ ...newTodo })
-
-        break
-      default:
-        handleClickFeature(e, value)
-    }
+    onAdd({ ...newTodo })
+    saveTodoToLocalStorage({ ...newTodo })
 
     input.classList.remove('input--red')
     input.value = ''
@@ -73,21 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
   todos.addEventListener('click', handleClickTodos)
 })
 
-function onRemove(id) {
-  eventEmitter.emit('remove_todo', { id })
-  removeTodoToLocalStorage(id)
-}
-
 function onAdd(newTodo) {
-  eventEmitter.emit('add_todo', { ...newTodo })
+  eventEmitter.emit(TODO_CREATE, { ...newTodo })
+  eventEmitter.emit(STATE_CHANGE)
 }
 
-function onCheck({ isChecked }, id) {
-  eventEmitter.emit('change_checkbox_todo', { id, isChecked })
-}
-
-function onChangeValue(id, value) {
-  eventEmitter.emit('change_todo', { id, value })
+function onUpdate(options, id) {
+  eventEmitter.emit(TODO_UPDATE, { id, options })
+  eventEmitter.emit(STATE_CHANGE)
 }
 
 function handleClickTodos(e) {
@@ -114,8 +96,10 @@ function handleClickTodos(e) {
     todoValue.classList.remove('todo__value--edit')
     saveButton.classList.remove('todo__button--save--visible')
 
-    editTodoToLocalStorage({ value: todoValue.value }, +dataset.id)
-    onChangeValue(+dataset.id, todoValue.value)
+    const value = todoValue.value
+
+    editTodoToLocalStorage({ value }, +dataset.id)
+    onUpdate({ value }, +dataset.id)
   }
 
   function handleTodoClick() {
@@ -136,18 +120,10 @@ function handleClickTodos(e) {
 
     if (classList.contains('todo__button--save')) {
       saveNewValue()
-
-      return
     }
   }
 
   handleTodoClick()
-}
-
-function handleClickFeature(e, featureValue) {
-  const featureBlock = document.querySelector('.feature__block')
-
-  featureBlock.innerHTML = featureValue
 }
 
 function renderTodoFromLocaleStorage() {
@@ -156,9 +132,7 @@ function renderTodoFromLocaleStorage() {
   if (storedTodos) {
     const todosList = JSON.parse(storedTodos)
 
-    todosList.forEach(({ value, isChecked, id }) => {
-      const todo = new Todo(value, isChecked, id, onRemove, onCheck)
-
+    todosList.forEach((todo) => {
       onAdd(todo)
     })
   }

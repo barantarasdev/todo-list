@@ -56,10 +56,3 @@
 .todo__value--edit {
   background-color: #b9b9b9;
 }
-
-.feature__block {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-  font-size: 25px;
-}
