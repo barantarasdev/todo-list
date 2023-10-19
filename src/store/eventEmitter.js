@@ -12,7 +12,7 @@ export class EE {
   }
 
   unsubscribe(actionType, callback) {
-    if (!this.events[actionType]) {
+    if (this.events[actionType]) {
       this.events[actionType] = this.events[actionType].filter(
         (fn) => fn !== callback,
       )

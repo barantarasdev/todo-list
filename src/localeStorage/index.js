@@ -4,9 +4,8 @@ function getParsedLocaleStorage(key) {
   return currentTodos ? JSON.parse(currentTodos) : []
 }
 
-export function saveTodoToLocalStorage({ value, isChecked, id }) {
+export function saveTodoToLocalStorage(todo) {
   let todos = getParsedLocaleStorage('todos')
-  const todo = { value, isChecked, id }
 
   todos.push(todo)
 
