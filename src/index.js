@@ -5,7 +5,12 @@ import {
   saveTodoToLocalStorage,
   editTodoToLocalStorage,
 } from './localeStorage/index.js'
-import { generateId } from './helpers/index.js'
+import {
+  clearInputValue,
+  findUser,
+  generateId,
+  isUserIncluded,
+} from './helpers/index.js'
 import { ACTIONS } from './constants/index.js'
 import { Todos } from './blocks/todos.js'
 
@@ -13,17 +18,20 @@ const {
   TODO: { TODO_CREATE, TODO_UPDATE },
   TODO,
   STATE_CHANGE,
+  SET_USER,
 } = ACTIONS
 
 eventEmitter.subscribe(STATE_CHANGE, () => {
   new Todos(eventEmitter).render()
 })
 
-Object.values(TODO).forEach((item) => {
-  eventEmitter.subscribe(item, (payload) => {
-    store.dispatch(item, payload)
+Object.values(TODO)
+  .concat([SET_USER])
+  .forEach((item) => {
+    eventEmitter.subscribe(item, (payload) => {
+      store.dispatch(item, payload)
+    })
   })
-})
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = document.querySelector('#app')
@@ -31,38 +39,158 @@ document.addEventListener('DOMContentLoaded', () => {
   const avatar = app.querySelector('.avatar')
   const menu = app.querySelector('.menu')
 
-  const main = app.querySelector('.main')
-  const form = main.querySelector('.form')
-  const todos = main.querySelector('.todos')
+  const content = app.querySelector('.content')
+  const form = content.querySelector('.form')
 
+  const signIn = app.querySelector('.signIn')
+  const signUp = app.querySelector('.signUp')
+  const loginFormSignIn = signIn.querySelector('.login__form')
+  const loginFormSignUp = signUp.querySelector('.login__form')
+
+  initialRender()
   renderTodoFromLocaleStorage()
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault()
+  document.body.addEventListener('click', (e) => {
+    if (!avatar.contains(e.target)) {
+      menu.classList.add('dis')
+    }
+  })
+  app.addEventListener('click', (e) => {
     const { target } = e
+    const menuItem = target.closest('.menu__item')
+    const loginLink = target.closest('.login__link')
 
-    const input = target.querySelector('.input')
-    const value = input.value
-
-    if (value.length <= 0) {
-      input.classList.add('input--red')
+    if (target.closest('.avatar')) {
+      menu.classList.toggle('dis')
 
       return
     }
 
-    const id = generateId()
-    const newTodo = { value, isChecked: false, id }
+    if (target.closest('.todos')) {
+      handleClickTodos(e)
 
-    onAdd({ ...newTodo })
-    saveTodoToLocalStorage({ ...newTodo })
+      return
+    }
 
-    input.classList.remove('input--red')
-    input.value = ''
+    if (menuItem) {
+      if (menuItem.dataset.menu === 'logout') {
+        content.classList.add('dis')
+        signIn.classList.remove('dis')
+        localStorage.removeItem('user')
+      }
+
+      return
+    }
+
+    if (loginLink) {
+      const loginType = loginLink.dataset.login
+
+      signIn.classList.toggle('dis', loginType !== 'signIn')
+      signUp.classList.toggle('dis', loginType === 'signIn')
+    }
   })
-  todos.addEventListener('click', handleClickTodos)
-  avatar.addEventListener('click', () => {
-    menu.classList.toggle('menu--disabled')
+  app.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const { target } = e
+
+    if (target === form) {
+      e.preventDefault()
+      const { target } = e
+
+      const input = target.querySelector('.input')
+      const value = input.value
+
+      if (value.length <= 0) {
+        input.classList.add('input--red')
+
+        return
+      }
+
+      const id = generateId()
+      const newTodo = { value, isChecked: false, id }
+
+      onAdd({ ...newTodo })
+      saveTodoToLocalStorage({ ...newTodo })
+
+      input.classList.remove('input--red')
+      input.value = ''
+
+      return
+    }
+
+    if (target === loginFormSignIn) {
+      handleSubmitSignIn(e)
+
+      return
+    }
+
+    if (target === loginFormSignUp) {
+      handleSubmitSignUp(e)
+
+      return
+    }
   })
+
+  function handleSubmitSignIn({ target }) {
+    const email = target.querySelector('input[name="email"]')
+    const password = target.querySelector('input[name="password"]')
+
+    const foundedUser = findUser(email.value, password.value, store.state.users)
+
+    if (foundedUser) {
+      eventEmitter.emit(SET_USER, foundedUser)
+      localStorage.setItem('user', JSON.stringify(foundedUser))
+
+      content.classList.remove('dis')
+      signIn.classList.add('dis')
+    } else {
+      alert('User not found')
+    }
+
+    clearInputValue([email, password])
+  }
+
+  function handleSubmitSignUp({ target }) {
+    const name = target.querySelector('input[name="name"]')
+    const email = target.querySelector('input[name="email"]')
+    const password = target.querySelector('input[name="password"]')
+
+    const user = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+    }
+
+    const foundedUser = isUserIncluded(email.value, store.state.users)
+
+    if (!foundedUser) {
+      eventEmitter.emit(SET_USER, user)
+      localStorage.setItem('user', JSON.stringify(user))
+
+      content.classList.remove('dis')
+      signUp.classList.add('dis')
+    } else {
+      alert('User already exists')
+    }
+
+    clearInputValue([email, password, name])
+  }
+
+  function initialRender() {
+    const user = localStorage.getItem('user')
+
+    if (user) {
+      const currentUser = JSON.parse(user)
+
+      eventEmitter.emit(SET_USER, currentUser)
+
+      content.classList.remove('dis')
+      signIn.classList.add('dis')
+      signUp.classList.add('dis')
+
+      return
+    }
+  }
 })
 
 function onAdd(newTodo) {

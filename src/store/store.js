@@ -20,11 +20,14 @@ const reducers = {
   TODO_REMOVE(state, payload) {
     return { todos: [...state.todos.filter((todo) => todo.id !== payload.id)] }
   },
+  SET_USER(state, payload) {
+    return { ...state, user: payload, users: [...state.users, payload] }
+  },
 }
 
 class Store {
   constructor() {
-    this.state = { todos: [] }
+    this.state = { todos: [], user: {}, users: [] }
     this.reducers = reducers
   }
 
@@ -34,7 +37,10 @@ class Store {
 
   dispatch(ACTION_TYPE, payload) {
     if (this.reducers[ACTION_TYPE]) {
-      this.state = this.reducers[ACTION_TYPE](this.state, payload)
+      this.state = {
+        ...this.state,
+        ...this.reducers[ACTION_TYPE](this.state, payload),
+      }
       this.updateUI()
     }
   }

@@ -12,62 +12,101 @@
   </head>
   <body>
     <div id="app">
-      <header class="header">
-        <h1 class="title">My todos</h1>
+      <div class="content dis">
+        <header class="header">
+          <h1 class="title">My todos</h1>
 
-        <button class="avatar">
-          <img
-            class="avatar__icon"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4JCuHyuURcCyeNEc9v4iOma3HVgZgDSMaIQ&usqp=CAU"
-            alt="avatar"
-          />
-        </button>
+          <button class="avatar">
+            <img
+              class="avatar__icon"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4JCuHyuURcCyeNEc9v4iOma3HVgZgDSMaIQ&usqp=CAU"
+              alt="avatar"
+            />
+          </button>
 
-        <ul class="menu menu--disabled">
-          <li>
-            <button class="menu__button">Logout</button>
-          </li>
-        </ul>
-      </header>
+          <ul class="menu dis">
+            <li class="menu__item" data-menu="logout">
+              <button class="menu__button">Logout</button>
+            </li>
+          </ul>
+        </header>
 
-      <main class="main">
-        <form class="form">
-          <input
-            class="input"
-            type="text"
-            name="searchInput"
-            placeholder="Add new todo"
-          />
-          <button class="button" type="submit">Add</button>
-        </form>
+        <main class="main">
+          <form class="form" method="post">
+            <input
+              class="input"
+              type="text"
+              name="searchInput"
+              placeholder="Add new todo"
+            />
+            <button class="button" type="submit">Add</button>
+          </form>
 
-        <ul class="todos"></ul>
-      </main>
+          <ul class="todos"></ul>
+        </main>
+      </div>
 
-      <div class="login login__disabled">
-        <form class="form login__form">
-          <input
-            class="input login__input"
-            type="text"
-            name="user"
-            placeholder="User"
-            required
-          />
+      <div class="login">
+        <div class="login__content signIn">
+          <h1>Sign in</h1>
 
-          <input
-            class="input login__input"
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-          />
+          <form class="form login__form" method="post">
+            <input
+              class="input"
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
 
-          <button class="button login__button" type="submit">Register</button>
-        </form>
+            <input
+              class="input"
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <button class="button" type="submit">Sing in</button>
+          </form>
 
-        <a href="#">Login</a>
+          <a class="login__link" href="#" data-login="signUp">Sign up</a>
+        </div>
+
+        <div class="login__content signUp dis">
+          <h1>Sign up</h1>
+
+          <form class="form login__form">
+            <input
+              class="input"
+              type="text"
+              name="name"
+              placeholder="Name"
+              required
+            />
+
+            <input
+              class="input"
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
+
+            <input
+              class="input"
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <button class="button" type="submit">Sing up</button>
+          </form>
+
+          <a class="login__link" href="#" data-login="signIn">Sign in</a>
+        </div>
       </div>
     </div>
+
     <script type="module" src="./index.js"></script>
   </body>
 </html>

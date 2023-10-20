@@ -12,3 +12,19 @@ export function createActions(str) {
 
   return result
 }
+
+export function findUser(email, password, users) {
+  return users.find(
+    (user) => user.email === email && user.password === password,
+  )
+}
+
+export function isUserIncluded(email, users) {
+  return users.find((user) => user.email === email)
+}
+
+export function clearInputValue(values) {
+  values.forEach((value) => {
+    value.value = ''
+  })
+}
