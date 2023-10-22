@@ -1,73 +1,50 @@
 .header {
   width: 100%;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
   position: relative;
 }
 
-.title {
+.header__title {
   text-align: center;
 }
 
-.form {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-}
-
-.input {
-  width: 100%;
-  background-color: var(--primary-background-color);
-  border-radius: var(--primary-border-radius);
-  border: 1px solid transparent;
-}
-
-.input--red {
-  border-color: var(--color-red);
-}
-
-.button {
-  padding: 10px 20px;
-  background-color: var(--primary-background-color);
-  border-radius: var(--primary-border-radius);
-}
-
-.avatar {
+.header__avatar {
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
+  border: 5px solid var(--primary-background-color);
   border-radius: 100px;
 }
 
-.avatar__icon {
+.header__avatar__icon {
   width: 100%;
   height: 100%;
   border-radius: inherit;
 }
 
-.menu {
+.header__menu {
   display: flex;
   flex-direction: column;
   gap: 10px;
-
   position: absolute;
   bottom: calc(-1 * var(--menu-item-height));
   right: 0;
   z-index: 2;
 }
 
-.menu__button {
+.header__menu__button {
   width: 150px;
   height: var(--menu-item-height);
-  background-color: white;
+  background-color: var(--color-white);
   border-radius: 0;
-  transition: background-color 0.3s;
+  transition: background-color var(--primary-duration);
 }
 
-.menu__button:hover {
-  background-color: lightgray;
+.header__menu__button:hover {
+  background-color: var(--secondary-background-color);
 }

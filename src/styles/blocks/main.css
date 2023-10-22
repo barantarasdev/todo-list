@@ -4,10 +4,10 @@
 
 .todos {
   width: 100%;
+  margin: 10px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 10px 0;
 }
 
 .todo {
@@ -22,37 +22,29 @@
 
 .todo__button {
   padding: 5px 10px;
-  color: white;
+  color: var(--color-white);
   border-radius: var(--primary-border-radius);
 }
 
 .todo__button--save {
   display: none;
-  background-color: darkolivegreen;
+  background-color: var(--color-green);
 }
 
 .todo__button--remove {
   background-color: var(--color-red);
 }
 
-.todo__button--save--visible {
-  display: block;
+.todo .todo__value--edit {
+  color: var(--color-white);
+  background-color: var(--color-green);
 }
 
 .todo__value {
   width: 100%;
-  font-size: 16px;
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-}
-
-.todo__value--checked {
-  text-decoration: line-through;
-}
-
-.todo__value--edit {
-  background-color: #b9b9b9;
 }
