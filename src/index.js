@@ -6,6 +6,7 @@ import { Todos } from './blocks/todos.js'
 import { Page } from './blocks/page.js'
 import { getDataFromLocaleStorage } from './localeStorage/index.js'
 import { ACTIONS, ROUTES } from './constants/index.js'
+import { renderTodosFromLocaleStorage } from './api/index.js'
 
 export const eventEmitter = new EE()
 export const store = new Store()
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (user) {
       eventEmitter.emit(USER.USER_SET, user)
       eventEmitter.emit(URL.URL_SET, HOME)
+      renderTodosFromLocaleStorage()
 
       return
     }

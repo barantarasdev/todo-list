@@ -61,7 +61,7 @@ export class Todos {
     const todoList = document.querySelector('.todos')
     todoList.innerHTML = ''
 
-    store.state.user.todos.forEach(({ value, isChecked, id }) => {
+    store.state.todos.forEach(({ value, isChecked, id }) => {
       const todo = new Todo(value, isChecked, id).getElement()
 
       todoList.appendChild(todo)

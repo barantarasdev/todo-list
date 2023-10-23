@@ -1,5 +1,4 @@
-import { createActions, getInputsWithLabels } from '../helpers/index.js'
-import { Select } from '../blocks/select.js'
+import { createActions } from '../helpers/index.js'
 
 export const ACTIONS = {
   TODO: createActions('TODO'),
@@ -28,9 +27,10 @@ export const VALIDATION_TYPES = [
   'site',
   'name',
   'password',
+  'confirmPassword',
 ]
 
-const GENDER_OPTIONS = [
+export const GENDER_OPTIONS = [
   {
     value: '',
     text: 'Not specified',
@@ -39,146 +39,6 @@ const GENDER_OPTIONS = [
   { value: 'm', text: 'Male' },
   { value: 'f', text: ' Female' },
 ]
-
-export function getSignInValues() {
-  const values = [
-    {
-      tag: 'input',
-      classes: ['input', 'auth__input'],
-      id: 'email',
-      options: {
-        type: 'email',
-        name: 'email',
-        placeholder: 'Email',
-      },
-    },
-    {
-      tag: 'input',
-      classes: ['input', 'auth__input'],
-      id: 'password',
-      options: {
-        type: 'password',
-        name: 'password',
-        placeholder: 'Password',
-      },
-    },
-  ]
-
-  return [
-    ...getInputsWithLabels(values),
-    {
-      tag: 'button',
-      classes: ['button', 'auth__button'],
-      options: { type: 'submit' },
-      value: 'Sing in',
-    },
-    {
-      tag: 'button',
-      classes: ['auth__link'],
-      options: { type: 'button' },
-      value: 'Sign up',
-      dataset: { key: 'link', value: 'signUp' },
-      events: [
-        {
-          event: 'click',
-          callback: this.handleClick,
-        },
-      ],
-    },
-  ]
-}
-
-export function getSignUpValues() {
-  const inputs = [
-    {
-      tag: 'input',
-      classes: ['input', 'auth__input'],
-      id: 'name',
-      options: {
-        type: 'text',
-        name: 'name',
-        placeholder: 'Name',
-      },
-    },
-    {
-      tag: 'input',
-      classes: ['input', 'auth__input'],
-      id: 'age',
-      options: {
-        type: 'number',
-        name: 'age',
-        placeholder: 'Age',
-      },
-    },
-    {
-      element: new Select(GENDER_OPTIONS, 'gender').getElement(),
-      id: 'gender',
-    },
-    {
-      tag: 'input',
-      classes: ['input', 'auth__input'],
-      id: 'site',
-      options: {
-        type: 'url',
-        name: 'site',
-        placeholder: 'Site',
-      },
-    },
-    {
-      tag: 'input',
-      classes: ['input', 'auth__input'],
-      id: 'email',
-      options: {
-        type: 'email',
-        name: 'email',
-        placeholder: 'Email',
-      },
-    },
-    {
-      tag: 'input',
-      classes: ['input', 'auth__input'],
-      id: 'phone',
-      options: {
-        type: 'tel',
-        name: 'phone',
-        placeholder: 'Phone',
-      },
-    },
-    {
-      tag: 'input',
-      classes: ['input', 'auth__input'],
-      id: 'password',
-      options: {
-        type: 'password',
-        name: 'password',
-        placeholder: 'Password',
-      },
-    },
-  ]
-
-  return [
-    ...getInputsWithLabels(inputs),
-    {
-      tag: 'button',
-      classes: ['button', 'auth__button'],
-      options: { type: 'submit' },
-      value: 'Sing up',
-    },
-    {
-      tag: 'button',
-      classes: ['auth__link'],
-      options: { type: 'button' },
-      value: 'Sign in',
-      dataset: { key: 'link', value: 'signIn' },
-      events: [
-        {
-          event: 'click',
-          callback: this.handleClick,
-        },
-      ],
-    },
-  ]
-}
 
 export function getTodoValues() {
   return [

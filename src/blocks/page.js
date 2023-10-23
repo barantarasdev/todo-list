@@ -18,10 +18,10 @@ export class Page {
       store.state.url === this.ROUTES.SIGN_UP
     ) {
       const form = new Auth().getElement()
-      form.insertAdjacentHTML(
-        'afterbegin',
-        `<label class='auth__label'>${this.label}</label>`,
-      )
+      const label = document.createElement('label')
+      label.classList.add('auth__label')
+      label.textContent = this.label
+      form.insertAdjacentElement('afterbegin', label)
       app.insertAdjacentElement('beforeend', form)
 
       return

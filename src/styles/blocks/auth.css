@@ -9,6 +9,10 @@
   transform: translate(-50%, -50%);
 }
 
+.auth__signIn {
+  gap: 10px;
+}
+
 .auth__label {
   font-size: 40px;
   font-weight: 700;

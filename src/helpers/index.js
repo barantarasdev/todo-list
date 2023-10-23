@@ -46,8 +46,6 @@ export function getFullElement(values, rootElement) {
 
       if (element) {
         rootElement.insertAdjacentElement('beforeend', element)
-
-        return
       }
 
       if (classes) {
@@ -93,22 +91,6 @@ export function getFullElement(values, rootElement) {
   return rootElement
 }
 
-export function getInputsWithLabels(inputs) {
-  let inputsElements = []
-
-  inputs.forEach((input) => {
-    const label = {
-      tag: 'label',
-      classes: ['auth__form__label'],
-      for: input.id,
-    }
-
-    inputsElements.push(input, label)
-  })
-
-  return inputsElements
-}
-
 export function validateEmail(email) {
   return String(email)
     .toLowerCase()
@@ -124,8 +106,30 @@ export function validatePhone(phone) {
 }
 
 export function validateUrl(url) {
-  const regexp =
-    /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/
+  const urlPattern = new RegExp(
+    '^(https?:\\/\\/)?' +
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
+      '((\\d{1,3}\\.){3}\\d{1,3}))' +
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+      '(\\?[;&a-z\\d%_.~+=-]*)?' +
+      '(\\#[-a-z\\d_]*)?$',
+    'i',
+  )
 
-  return regexp.test(url)
+  return !!urlPattern.test(url)
+}
+
+export function validatePassword(password) {
+  const regExp =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,15}$/
+
+  return password.match(regExp)
+}
+
+export function validateConfirmPassword(confirmPassword) {
+  const currentPassword = document.querySelector(
+    '.auth .input[type="password"]',
+  ).value
+
+  return confirmPassword === currentPassword
 }
