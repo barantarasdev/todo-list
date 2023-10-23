@@ -1,4 +1,5 @@
-import { createActions } from '../helpers/index.js'
+import { createActions, getInputsWithLabels } from '../helpers/index.js'
+import { Select } from '../blocks/select.js'
 
 export const ACTIONS = {
   TODO: createActions('TODO'),
@@ -19,28 +20,52 @@ export const ROUTES = {
   SIGN_UP: 'signUp',
 }
 
+export const VALIDATION_TYPES = [
+  'age',
+  'gender',
+  'email',
+  'phone',
+  'site',
+  'name',
+  'password',
+]
+
+const GENDER_OPTIONS = [
+  {
+    value: '',
+    text: 'Not specified',
+    options: { disabled: true, selected: true },
+  },
+  { value: 'm', text: 'Male' },
+  { value: 'f', text: ' Female' },
+]
+
 export function getSignInValues() {
-  return [
+  const values = [
     {
       tag: 'input',
       classes: ['input', 'auth__input'],
+      id: 'email',
       options: {
         type: 'email',
         name: 'email',
         placeholder: 'Email',
-        required: true,
       },
     },
     {
       tag: 'input',
       classes: ['input', 'auth__input'],
+      id: 'password',
       options: {
         type: 'password',
         name: 'password',
         placeholder: 'Password',
-        required: true,
       },
     },
+  ]
+
+  return [
+    ...getInputsWithLabels(values),
     {
       tag: 'button',
       classes: ['button', 'auth__button'],
@@ -64,37 +89,75 @@ export function getSignInValues() {
 }
 
 export function getSignUpValues() {
-  return [
+  const inputs = [
     {
       tag: 'input',
       classes: ['input', 'auth__input'],
+      id: 'name',
       options: {
         type: 'text',
         name: 'name',
         placeholder: 'Name',
-        required: true,
       },
     },
     {
       tag: 'input',
       classes: ['input', 'auth__input'],
+      id: 'age',
+      options: {
+        type: 'number',
+        name: 'age',
+        placeholder: 'Age',
+      },
+    },
+    {
+      element: new Select(GENDER_OPTIONS, 'gender').getElement(),
+      id: 'gender',
+    },
+    {
+      tag: 'input',
+      classes: ['input', 'auth__input'],
+      id: 'site',
+      options: {
+        type: 'url',
+        name: 'site',
+        placeholder: 'Site',
+      },
+    },
+    {
+      tag: 'input',
+      classes: ['input', 'auth__input'],
+      id: 'email',
       options: {
         type: 'email',
         name: 'email',
         placeholder: 'Email',
-        required: true,
       },
     },
     {
       tag: 'input',
       classes: ['input', 'auth__input'],
+      id: 'phone',
+      options: {
+        type: 'tel',
+        name: 'phone',
+        placeholder: 'Phone',
+      },
+    },
+    {
+      tag: 'input',
+      classes: ['input', 'auth__input'],
+      id: 'password',
       options: {
         type: 'password',
         name: 'password',
         placeholder: 'Password',
-        required: true,
       },
     },
+  ]
+
+  return [
+    ...getInputsWithLabels(inputs),
     {
       tag: 'button',
       classes: ['button', 'auth__button'],
@@ -132,7 +195,6 @@ export function getTodoValues() {
         type: 'text',
         value: this.value,
         readOnly: true,
-        required: true,
       },
     },
     {
