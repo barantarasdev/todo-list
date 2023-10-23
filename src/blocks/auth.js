@@ -1,6 +1,5 @@
 import { ACTIONS, ROUTES, VALIDATION_TYPES } from '../constants/index.js'
 import {
-  clearInputValue,
   findUser,
   isUserIncluded,
   validateConfirmPassword,
@@ -143,7 +142,7 @@ export class Auth {
       if (foundedUser) {
         user = { ...foundedUser }
       } else {
-        alert('User not found')
+        eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User not found')
       }
 
       if (user) {
@@ -178,7 +177,7 @@ export class Auth {
           site: site.value,
         }
       } else {
-        alert('User already exists')
+        eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User already exists')
       }
 
       if (user) {

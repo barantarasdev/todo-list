@@ -23,12 +23,6 @@ export function isUserIncluded(email, users) {
   return users.find((user) => user.email === email)
 }
 
-export function clearInputValue(values) {
-  values.forEach((value) => {
-    value.value = ''
-  })
-}
-
 export function getFullElement(values, rootElement) {
   values.forEach(
     ({
