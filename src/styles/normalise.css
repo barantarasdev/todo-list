@@ -17,10 +17,11 @@ input {
 button {
   border: none;
   cursor: pointer;
-  transition: opacity 0.4s;
+  background-color: transparent;
+  transition: opacity var(--primary-duration);
 }
 
-button:hover {
+.button:hover {
   opacity: 0.7;
 }
 
@@ -32,15 +33,29 @@ body,
 html {
   height: 100%;
   width: 100%;
-  font-family: Arial, sans-serif;
 }
 
-body {
-  --primary-background-color: #e9e9e9;
-  --primary-color: black;
-  --color-red: red;
-  --primary-border-radius: 10px;
+.form {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
 
-  color: var(--primary-color);
-  background-color: #a4a3a3;
+.input {
+  width: 100%;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+}
+
+.select {
+  height: 40px;
+  padding: 10px;
+  border: none;
+  outline: none;
 }
