@@ -2,7 +2,6 @@ import { generateId } from '../helpers/index.js'
 import { saveTodoToLocalStorage } from '../api/index.js'
 import { ACTIONS, ROUTES } from '../constants/index.js'
 import { eventEmitter, store } from '../index.js'
-import { CommonInput } from './commonInput.js'
 
 export class Home {
   constructor() {
