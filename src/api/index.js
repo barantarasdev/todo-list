@@ -6,46 +6,41 @@ import {
 import { eventEmitter } from '../index.js'
 
 export function saveTodoToLocalStorage(todo) {
-  const user = getDataFromLocaleStorage('user')
-  let newTodos = []
+  const todos = getDataFromLocaleStorage('todos')
+  let newTodo = []
 
-  if (user) {
-    newTodos = [...user.todos]
+  if (todos) {
+    newTodo = [...todos]
   }
 
-  setDataToLocaleStorage('user', { ...user, todos: [...newTodos, todo] })
+  setDataToLocaleStorage('todos', [...newTodo, todo])
 }
 
 export function removeTodoToLocalStorage(id) {
-  const user = getDataFromLocaleStorage('user')
+  const todos = getDataFromLocaleStorage('todos')
+  const newTodo = todos.filter((todo) => todo.id !== +id)
 
-  if (user) {
-    const newTodos = user.todos.filter((todo) => todo.id !== +id)
-
-    setDataToLocaleStorage('user', { ...user, todos: newTodos })
-  }
+  setDataToLocaleStorage('todos', [...newTodo])
 }
 
 export function editTodoToLocalStorage(newOptions, id) {
-  const user = getDataFromLocaleStorage('user')
+  const todos = getDataFromLocaleStorage('todos')
 
-  if (user) {
-    const newTodos = user.todos.map((todo) =>
-      todo.id === +id ? { ...todo, ...newOptions } : todo,
-    )
+  const newTodos = todos.map((todo) =>
+    todo.id === +id ? { ...todo, ...newOptions } : todo,
+  )
 
-    setDataToLocaleStorage('user', { ...user, todos: newTodos })
-  }
+  setDataToLocaleStorage('todos', [...newTodos])
 }
 
 export function renderTodosFromLocaleStorage() {
   const {
     TODO: { TODO_CREATE },
   } = ACTIONS
-  const user = getDataFromLocaleStorage('user')
+  const todos = getDataFromLocaleStorage('todos')
 
-  if (user) {
-    user.todos.forEach((todo) => {
+  if (todos) {
+    todos.forEach((todo) => {
       eventEmitter.emit(TODO_CREATE, { ...todo })
     })
   }

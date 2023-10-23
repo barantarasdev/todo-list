@@ -4,7 +4,7 @@ import { eventEmitter } from '../index.js'
 
 export class Store {
   constructor() {
-    this.state = { user: {}, users: [], url: '' }
+    this.state = { todos: [], user: {}, users: [], url: '' }
     this.reducers = reducers
     this.ACTIONS = ACTIONS
     this.ROUTES = ROUTES

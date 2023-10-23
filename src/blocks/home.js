@@ -22,6 +22,10 @@ export class Home {
     const id = generateId()
     const newTodo = { value, isChecked: false, id }
 
+    if (!value.length) {
+      return
+    }
+
     eventEmitter.emit(this.TODO.TODO_CREATE, { ...newTodo })
     saveTodoToLocalStorage({ ...newTodo })
 
@@ -42,6 +46,7 @@ export class Home {
 
     if (menuItem && menuItem.dataset.menu === 'logout') {
       localStorage.removeItem('user')
+      localStorage.removeItem('todos')
       eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, this.ROUTES.SIGN_IN)
     }
   }
@@ -49,47 +54,57 @@ export class Home {
   getElement() {
     const header = document.createElement('header')
     const main = document.createElement('main')
-    const headerTitle = document.createElement('h1')
     header.classList.add('header')
-    header.insertAdjacentElement('beforeend', headerTitle)
     main.classList.add('main')
+
+    const headerTitle = document.createElement('h1')
     headerTitle.textContent = `Welcome, ${store.state.user.name}`
+    header.append(headerTitle)
 
-    header.insertAdjacentHTML(
-      'beforeend',
-      `
-      <button class="header__avatar">
-        <img
-          class="header__avatar__icon"
-          src=${this.IMG_URL}
-          alt="avatar"
-        />
-      </button>
-        
-      <ul class="header__menu disabled">
-        <li class="header__menu__item" data-menu="logout">
-          <button class="header__menu__button">Logout</button>
-        </li>
-      </ul>
-    `,
-    )
-    main.insertAdjacentHTML(
-      'beforeend',
-      `
-      <form class="form" method="post">
-        <input
-          class="input"
-          type="text"
-          name="searchInput"
-          placeholder="Add new todo"
-          required
-        />
-        
-        <button class="button" type="submit">Add</button>
-      </form>
+    const headerAvatar = document.createElement('button')
+    const headerAvatarIcon = document.createElement('img')
+    headerAvatar.classList.add('header__avatar')
+    headerAvatarIcon.classList.add('header__avatar__icon')
+    headerAvatarIcon.src = this.IMG_URL
+    headerAvatarIcon.alt = 'avatar'
+    headerAvatar.append(headerAvatarIcon)
+    header.append(headerAvatar)
 
-      <ul class="todos"></ul>`,
-    )
+    const headerMenu = document.createElement('ul')
+    const headerMenuItem = document.createElement('li')
+    const headerMenuButton = document.createElement('button')
+    headerMenu.classList.add('header__menu', 'disabled')
+    headerMenuItem.classList.add('header__menu__item')
+    headerMenuItem.dataset.menu = 'logout'
+    headerMenuButton.classList.add('header__menu__button')
+    headerMenuButton.textContent = 'Logout'
+    headerMenuItem.append(headerMenuButton)
+    headerMenu.append(headerMenuItem)
+    header.append(headerMenu)
+
+    const mainForm = document.createElement('form')
+    const mainInput = document.createElement('input')
+    const mainButton = document.createElement('button')
+    mainForm.classList.add('form')
+    mainForm.method = 'post'
+    mainInput.classList.add('input')
+    mainInput.type = 'text'
+    mainInput.name = 'searchInput'
+    mainInput.placeholder = 'Add new todo'
+    mainInput.required = true
+    mainForm.classList.add('form')
+    mainForm.method = 'post'
+    mainForm.noValidate = true
+    mainButton.classList.add('button')
+    mainButton.type = 'submit'
+    mainButton.textContent = 'Add'
+    mainForm.append(mainInput)
+    mainForm.append(mainButton)
+    main.append(mainForm)
+
+    const todos = document.createElement('ul')
+    todos.classList.add('todos')
+    main.append(todos)
 
     header.addEventListener('click', this.handleClickHeader)
     main.addEventListener('submit', this.handleSubmitMain)

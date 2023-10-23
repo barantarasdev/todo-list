@@ -1,57 +1,19 @@
 export const reducers = {
   TODO_UPDATE(state, payload) {
-    const updateTodo = (todos) =>
-      todos.map((todo) =>
-        todo.id === +payload.id ? { ...todo, ...payload.options } : todo,
-      )
-
     return {
-      user: {
-        ...state.user,
-        todos: [...updateTodo(state.user.todos)],
-      },
-      users: [
-        ...state.users.map((user) =>
-          user.email === state.user.email
-            ? {
-                ...user,
-                todos: [...updateTodo(user.todos)],
-              }
-            : user,
-        ),
-      ],
+      todos: state.todos.map((todo) =>
+        todo.id === +payload.id ? { ...todo, ...payload.options } : todo,
+      ),
     }
   },
   TODO_CREATE(state, payload) {
     return {
-      user: { ...state.user, todos: [...state.user.todos, payload] },
-      users: [
-        ...state.users.map((user) =>
-          user.email === state.user.email
-            ? { ...user, todos: [...user.todos, payload] }
-            : user,
-        ),
-      ],
+      todos: [...state.todos, payload],
     }
   },
   TODO_REMOVE(state, payload) {
-    const filterTodos = (todos) => todos.filter(({ id }) => id !== +payload.id)
-
     return {
-      user: {
-        ...state.user,
-        todos: [...filterTodos(state.user.todos)],
-      },
-      users: [
-        ...state.users.map((user) =>
-          user.email === state.user.email
-            ? {
-                ...user,
-                todos: [...filterTodos(user.todos)],
-              }
-            : user,
-        ),
-      ],
+      todos: state.todos.filter(({ id }) => id !== +payload.id),
     }
   },
   USER_SET(state, payload) {

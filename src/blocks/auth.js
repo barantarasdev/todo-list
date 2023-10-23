@@ -1,26 +1,22 @@
+import { ACTIONS, ROUTES, VALIDATION_TYPES } from '../constants/index.js'
 import {
-  ACTIONS,
-  getSignInValues,
-  getSignUpValues,
-  ROUTES,
-  VALIDATION_TYPES,
-} from '../constants/index.js'
-import {
-  clearInputValue,
   findUser,
-  getFullElement,
   isUserIncluded,
+  validateConfirmPassword,
   validateEmail,
+  validatePassword,
   validatePhone,
   validateUrl,
 } from '../helpers/index.js'
 import { setDataToLocaleStorage } from '../localeStorage/index.js'
 import { eventEmitter, store } from '../index.js'
+import { SignUp } from './signUp.js'
+import { SignIn } from './signIn.js'
 
-function validateInput(type, input) {
-  const label = this.form.querySelector(`label[for="${input.id}"]`)
+function validateInput(type, { value, id }) {
+  const label = this.form.querySelector(`label[for="${id}"]`)
 
-  if (!input.value) {
+  if (!value) {
     label.textContent = 'This field is required'
 
     if (!this.errors.includes(type)) {
@@ -30,15 +26,15 @@ function validateInput(type, input) {
     return
   }
 
-  if (input.value) {
+  if (value) {
     label.textContent = ''
   }
 
   switch (type) {
     case 'age':
-      if (input.value > 60) {
+      if (value > 60) {
         label.textContent = 'This age is old'
-      } else if (input.value < 18) {
+      } else if (value < 18) {
         label.textContent = 'This age is small'
       } else {
         label.textContent = ''
@@ -46,7 +42,7 @@ function validateInput(type, input) {
 
       break
     case 'email':
-      if (!validateEmail(input.value)) {
+      if (!validateEmail(value)) {
         label.textContent = 'This email is not valid'
       } else {
         label.textContent = ''
@@ -54,7 +50,7 @@ function validateInput(type, input) {
 
       break
     case 'phone':
-      if (!validatePhone(input.value)) {
+      if (!validatePhone(value)) {
         label.textContent = 'This phone is not valid'
       } else {
         label.textContent = ''
@@ -62,7 +58,7 @@ function validateInput(type, input) {
 
       break
     case 'site':
-      if (!validateUrl(input.value)) {
+      if (!validateUrl(value)) {
         label.textContent = 'This url is not valid'
       } else {
         label.textContent = ''
@@ -70,15 +66,23 @@ function validateInput(type, input) {
 
       break
     case 'password':
-      if (input.value.length < 8) {
-        label.textContent = 'The password must be at least 8 character'
+      if (!validatePassword(value)) {
+        label.textContent = 'This password is not valid'
+      } else {
+        label.textContent = ''
+      }
+
+      break
+    case 'confirmPassword':
+      if (!validateConfirmPassword(value)) {
+        label.textContent = 'The password does not match'
       } else {
         label.textContent = ''
       }
 
       break
     case 'name':
-      if (input.value.length < 2) {
+      if (value.length < 2) {
         label.textContent = 'The name must be at least 2 character'
       } else {
         label.textContent = ''
@@ -103,10 +107,6 @@ export class Auth {
     this.SET_ACTIONS = ACTIONS
     this.USER_REGISTER = ACTIONS.USER.USER_REGISTER
     this.SIGN_IN = ROUTES.SIGN_IN
-    this.values =
-      store.state.url === this.SIGN_IN
-        ? getSignInValues.bind(this)()
-        : getSignUpValues.bind(this)()
     this.form = document.createElement('form')
     this.errors = []
     this.validateInput = validateInput.bind(this)
@@ -122,13 +122,13 @@ export class Auth {
     const email = target.querySelector('input[name="email"]')
     const phone = target.querySelector('input[name="phone"]')
     const password = target.querySelector('input[name="password"]')
+    const confirmPassword = target.querySelector(
+      'input[name="confirmPassword"]',
+    )
     const name = target.querySelector('input[name="name"]')
     let user
 
     if (store.state.url === this.SIGN_IN) {
-      this.validateInput('email', email)
-      this.validateInput('password', password)
-
       if (this.errors.length) {
         return
       }
@@ -142,7 +142,7 @@ export class Auth {
       if (foundedUser) {
         user = { ...foundedUser }
       } else {
-        alert('User not found')
+        eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User not found')
       }
 
       if (user) {
@@ -150,8 +150,6 @@ export class Auth {
         eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, 'home')
         setDataToLocaleStorage('user', user)
       }
-
-      clearInputValue([email, password])
     } else {
       this.validateInput('age', age)
       this.validateInput('gender', gender)
@@ -160,6 +158,7 @@ export class Auth {
       this.validateInput('phone', phone)
       this.validateInput('name', name)
       this.validateInput('password', password)
+      this.validateInput('confirmPassword', confirmPassword)
 
       if (this.errors.length) {
         return
@@ -176,10 +175,9 @@ export class Auth {
           age: age.value,
           gender: gender.value,
           site: site.value,
-          todos: [],
         }
       } else {
-        alert('User already exists')
+        eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User already exists')
       }
 
       if (user) {
@@ -188,8 +186,6 @@ export class Auth {
         eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, 'home')
         setDataToLocaleStorage('user', user)
       }
-
-      clearInputValue([email, password, name])
     }
   }
 
@@ -198,18 +194,23 @@ export class Auth {
   }
 
   handleInput = (e) => {
-    VALIDATION_TYPES.forEach((type) => {
-      if (e.target.id === type && this.errors) {
-        this.validateInput(type, e.target)
-      }
-    })
+    if (this.errors.length) {
+      VALIDATION_TYPES.forEach((type) => {
+        if (e.target.id === type && this.errors) {
+          this.validateInput(type, e.target)
+        }
+      })
+    }
   }
 
   getElement() {
     this.form.classList.add('form', 'auth')
+    this.form.noValidate = true
     this.form.addEventListener('submit', this.handleSubmit)
     this.form.addEventListener('input', this.handleInput)
 
-    return getFullElement(this.values, this.form)
+    return store.state.url === this.SIGN_IN
+      ? new SignIn(this.form, this.handleClick).getElement()
+      : new SignUp(this.form, this.handleClick).getElement()
   }
 }

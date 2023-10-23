@@ -1,0 +1,13 @@
+.modal {
+  padding: 20px 60px;
+  background-color: var(--color-red);
+  border-radius: var(--primary-border-radius);
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.modal__title {
+  font-size: 14px;
+  color: var(--color-white);
+}
