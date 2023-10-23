@@ -84,13 +84,15 @@ export class Home {
     header.append(headerMenu)
 
     const mainForm = document.createElement('form')
-    const mainInput = new CommonInput(
-      'text',
-      'searchInput',
-      ['input'],
-      'Add new todo',
-    ).getElement()
+    const mainInput = document.createElement('input')
     const mainButton = document.createElement('button')
+    mainForm.classList.add('form')
+    mainForm.method = 'post'
+    mainInput.classList.add('input')
+    mainInput.type = 'text'
+    mainInput.name = 'searchInput'
+    mainInput.placeholder = 'Add new todo'
+    mainInput.required = true
     mainForm.classList.add('form')
     mainForm.method = 'post'
     mainForm.noValidate = true
