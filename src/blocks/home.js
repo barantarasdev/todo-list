@@ -49,14 +49,15 @@ export class Home {
   getElement() {
     const header = document.createElement('header')
     const main = document.createElement('main')
+    const headerTitle = document.createElement('h1')
     header.classList.add('header')
+    header.insertAdjacentElement('beforeend', headerTitle)
     main.classList.add('main')
+    headerTitle.textContent = `Welcome, ${store.state.user.name}`
 
     header.insertAdjacentHTML(
       'beforeend',
       `
-      <h1 class="header__title">Welcome, ${store.state.user.name}</h1>
-      
       <button class="header__avatar">
         <img
           class="header__avatar__icon"
