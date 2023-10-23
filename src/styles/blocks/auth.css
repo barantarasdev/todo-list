@@ -10,8 +10,17 @@
   padding: 10px;
   height: 60px;
   width: 100%;
-  font-size: 15px;
+  font-size: 16px;
   position: relative;
+}
+
+.auth__input::placeholder {
+  opacity: 0;
+  transition: all var(--primary-duration);
+}
+
+.auth__input:focus::placeholder {
+  opacity: 0.8;
 }
 
 .auth__signIn {

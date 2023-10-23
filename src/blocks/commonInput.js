@@ -15,6 +15,7 @@ export class CommonInput {
     input.type = this.type
     input.id = this.id
     input.name = this.id
+    input.placeholder = this.placeholder
 
     this.classes.forEach((currentClass) => {
       if (currentClass.length) {
