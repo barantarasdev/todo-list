@@ -1,3 +1,9 @@
+import { EE } from './eventEmitter.js'
+import { ACTIONS } from '../constants/index.js'
+
+export const eventEmitter = new EE()
+const { STATE_CHANGE } = ACTIONS
+
 const reducers = {
   TODO_UPDATE(state, payload) {
     return {
@@ -22,9 +28,14 @@ class Store {
     this.reducers = reducers
   }
 
+  updateUI() {
+    eventEmitter.emit(STATE_CHANGE)
+  }
+
   dispatch(ACTION_TYPE, payload) {
     if (this.reducers[ACTION_TYPE]) {
       this.state = this.reducers[ACTION_TYPE](this.state, payload)
+      this.updateUI()
     }
   }
 }
