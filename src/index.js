@@ -11,7 +11,7 @@ export const eventEmitter = new EE()
 export const store = new Store()
 
 document.addEventListener('DOMContentLoaded', () => {
-  const { HOME, SING_IN } = ROUTES
+  const { HOME, SIGN_IN } = ROUTES
   const { STATE_CHANGE, URL_CHANGE, TODO, USER, URL } = ACTIONS
 
   eventEmitter.subscribe(STATE_CHANGE, () => new Todos().render())
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return
     }
 
-    eventEmitter.emit(URL.URL_SET, SING_IN)
+    eventEmitter.emit(URL.URL_SET, SIGN_IN)
   }
 
   function handleClickAvatar({ target }) {
