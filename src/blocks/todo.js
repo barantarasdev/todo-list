@@ -1,8 +1,5 @@
 import { ACTIONS, getTodoValues } from '../constants/index.js'
-import {
-  editTodoToLocalStorage,
-  removeTodoToLocalStorage,
-} from '../api/index.js'
+import { deleteTodo, updateTodo } from '../api/index.js'
 import { getFullElement } from '../helpers/index.js'
 import { eventEmitter } from '../index.js'
 
@@ -25,12 +22,12 @@ export class Todo {
       id: this.id,
       options: { isChecked: !this.isChecked },
     })
-    editTodoToLocalStorage(newOption, this.id)
+    updateTodo(this.id, newOption).catch((error) => console.log(error))
   }
 
   onClickRemove = () => {
+    deleteTodo(this.id).catch((error) => console.log(error))
     eventEmitter.emit(this.TODO.TODO_REMOVE, { id: this.id })
-    removeTodoToLocalStorage(this.id)
   }
 
   getElement() {

@@ -6,7 +6,7 @@ import { Todos } from './blocks/todos.js'
 import { Page } from './blocks/page.js'
 import { getDataFromLocaleStorage } from './localeStorage/index.js'
 import { ACTIONS, ROUTES } from './constants/index.js'
-import { renderTodosFromLocaleStorage } from './api/index.js'
+import { getTodos } from './api/index.js'
 import { Modal } from './blocks/modal.js'
 
 export const eventEmitter = new EE()
@@ -14,7 +14,16 @@ export const store = new Store()
 
 document.addEventListener('DOMContentLoaded', () => {
   const { HOME, SIGN_IN } = ROUTES
-  const { STATE_CHANGE, URL_CHANGE, TODO, USER, URL, CALL_MODAL } = ACTIONS
+  const {
+    STATE_CHANGE,
+    URL_CHANGE,
+    TODO,
+    USER,
+    URL,
+    CALL_MODAL,
+    CLEAR_TODOS,
+    TODO: { TODO_CREATE },
+  } = ACTIONS
 
   eventEmitter.subscribe(STATE_CHANGE, () => new Todos().render())
   eventEmitter.subscribe(URL_CHANGE, () => new Page().render())
@@ -24,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       new Modal(title).render()
     }
   })
-  Object.values({ ...TODO, ...USER, ...URL }).forEach((item) => {
+  Object.values({ ...TODO, ...USER, ...URL, CLEAR_TODOS }).forEach((item) => {
     eventEmitter.subscribe(item, (payload) => store.dispatch(item, payload))
   })
 
@@ -37,8 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (user) {
       eventEmitter.emit(USER.USER_SET, user)
       eventEmitter.emit(URL.URL_SET, HOME)
-      renderTodosFromLocaleStorage()
-
+      getTodos(user.userId).then((res) => {
+        res.todos.forEach((todo) => {
+          eventEmitter.emit(TODO_CREATE, { ...todo })
+        })
+      })
       return
     }
 

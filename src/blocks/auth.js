@@ -1,7 +1,6 @@
 import { ACTIONS, ROUTES, VALIDATION_TYPES } from '../constants/index.js'
 import {
-  findUser,
-  isUserIncluded,
+  generateId,
   validateConfirmPassword,
   validateEmail,
   validatePassword,
@@ -12,6 +11,7 @@ import { setDataToLocaleStorage } from '../localeStorage/index.js'
 import { eventEmitter, store } from '../index.js'
 import { SignUp } from './signUp.js'
 import { SignIn } from './signIn.js'
+import { signIn, signUp } from '../api/index.js'
 
 function validateInput(type, { value, id }) {
   const label = this.form.querySelector(`label[for="${id}"]`)
@@ -126,30 +126,30 @@ export class Auth {
       'input[name="confirmPassword"]',
     )
     const name = target.querySelector('input[name="name"]')
-    let user
 
     if (store.state.url === this.SIGN_IN) {
       if (this.errors.length) {
         return
       }
 
-      const foundedUser = findUser(
-        email.value,
-        password.value,
-        store.state.users,
-      )
-
-      if (foundedUser) {
-        user = { ...foundedUser }
-      } else {
-        eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User not found')
+      const userData = {
+        email: email.value,
+        password: password.value,
       }
 
-      if (user) {
-        eventEmitter.emit(this.SET_ACTIONS.USER.USER_SET, user)
-        eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, 'home')
-        setDataToLocaleStorage('user', user)
-      }
+      signIn(userData)
+        .then((res) => {
+          eventEmitter.emit(this.SET_ACTIONS.USER.USER_SET, res.user)
+          eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, 'home')
+          setDataToLocaleStorage('user', res.user)
+
+          res.todos.forEach((todo) => {
+            eventEmitter.emit(this.SET_ACTIONS.TODO.TODO_CREATE, { ...todo })
+          })
+        })
+        .catch(() => {
+          eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User not found')
+        })
     } else {
       this.validateInput('age', age)
       this.validateInput('gender', gender)
@@ -164,28 +164,27 @@ export class Auth {
         return
       }
 
-      const foundedUser = isUserIncluded(email.value, store.state.users)
-
-      if (!foundedUser) {
-        user = {
-          name: name.value,
-          email: email.value,
-          password: password.value,
-          phone: phone.value,
-          age: age.value,
-          gender: gender.value,
-          site: site.value,
-        }
-      } else {
-        eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User already exists')
+      const newUser = {
+        userId: generateId(),
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        phone: phone.value,
+        age: age.value,
+        gender: gender.value,
+        site: site.value,
       }
 
-      if (user) {
-        eventEmitter.emit(this.SET_ACTIONS.USER.USER_SET, user)
-        eventEmitter.emit(this.USER_REGISTER, user)
-        eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, 'home')
-        setDataToLocaleStorage('user', user)
-      }
+      signUp(newUser)
+        .then((res) => {
+          eventEmitter.emit(this.SET_ACTIONS.USER.USER_SET, res)
+          eventEmitter.emit(this.USER_REGISTER, res)
+          eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, 'home')
+          setDataToLocaleStorage('user', res)
+        })
+        .catch(() => {
+          eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User already exists')
+        })
     }
   }
 

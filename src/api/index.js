@@ -1,47 +1,44 @@
-import { ACTIONS } from '../constants/index.js'
-import {
-  getDataFromLocaleStorage,
-  setDataToLocaleStorage,
-} from '../localeStorage/index.js'
-import { eventEmitter } from '../index.js'
+const BASE_URL = 'http://localhost:3000'
 
-export function saveTodoToLocalStorage(todo) {
-  const todos = getDataFromLocaleStorage('todos')
-  let newTodo = []
+function sendRequest(url, method = 'GET', data = null) {
+  const options = { method }
 
-  if (todos) {
-    newTodo = [...todos]
+  if (data) {
+    options.body = JSON.stringify(data)
   }
 
-  setDataToLocaleStorage('todos', [...newTodo, todo])
+  return fetch(BASE_URL + url, options).then((response) => {
+    return response.json()
+  })
 }
 
-export function removeTodoToLocalStorage(id) {
-  const todos = getDataFromLocaleStorage('todos')
-  const newTodo = todos.filter((todo) => todo.id !== +id)
-
-  setDataToLocaleStorage('todos', [...newTodo])
+export const client = {
+  get: (url) => sendRequest(url),
+  post: (url, data) => sendRequest(url, 'POST', data),
+  patch: (url, data) => sendRequest(url, 'PATCH', data),
+  delete: (url) => sendRequest(url, 'DELETE'),
 }
 
-export function editTodoToLocalStorage(newOptions, id) {
-  const todos = getDataFromLocaleStorage('todos')
-
-  const newTodos = todos.map((todo) =>
-    todo.id === +id ? { ...todo, ...newOptions } : todo,
-  )
-
-  setDataToLocaleStorage('todos', [...newTodos])
+export const getTodos = (userId) => {
+  return client.get(`/todos/user/${userId}`)
 }
 
-export function renderTodosFromLocaleStorage() {
-  const {
-    TODO: { TODO_CREATE },
-  } = ACTIONS
-  const todos = getDataFromLocaleStorage('todos')
+export const createTodo = (data) => {
+  return client.post('/todos', data)
+}
 
-  if (todos) {
-    todos.forEach((todo) => {
-      eventEmitter.emit(TODO_CREATE, { ...todo })
-    })
-  }
+export const deleteTodo = (id) => {
+  return client.delete(`/todos/${id}`)
+}
+
+export const updateTodo = (id, data) => {
+  return client.patch(`/todos/${id}`, data)
+}
+
+export const signUp = (data) => {
+  return client.post(`/register`, data)
+}
+
+export const signIn = (data) => {
+  return client.post(`/login`, data)
 }

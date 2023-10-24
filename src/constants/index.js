@@ -12,6 +12,7 @@ export const ACTIONS = {
   STATE_CHANGE: 'STATE_CHANGE',
   URL_CHANGE: 'URL_CHANGE',
   CALL_MODAL: 'CALL_MODAL',
+  CLEAR_TODOS: 'CLEAR_TODOS',
 }
 
 export const ROUTES = {
