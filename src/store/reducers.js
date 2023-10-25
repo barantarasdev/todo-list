@@ -25,4 +25,7 @@ export const reducers = {
   URL_SET(state, payload) {
     return { url: payload }
   },
+  CLEAR_TODOS() {
+    return { todos: [] }
+  },
 }

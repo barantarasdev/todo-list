@@ -1,5 +1,5 @@
 import { generateId } from '../helpers/index.js'
-import { saveTodoToLocalStorage } from '../api/index.js'
+import { createTodo } from '../api/index.js'
 import { ACTIONS, ROUTES } from '../constants/index.js'
 import { eventEmitter, store } from '../index.js'
 
@@ -20,15 +20,19 @@ export class Home {
     const input = target.querySelector('.input')
     const value = input.value
     const id = generateId()
-    const newTodo = { value, isChecked: false, id }
+    const newTodo = {
+      value,
+      isChecked: false,
+      id,
+      userId: store.state.user.userId,
+    }
 
     if (!value.length) {
       return
     }
 
+    createTodo(newTodo).catch((error) => console.log(error))
     eventEmitter.emit(this.TODO.TODO_CREATE, { ...newTodo })
-    saveTodoToLocalStorage({ ...newTodo })
-
     input.value = ''
   }
 
@@ -47,6 +51,8 @@ export class Home {
     if (menuItem && menuItem.dataset.menu === 'logout') {
       localStorage.removeItem('user')
       localStorage.removeItem('todos')
+      eventEmitter.emit(this.SET_ACTIONS.CLEAR_TODOS)
+      eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, this.ROUTES.SIGN_IN)
       eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, this.ROUTES.SIGN_IN)
     }
   }

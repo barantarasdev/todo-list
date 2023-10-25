@@ -1,7 +1,7 @@
 import { ACTIONS } from '../constants/index.js'
-import { editTodoToLocalStorage } from '../api/index.js'
 import { Todo } from './todo.js'
 import { eventEmitter, store } from '../index.js'
+import { updateTodo } from '../api/index.js'
 
 export class Todos {
   constructor() {
@@ -29,7 +29,7 @@ export class Todos {
       const value = todoValue.value
 
       eventEmitter.emit(this.TODO_UPDATE, { id, options: { value } })
-      editTodoToLocalStorage({ value }, id)
+      updateTodo(id, { value }).catch((error) => console.log(error))
     }
 
     todoValue.addEventListener('blur', saveValue)
