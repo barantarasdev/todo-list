@@ -176,11 +176,11 @@ export class Auth {
       }
 
       signUp(newUser)
-        .then((res) => {
-          eventEmitter.emit(this.SET_ACTIONS.USER.USER_SET, res)
-          eventEmitter.emit(this.USER_REGISTER, res)
+        .then(() => {
+          eventEmitter.emit(this.SET_ACTIONS.USER.USER_SET, newUser)
+          eventEmitter.emit(this.USER_REGISTER, newUser)
           eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, 'home')
-          setDataToLocaleStorage('user', res)
+          setDataToLocaleStorage('user', newUser)
         })
         .catch(() => {
           eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User already exists')
