@@ -1,7 +1,7 @@
 import { ACTIONS, getTodoValues } from '../constants/index.js'
-import { deleteTodo, updateTodo } from '../api/index.js'
 import { getFullElement } from '../helpers/index.js'
 import { eventEmitter } from '../index.js'
+import { deleteTodo, updateTodo } from '../api/index.js'
 
 export class Todo {
   constructor(value, isChecked, id) {
@@ -18,16 +18,18 @@ export class Todo {
   onClickChange = () => {
     const newOption = { isChecked: !this.isChecked }
 
-    eventEmitter.emit(this.TODO.TODO_UPDATE, {
-      id: this.id,
-      options: { isChecked: !this.isChecked },
+    updateTodo(this.id, newOption).then(() => {
+      eventEmitter.emit(this.TODO.TODO_UPDATE, {
+        id: this.id,
+        options: { isChecked: !this.isChecked },
+      })
     })
-    updateTodo(this.id, newOption).catch((error) => console.log(error))
   }
 
   onClickRemove = () => {
-    deleteTodo(this.id).catch((error) => console.log(error))
-    eventEmitter.emit(this.TODO.TODO_REMOVE, { id: this.id })
+    deleteTodo(this.id).then(() => {
+      eventEmitter.emit(this.TODO.TODO_REMOVE, { id: this.id })
+    })
   }
 
   getElement() {
