@@ -7,7 +7,7 @@ import { eventEmitter } from '../index.js'
 
 const BASE_URL = 'http://localhost:3000'
 
-function sendRequest(url, method, data = null, isVerify = false) {
+function sendRequest(url, method, data = null, isVerify = false, count = 0) {
   const options = { method }
   const accessToken = getDataFromLocaleStorage('accessToken')
 
@@ -23,6 +23,10 @@ function sendRequest(url, method, data = null, isVerify = false) {
 
   return fetch(BASE_URL + url, options).then(async (response) => {
     if (response.status === 403) {
+      if (count > 5) {
+        throw new Error('You don"t have limits for this request')
+      }
+
       const refreshResponse = await fetch(BASE_URL + '/refresh', {
         method: 'POST',
         headers: {
@@ -39,7 +43,7 @@ function sendRequest(url, method, data = null, isVerify = false) {
         setDataToLocaleStorage('accessToken', refreshData.accessToken)
         setDataToLocaleStorage('refreshToken', refreshData.refreshToken)
 
-        return sendRequest(url, method, data, isVerify)
+        return sendRequest(url, method, data, isVerify, count + 1)
       }
 
       eventEmitter.emit(ACTIONS.URL.URL_SET, ROUTES.SIGN_IN)

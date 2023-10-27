@@ -21,16 +21,19 @@ export class Todos {
     const saveButton = todo.querySelector('.todo__button--save')
     const { id } = todo.dataset
 
-    const saveValue = () => {
+    const saveValue = async () => {
       todoValue.setAttribute('readonly', 'true')
       todoValue.classList.remove('todo__value--edit')
       saveButton.classList.remove('enabled')
 
       const value = todoValue.value
 
-      updateTodo(id, { value }).then(() => {
+      try {
+        await updateTodo(id, { value })
         eventEmitter.emit(this.TODO_UPDATE, { id, options: { value } })
-      })
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     todoValue.addEventListener('blur', saveValue)

@@ -112,7 +112,7 @@ export class Auth {
     this.validateInput = validateInput.bind(this)
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault()
     const { target } = e
 
@@ -137,22 +137,23 @@ export class Auth {
         password: password.value,
       }
 
-      signIn(userData)
-        .then((res) => {
-          const user = { name: res.name, userId: res.userId }
+      try {
+        const { name, accessToken, refreshToken, userId } =
+          await signIn(userData)
+        const user = { name, userId }
 
-          handleLogin(user, res.accessToken, res.refreshToken)
-          getTodos(res.userId).then((res) => {
-            res.todos.forEach((todo) => {
-              eventEmitter.emit(this.SET_ACTIONS.TODO.TODO_CREATE, {
-                ...todo,
-              })
-            })
+        handleLogin(user, accessToken, refreshToken)
+
+        const { todos } = await getTodos(userId)
+
+        todos.forEach((todo) => {
+          eventEmitter.emit(this.SET_ACTIONS.TODO.TODO_CREATE, {
+            ...todo,
           })
         })
-        .catch(() => {
-          eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User not found')
-        })
+      } catch (error) {
+        eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User not found')
+      }
     } else {
       this.validateInput('age', age)
       this.validateInput('gender', gender)
@@ -178,15 +179,14 @@ export class Auth {
         site: site.value,
       }
 
-      signUp(newUser)
-        .then((res) => {
-          const user = { name: newUser.name, userId: newUser.userId }
+      try {
+        const { accessToken, refreshToken } = await signUp(newUser)
+        const user = { name: newUser.name, userId: newUser.userId }
 
-          handleLogin(user, res.accessToken, res.refreshToken)
-        })
-        .catch(() => {
-          eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User already exists')
-        })
+        handleLogin(user, accessToken, refreshToken)
+      } catch (err) {
+        eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User already exists')
+      }
     }
   }
 

@@ -15,21 +15,27 @@ export class Todo {
     this.onClickRemove = this.onClickRemove.bind(this)
   }
 
-  onClickChange = () => {
+  onClickChange = async () => {
     const newOption = { isChecked: !this.isChecked }
 
-    updateTodo(this.id, newOption).then(() => {
+    try {
+      await updateTodo(this.id, newOption)
       eventEmitter.emit(this.TODO.TODO_UPDATE, {
         id: this.id,
         options: { isChecked: !this.isChecked },
       })
-    })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  onClickRemove = () => {
-    deleteTodo(this.id).then(() => {
+  onClickRemove = async () => {
+    try {
+      await deleteTodo(this.id)
       eventEmitter.emit(this.TODO.TODO_REMOVE, { id: this.id })
-    })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   getElement() {

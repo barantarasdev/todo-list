@@ -11,7 +11,7 @@ export class Home {
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4JCuHyuURcCyeNEc9v4iOma3HVgZgDSMaIQ&usqp=CAU'
   }
 
-  handleSubmitMain = (e) => {
+  handleSubmitMain = async (e) => {
     e.preventDefault()
     const { target } = e
 
@@ -29,13 +29,16 @@ export class Home {
       return
     }
 
-    createTodo(newTodo).then(() => {
+    try {
+      await createTodo(newTodo)
       eventEmitter.emit(this.TODO.TODO_CREATE, { ...newTodo })
       input.value = ''
-    })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  handleClickHeader = (e) => {
+  handleClickHeader = async (e) => {
     const menu = document.querySelector('.header__menu')
 
     const { target } = e
@@ -48,9 +51,12 @@ export class Home {
     }
 
     if (menuItem && menuItem.dataset.menu === 'logout') {
-      logOut().then(() => {
+      try {
+        await logOut()
         handleLogout()
-      })
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
