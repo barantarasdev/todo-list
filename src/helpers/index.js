@@ -1,3 +1,7 @@
+import { eventEmitter } from '../index.js'
+import { ACTIONS, ROUTES } from '../constants/index.js'
+import { setDataToLocaleStorage } from '../localeStorage/index.js'
+
 export function generateId() {
   return new Date().valueOf()
 }
@@ -11,16 +15,6 @@ export function createActions(str) {
   })
 
   return result
-}
-
-export function findUser(email, password, users) {
-  return users.find(
-    (user) => user.email === email && user.password === password,
-  )
-}
-
-export function isUserIncluded(email, users) {
-  return users.find((user) => user.email === email)
 }
 
 export function getFullElement(values, rootElement) {
@@ -118,4 +112,33 @@ export function validateConfirmPassword(confirmPassword) {
   ).value
 
   return confirmPassword === currentPassword
+}
+
+export function handleLogout() {
+  const {
+    URL: { URL_SET },
+    CLEAR_TODOS,
+  } = ACTIONS
+  const { SIGN_IN } = ROUTES
+
+  localStorage.removeItem('user')
+  localStorage.removeItem('accessToken')
+  localStorage.removeItem('refreshToken')
+  eventEmitter.emit(CLEAR_TODOS)
+  eventEmitter.emit(URL_SET, SIGN_IN)
+}
+
+export function handleLogin(user, accessToken, refreshToken) {
+  const {
+    USER: { USER_SET, USER_REGISTER },
+    URL: { URL_SET },
+  } = ACTIONS
+  const { HOME } = ROUTES
+
+  eventEmitter.emit(USER_SET, user)
+  eventEmitter.emit(USER_REGISTER, user)
+  eventEmitter.emit(URL_SET, HOME)
+  setDataToLocaleStorage('user', user)
+  setDataToLocaleStorage('accessToken', accessToken)
+  setDataToLocaleStorage('refreshToken', refreshToken)
 }

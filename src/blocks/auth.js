@@ -1,17 +1,17 @@
 import { ACTIONS, ROUTES, VALIDATION_TYPES } from '../constants/index.js'
 import {
   generateId,
+  handleLogin,
   validateConfirmPassword,
   validateEmail,
   validatePassword,
   validatePhone,
   validateUrl,
 } from '../helpers/index.js'
-import { setDataToLocaleStorage } from '../localeStorage/index.js'
 import { eventEmitter, store } from '../index.js'
 import { SignUp } from './signUp.js'
 import { SignIn } from './signIn.js'
-import { signIn, signUp } from '../api/index.js'
+import { getTodos, signIn, signUp } from '../api/index.js'
 
 function validateInput(type, { value, id }) {
   const label = this.form.querySelector(`label[for="${id}"]`)
@@ -139,12 +139,15 @@ export class Auth {
 
       signIn(userData)
         .then((res) => {
-          eventEmitter.emit(this.SET_ACTIONS.USER.USER_SET, res.user)
-          eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, 'home')
-          setDataToLocaleStorage('user', res.user)
+          const user = { name: res.name, userId: res.userId }
 
-          res.todos.forEach((todo) => {
-            eventEmitter.emit(this.SET_ACTIONS.TODO.TODO_CREATE, { ...todo })
+          handleLogin(user, res.accessToken, res.refreshToken)
+          getTodos(res.userId).then((res) => {
+            res.todos.forEach((todo) => {
+              eventEmitter.emit(this.SET_ACTIONS.TODO.TODO_CREATE, {
+                ...todo,
+              })
+            })
           })
         })
         .catch(() => {
@@ -176,11 +179,10 @@ export class Auth {
       }
 
       signUp(newUser)
-        .then(() => {
-          eventEmitter.emit(this.SET_ACTIONS.USER.USER_SET, newUser)
-          eventEmitter.emit(this.USER_REGISTER, newUser)
-          eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, 'home')
-          setDataToLocaleStorage('user', newUser)
+        .then((res) => {
+          const user = { name: newUser.name, userId: newUser.userId }
+
+          handleLogin(user, res.accessToken, res.refreshToken)
         })
         .catch(() => {
           eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User already exists')

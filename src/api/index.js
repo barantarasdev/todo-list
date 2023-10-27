@@ -1,38 +1,80 @@
+import {
+  getDataFromLocaleStorage,
+  setDataToLocaleStorage,
+} from '../localeStorage/index.js'
+import { ACTIONS, ROUTES } from '../constants/index.js'
+import { eventEmitter } from '../index.js'
+
 const BASE_URL = 'http://localhost:3000'
 
-function sendRequest(url, method = 'GET', data = null) {
+function sendRequest(url, method, data = null, isVerify = false) {
   const options = { method }
+  const accessToken = getDataFromLocaleStorage('accessToken')
 
   if (data) {
     options.body = JSON.stringify(data)
   }
 
-  return fetch(BASE_URL + url, options).then((response) => {
+  if (isVerify) {
+    options.headers = {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  }
+
+  return fetch(BASE_URL + url, options).then(async (response) => {
+    if (response.status === 403) {
+      const refreshResponse = await fetch(BASE_URL + '/refresh', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: getDataFromLocaleStorage('refreshToken'),
+        }),
+      })
+
+      const refreshData = await refreshResponse.json()
+
+      if (refreshResponse.ok) {
+        setDataToLocaleStorage('accessToken', refreshData.accessToken)
+        setDataToLocaleStorage('refreshToken', refreshData.refreshToken)
+
+        return sendRequest(url, method, data, isVerify)
+      }
+
+      eventEmitter.emit(ACTIONS.URL.URL_SET, ROUTES.SIGN_IN)
+
+      return
+    }
+
+    if (!response.ok) {
+      throw new Error('Error')
+    }
+
     return response.json()
   })
 }
 
 export const client = {
-  get: (url) => sendRequest(url),
-  post: (url, data) => sendRequest(url, 'POST', data),
-  patch: (url, data) => sendRequest(url, 'PATCH', data),
-  delete: (url) => sendRequest(url, 'DELETE'),
+  post: (url, data, isVerify) => sendRequest(url, 'POST', data, isVerify),
+  patch: (url, data) => sendRequest(url, 'PATCH', data, true),
+  delete: (url, isVerify) => sendRequest(url, 'DELETE', null, isVerify),
 }
 
 export const getTodos = (userId) => {
-  return client.get(`/todos/user/${userId}`)
+  return client.post(`/todos/user/${userId}`, null, true)
 }
 
 export const createTodo = (data) => {
-  return client.post('/todos', data)
+  return client.post('/todos', data, true)
 }
 
 export const deleteTodo = (id) => {
-  return client.delete(`/todos/${id}`)
+  return client.delete(`/todos/${id}`, true)
 }
 
 export const updateTodo = (id, data) => {
-  return client.patch(`/todos/${id}`, data)
+  return client.patch(`/todos/${id}`, data, true)
 }
 
 export const signUp = (data) => {
@@ -41,4 +83,13 @@ export const signUp = (data) => {
 
 export const signIn = (data) => {
   return client.post(`/login`, data)
+}
+
+export const logOut = () => {
+  return client.post(
+    `/logout`,
+    JSON.stringify({
+      token: getDataFromLocaleStorage('refreshToken'),
+    }),
+  )
 }

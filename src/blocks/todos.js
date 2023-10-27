@@ -28,8 +28,9 @@ export class Todos {
 
       const value = todoValue.value
 
-      eventEmitter.emit(this.TODO_UPDATE, { id, options: { value } })
-      updateTodo(id, { value }).catch((error) => console.log(error))
+      updateTodo(id, { value }).then(() => {
+        eventEmitter.emit(this.TODO_UPDATE, { id, options: { value } })
+      })
     }
 
     todoValue.addEventListener('blur', saveValue)

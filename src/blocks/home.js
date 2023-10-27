@@ -1,14 +1,12 @@
-import { generateId } from '../helpers/index.js'
-import { createTodo } from '../api/index.js'
-import { ACTIONS, ROUTES } from '../constants/index.js'
+import { generateId, handleLogout } from '../helpers/index.js'
+import { ACTIONS } from '../constants/index.js'
 import { eventEmitter, store } from '../index.js'
+import { createTodo, logOut } from '../api/index.js'
 
 export class Home {
   constructor() {
-    this.SET_ACTIONS = ACTIONS
     this.STATE_CHANGE = ACTIONS.STATE_CHANGE
     this.TODO = ACTIONS.TODO
-    this.ROUTES = ROUTES
     this.IMG_URL =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4JCuHyuURcCyeNEc9v4iOma3HVgZgDSMaIQ&usqp=CAU'
   }
@@ -31,9 +29,10 @@ export class Home {
       return
     }
 
-    createTodo(newTodo).catch((error) => console.log(error))
-    eventEmitter.emit(this.TODO.TODO_CREATE, { ...newTodo })
-    input.value = ''
+    createTodo(newTodo).then(() => {
+      eventEmitter.emit(this.TODO.TODO_CREATE, { ...newTodo })
+      input.value = ''
+    })
   }
 
   handleClickHeader = (e) => {
@@ -49,11 +48,9 @@ export class Home {
     }
 
     if (menuItem && menuItem.dataset.menu === 'logout') {
-      localStorage.removeItem('user')
-      localStorage.removeItem('todos')
-      eventEmitter.emit(this.SET_ACTIONS.CLEAR_TODOS)
-      eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, this.ROUTES.SIGN_IN)
-      eventEmitter.emit(this.SET_ACTIONS.URL.URL_SET, this.ROUTES.SIGN_IN)
+      logOut().then(() => {
+        handleLogout()
+      })
     }
   }
 
