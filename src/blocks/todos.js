@@ -26,11 +26,14 @@ export class Todos {
       todoValue.classList.remove('todo__value--edit')
       saveButton.classList.remove('enabled')
 
-      const value = todoValue.value
+      const todo_value = todoValue.value
 
       try {
-        await updateTodo(id, { value })
-        eventEmitter.emit(this.TODO_UPDATE, { id, options: { value } })
+        await updateTodo(id, { todo_value })
+        eventEmitter.emit(this.TODO_UPDATE, {
+          todo_id: id,
+          options: { todo_value },
+        })
       } catch (error) {
         console.log(error)
       }
@@ -38,9 +41,7 @@ export class Todos {
 
     todoValue.addEventListener('blur', saveValue)
     todoValue.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        saveValue()
-      }
+      if (e.key === 'Enter') saveValue()
     })
     const { classList } = target
     const isEditing =
@@ -56,19 +57,16 @@ export class Todos {
       return
     }
 
-    if (classList.contains('todo__button--save')) {
-      saveValue()
-    }
+    if (classList.contains('todo__button--save')) saveValue()
   }
 
   render = () => {
     const todoList = document.querySelector('.todos')
     todoList.innerHTML = ''
+    store.state.todos.forEach((todo) => {
+      const newTodo = new Todo(todo).getElement()
 
-    store.state.todos.forEach(({ value, isChecked, id }) => {
-      const todo = new Todo(value, isChecked, id).getElement()
-
-      todoList.appendChild(todo)
+      todoList.appendChild(newTodo)
     })
     todoList.addEventListener('click', this.handleClick)
   }

@@ -47,7 +47,7 @@ export function getTodoValues() {
     {
       tag: 'input',
       classes: ['todo__input'],
-      options: { type: 'checkbox', checked: this.isChecked },
+      options: { type: 'checkbox', checked: this.todo_completed },
       events: [{ event: 'change', callback: this.onClickChange }],
     },
     {
@@ -55,7 +55,7 @@ export function getTodoValues() {
       classes: ['todo__value', this.inputCheckedClass],
       options: {
         type: 'text',
-        value: this.value,
+        value: this.todo_value,
         readOnly: true,
       },
     },

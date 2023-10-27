@@ -1,4 +1,4 @@
-import { generateId, handleLogout } from '../helpers/index.js'
+import { handleLogout } from '../helpers/index.js'
 import { ACTIONS } from '../constants/index.js'
 import { eventEmitter, store } from '../index.js'
 import { createTodo, logOut } from '../api/index.js'
@@ -16,22 +16,23 @@ export class Home {
     const { target } = e
 
     const input = target.querySelector('.input')
-    const value = input.value
-    const id = generateId()
+    const todo_value = input.value
     const newTodo = {
-      value,
-      isChecked: false,
-      id,
-      userId: store.state.user.userId,
+      todo_value,
+      user_id: store.state.user.user_id,
+      todo_completed: false,
     }
 
-    if (!value.length) {
+    if (!todo_value.length) {
       return
     }
 
     try {
-      await createTodo(newTodo)
-      eventEmitter.emit(this.TODO.TODO_CREATE, { ...newTodo })
+      const result = await createTodo(newTodo)
+      eventEmitter.emit(this.TODO.TODO_CREATE, {
+        ...newTodo,
+        todo_id: result.todo_id,
+      })
       input.value = ''
     } catch (error) {
       console.log(error)
@@ -67,7 +68,7 @@ export class Home {
     main.classList.add('main')
 
     const headerTitle = document.createElement('h1')
-    headerTitle.textContent = `Welcome, ${store.state.user.name}`
+    headerTitle.textContent = `Welcome, ${store.state.user.user_name}`
     header.append(headerTitle)
 
     const headerAvatar = document.createElement('button')

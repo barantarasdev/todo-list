@@ -1,6 +1,5 @@
 import { ACTIONS, ROUTES, VALIDATION_TYPES } from '../constants/index.js'
 import {
-  generateId,
   handleLogin,
   validateConfirmPassword,
   validateEmail,
@@ -133,18 +132,17 @@ export class Auth {
       }
 
       const userData = {
-        email: email.value,
-        password: password.value,
+        user_email: email.value,
+        user_password: password.value,
       }
 
       try {
-        const { name, accessToken, refreshToken, userId } =
+        const { user_name, accessToken, refreshToken, user_id } =
           await signIn(userData)
-        const user = { name, userId }
 
-        handleLogin(user, accessToken, refreshToken)
+        handleLogin({ user_name, user_id }, accessToken, refreshToken)
 
-        const { todos } = await getTodos(userId)
+        const { todos } = await getTodos(user_id)
 
         todos.forEach((todo) => {
           eventEmitter.emit(this.SET_ACTIONS.TODO.TODO_CREATE, {
@@ -169,19 +167,18 @@ export class Auth {
       }
 
       const newUser = {
-        userId: generateId(),
-        name: name.value,
-        email: email.value,
-        password: password.value,
-        phone: phone.value,
-        age: age.value,
-        gender: gender.value,
-        site: site.value,
+        user_name: name.value,
+        user_email: email.value,
+        user_password: password.value,
+        user_phone: phone.value,
+        user_age: age.value,
+        user_gender: gender.value,
+        user_site: site.value,
       }
 
       try {
-        const { accessToken, refreshToken } = await signUp(newUser)
-        const user = { name: newUser.name, userId: newUser.userId }
+        const { accessToken, refreshToken, user_id } = await signUp(newUser)
+        const user = { user_name: newUser.user_name, user_id }
 
         handleLogin(user, accessToken, refreshToken)
       } catch (err) {

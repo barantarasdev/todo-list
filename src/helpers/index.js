@@ -2,10 +2,6 @@ import { eventEmitter } from '../index.js'
 import { ACTIONS, ROUTES } from '../constants/index.js'
 import { setDataToLocaleStorage } from '../localeStorage/index.js'
 
-export function generateId() {
-  return new Date().valueOf()
-}
-
 export function createActions(str) {
   const methods = ['CREATE', 'UPDATE', 'REMOVE', 'ALL_CLEAR']
   const result = {}

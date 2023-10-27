@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (user) {
       try {
-        const { todos } = await getTodos(user.userId)
+        const { todos } = await getTodos(user.user_id)
         eventEmitter.emit(USER.USER_SET, user)
         eventEmitter.emit(URL.URL_SET, HOME)
 

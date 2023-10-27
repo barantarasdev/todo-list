@@ -4,25 +4,25 @@ import { eventEmitter } from '../index.js'
 import { deleteTodo, updateTodo } from '../api/index.js'
 
 export class Todo {
-  constructor(value, isChecked, id) {
-    this.value = value
-    this.isChecked = isChecked
-    this.id = id
+  constructor({ todo_value, todo_completed, todo_id }) {
+    this.todo_value = todo_value
+    this.todo_completed = todo_completed
+    this.todo_id = todo_id
     this.TODO = ACTIONS.TODO
-    this.inputCheckedClass = this.isChecked ? 'checked' : ''
+    this.inputCheckedClass = this.todo_completed ? 'checked' : ''
     this.values = getTodoValues.bind(this)()
     this.onClickChange = this.onClickChange.bind(this)
     this.onClickRemove = this.onClickRemove.bind(this)
   }
 
   onClickChange = async () => {
-    const newOption = { isChecked: !this.isChecked }
+    const newOption = { todo_completed: !this.todo_completed }
 
     try {
-      await updateTodo(this.id, newOption)
+      await updateTodo(this.todo_id, newOption)
       eventEmitter.emit(this.TODO.TODO_UPDATE, {
-        id: this.id,
-        options: { isChecked: !this.isChecked },
+        todo_id: this.todo_id,
+        options: newOption,
       })
     } catch (error) {
       console.log(error)
@@ -31,8 +31,8 @@ export class Todo {
 
   onClickRemove = async () => {
     try {
-      await deleteTodo(this.id)
-      eventEmitter.emit(this.TODO.TODO_REMOVE, { id: this.id })
+      await deleteTodo(this.todo_id)
+      eventEmitter.emit(this.TODO.TODO_REMOVE, { todo_id: this.todo_id })
     } catch (error) {
       console.log(error)
     }
@@ -41,7 +41,7 @@ export class Todo {
   getElement() {
     const todo = document.createElement('li')
     todo.classList.add('todo')
-    todo.dataset.id = this.id
+    todo.dataset.id = this.todo_id
 
     return getFullElement(this.values, todo)
   }

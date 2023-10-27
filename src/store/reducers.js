@@ -1,8 +1,8 @@
 export const reducers = {
-  TODO_UPDATE(state, payload) {
+  TODO_UPDATE(state, { todo_id, options }) {
     return {
       todos: state.todos.map((todo) =>
-        todo.id === +payload.id ? { ...todo, ...payload.options } : todo,
+        todo.todo_id === todo_id ? { ...todo, ...options } : todo,
       ),
     }
   },
@@ -13,7 +13,7 @@ export const reducers = {
   },
   TODO_REMOVE(state, payload) {
     return {
-      todos: state.todos.filter(({ id }) => id !== +payload.id),
+      todos: state.todos.filter(({ todo_id }) => todo_id !== payload.todo_id),
     }
   },
   USER_SET(state, payload) {
