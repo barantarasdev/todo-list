@@ -2,6 +2,7 @@ import { ACTIONS } from '../constants/index.js'
 import { Todo } from './todo.js'
 import { eventEmitter, store } from '../index.js'
 import { updateTodo } from '../api/index.js'
+import { removeTodo } from '../helpers/index.js'
 
 export class Todos {
   constructor() {
@@ -28,15 +29,17 @@ export class Todos {
 
       const todo_value = todoValue.value
 
-      try {
-        await updateTodo(id, { todo_value })
-        eventEmitter.emit(this.TODO_UPDATE, {
-          todo_id: id,
-          options: { todo_value },
-        })
-      } catch (error) {
-        console.log(error)
+      if (!todo_value.length) {
+        removeTodo(id)
+
+        return
       }
+
+      await updateTodo(id, { todo_value })
+      eventEmitter.emit(this.TODO_UPDATE, {
+        todo_id: id,
+        options: { todo_value },
+      })
     }
 
     todoValue.addEventListener('blur', saveValue)

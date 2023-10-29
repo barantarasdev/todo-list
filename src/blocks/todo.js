@@ -1,7 +1,7 @@
 import { ACTIONS, getTodoValues } from '../constants/index.js'
-import { getFullElement } from '../helpers/index.js'
+import { getFullElement, removeTodo } from '../helpers/index.js'
 import { eventEmitter } from '../index.js'
-import { deleteTodo, updateTodo } from '../api/index.js'
+import { updateTodo } from '../api/index.js'
 
 export class Todo {
   constructor({ todo_value, todo_completed, todo_id }) {
@@ -17,25 +17,16 @@ export class Todo {
 
   onClickChange = async () => {
     const newOption = { todo_completed: !this.todo_completed }
+    await updateTodo(this.todo_id, newOption)
 
-    try {
-      await updateTodo(this.todo_id, newOption)
-      eventEmitter.emit(this.TODO.TODO_UPDATE, {
-        todo_id: this.todo_id,
-        options: newOption,
-      })
-    } catch (error) {
-      console.log(error)
-    }
+    eventEmitter.emit(this.TODO.TODO_UPDATE, {
+      todo_id: this.todo_id,
+      options: newOption,
+    })
   }
 
-  onClickRemove = async () => {
-    try {
-      await deleteTodo(this.todo_id)
-      eventEmitter.emit(this.TODO.TODO_REMOVE, { todo_id: this.todo_id })
-    } catch (error) {
-      console.log(error)
-    }
+  onClickRemove = () => {
+    removeTodo(this.todo_id)
   }
 
   getElement() {

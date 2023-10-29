@@ -2,8 +2,7 @@ import {
   getDataFromLocaleStorage,
   setDataToLocaleStorage,
 } from '../localeStorage/index.js'
-import { ACTIONS, ROUTES } from '../constants/index.js'
-import { eventEmitter } from '../index.js'
+import { handleLogout } from '../helpers/index.js'
 
 const BASE_URL = 'http://localhost:3000'
 
@@ -46,7 +45,7 @@ function sendRequest(url, method, data = null, isVerify = false, count = 0) {
         return sendRequest(url, method, data, isVerify, count + 1)
       }
 
-      eventEmitter.emit(ACTIONS.URL.URL_SET, ROUTES.SIGN_IN)
+      handleLogout()
 
       return
     }

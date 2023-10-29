@@ -1,6 +1,7 @@
 import { eventEmitter } from '../index.js'
 import { ACTIONS, ROUTES } from '../constants/index.js'
 import { setDataToLocaleStorage } from '../localeStorage/index.js'
+import { deleteTodo } from '../api/index.js'
 
 export function createActions(str) {
   const methods = ['CREATE', 'UPDATE', 'REMOVE', 'ALL_CLEAR']
@@ -137,4 +138,9 @@ export function handleLogin(user, accessToken, refreshToken) {
   setDataToLocaleStorage('user', user)
   setDataToLocaleStorage('accessToken', accessToken)
   setDataToLocaleStorage('refreshToken', refreshToken)
+}
+
+export async function removeTodo(todo_id) {
+  await deleteTodo(todo_id)
+  eventEmitter.emit(ACTIONS.TODO.TODO_REMOVE, { todo_id })
 }
