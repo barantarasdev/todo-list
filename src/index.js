@@ -40,25 +40,25 @@ document.addEventListener('DOMContentLoaded', () => {
   render()
   document.addEventListener('click', handleClickAvatar)
 
-  function render() {
+  async function render() {
     const user = getDataFromLocaleStorage('user')
 
     if (user) {
-      getTodos(user.userId)
-        .then((res) => {
-          eventEmitter.emit(USER.USER_SET, user)
-          eventEmitter.emit(URL.URL_SET, HOME)
+      try {
+        const { todos } = await getTodos(user.user_id)
+        eventEmitter.emit(USER.USER_SET, user)
+        eventEmitter.emit(URL.URL_SET, HOME)
 
-          res.todos.forEach((todo) => {
-            eventEmitter.emit(TODO_CREATE, { ...todo })
-          })
+        todos.forEach((todo) => {
+          eventEmitter.emit(TODO_CREATE, { ...todo })
         })
-        .catch(() => {
-          eventEmitter.emit(URL.URL_SET, SIGN_IN)
-          localStorage.removeItem('user')
-          localStorage.removeItem('accessToken')
-          localStorage.removeItem('refreshToken')
-        })
+      } catch (err) {
+        eventEmitter.emit(URL.URL_SET, SIGN_IN)
+        localStorage.removeItem('user')
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('refreshToken')
+      }
+
       return
     }
 

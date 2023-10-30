@@ -2,6 +2,7 @@ import { ACTIONS } from '../constants/index.js'
 import { Todo } from './todo.js'
 import { eventEmitter, store } from '../index.js'
 import { updateTodo } from '../api/index.js'
+import { removeTodo } from '../helpers/index.js'
 
 export class Todos {
   constructor() {
@@ -21,23 +22,29 @@ export class Todos {
     const saveButton = todo.querySelector('.todo__button--save')
     const { id } = todo.dataset
 
-    const saveValue = () => {
+    const saveValue = async () => {
       todoValue.setAttribute('readonly', 'true')
       todoValue.classList.remove('todo__value--edit')
       saveButton.classList.remove('enabled')
 
-      const value = todoValue.value
+      const todo_value = todoValue.value
 
-      updateTodo(id, { value }).then(() => {
-        eventEmitter.emit(this.TODO_UPDATE, { id, options: { value } })
+      if (!todo_value.length) {
+        removeTodo(id)
+
+        return
+      }
+
+      await updateTodo(id, { todo_value })
+      eventEmitter.emit(this.TODO_UPDATE, {
+        todo_id: id,
+        options: { todo_value },
       })
     }
 
     todoValue.addEventListener('blur', saveValue)
     todoValue.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        saveValue()
-      }
+      if (e.key === 'Enter') saveValue()
     })
     const { classList } = target
     const isEditing =
@@ -53,19 +60,16 @@ export class Todos {
       return
     }
 
-    if (classList.contains('todo__button--save')) {
-      saveValue()
-    }
+    if (classList.contains('todo__button--save')) saveValue()
   }
 
   render = () => {
     const todoList = document.querySelector('.todos')
     todoList.innerHTML = ''
+    store.state.todos.forEach((todo) => {
+      const newTodo = new Todo(todo).getElement()
 
-    store.state.todos.forEach(({ value, isChecked, id }) => {
-      const todo = new Todo(value, isChecked, id).getElement()
-
-      todoList.appendChild(todo)
+      todoList.appendChild(newTodo)
     })
     todoList.addEventListener('click', this.handleClick)
   }
