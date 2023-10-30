@@ -13,6 +13,7 @@ export const ACTIONS = {
   URL_CHANGE: 'URL_CHANGE',
   CALL_MODAL: 'CALL_MODAL',
   CLEAR_TODOS: 'CLEAR_TODOS',
+  SET_TODO: 'SET_TODO',
 }
 
 export const ROUTES = {

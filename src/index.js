@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     URL,
     CALL_MODAL,
     CLEAR_TODOS,
+    SET_TODO,
     TODO: { TODO_CREATE },
   } = ACTIONS
 
@@ -36,6 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
   Object.values({ ...TODO, ...USER, ...URL, CLEAR_TODOS }).forEach((item) => {
     eventEmitter.subscribe(item, (payload) => store.dispatch(item, payload))
   })
+  eventEmitter.subscribe(SET_TODO, (todos) => {
+    todos.forEach((todo) => {
+      eventEmitter.emit(TODO_CREATE, { ...todo })
+    })
+  })
 
   render()
   document.addEventListener('click', handleClickAvatar)
@@ -48,10 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const { todos } = await getTodos(user.user_id)
         eventEmitter.emit(USER.USER_SET, user)
         eventEmitter.emit(URL.URL_SET, HOME)
-
-        todos.forEach((todo) => {
-          eventEmitter.emit(TODO_CREATE, { ...todo })
-        })
+        eventEmitter.emit(SET_TODO, todos)
       } catch (err) {
         eventEmitter.emit(URL.URL_SET, SIGN_IN)
         localStorage.removeItem('user')
