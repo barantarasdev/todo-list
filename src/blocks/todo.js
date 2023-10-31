@@ -16,7 +16,10 @@ export class Todo {
   }
 
   onClickChange = async () => {
-    const newOption = { todo_completed: !this.todo_completed }
+    const newOption = {
+      todo_completed: !this.todo_completed,
+      todo_value: this.todo_value,
+    }
     await updateTodo(this.todo_id, newOption)
 
     eventEmitter.emit(this.TODO.TODO_UPDATE, {

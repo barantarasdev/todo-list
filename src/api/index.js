@@ -7,17 +7,19 @@ import { handleLogout } from '../helpers/index.js'
 const BASE_URL = 'http://localhost:3000'
 
 function sendRequest(url, method, data = null, isVerify = false, count = 0) {
-  const options = { method }
+  const options = {
+    method,
+    headers: {},
+  }
   const accessToken = getDataFromLocaleStorage('accessToken')
 
   if (data) {
     options.body = JSON.stringify(data)
+    options.headers['Content-Type'] = 'application/json'
   }
 
   if (isVerify) {
-    options.headers = {
-      Authorization: `Bearer ${accessToken}`,
-    }
+    options.headers.Authorization = `Bearer ${accessToken}`
   }
 
   return fetch(BASE_URL + url, options).then(async (response) => {
@@ -32,7 +34,8 @@ function sendRequest(url, method, data = null, isVerify = false, count = 0) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          token: getDataFromLocaleStorage('refreshToken'),
+          refresh_token: getDataFromLocaleStorage('refreshToken'),
+          user_id: getDataFromLocaleStorage('user').user_id,
         }),
       })
 
@@ -89,10 +92,7 @@ export const signIn = (data) => {
 }
 
 export const logOut = () => {
-  return client.post(
-    `/logout`,
-    JSON.stringify({
-      token: getDataFromLocaleStorage('refreshToken'),
-    }),
-  )
+  return client.post(`/logout`, {
+    refresh_token: getDataFromLocaleStorage('refreshToken'),
+  })
 }

@@ -141,7 +141,6 @@ export class Auth {
           await signIn(userData)
 
         handleLogin({ user_name, user_id }, accessToken, refreshToken)
-
         const { todos } = await getTodos(user_id)
         eventEmitter.emit(this.SET_ACTIONS.SET_TODO, todos)
       } catch (error) {
@@ -166,7 +165,7 @@ export class Auth {
         user_email: email.value,
         user_password: password.value,
         user_phone: phone.value,
-        user_age: age.value,
+        user_age: +age.value,
         user_gender: gender.value,
         user_site: site.value,
       }
