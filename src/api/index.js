@@ -35,7 +35,6 @@ function sendRequest(url, method, data = null, isVerify = false, count = 0) {
         },
         body: JSON.stringify({
           refresh_token: getDataFromLocaleStorage('refreshToken'),
-          user_id: getDataFromLocaleStorage('user').user_id,
         }),
       })
 
@@ -62,13 +61,14 @@ function sendRequest(url, method, data = null, isVerify = false, count = 0) {
 }
 
 export const client = {
+  get: (url, isVerify) => sendRequest(url, 'GET', null, isVerify),
   post: (url, data, isVerify) => sendRequest(url, 'POST', data, isVerify),
   patch: (url, data) => sendRequest(url, 'PATCH', data, true),
   delete: (url, isVerify) => sendRequest(url, 'DELETE', null, isVerify),
 }
 
 export const getTodos = (userId) => {
-  return client.post(`/todos/user/${userId}`, null, true)
+  return client.get(`/users/${userId}/todos`, true)
 }
 
 export const createTodo = (data) => {
