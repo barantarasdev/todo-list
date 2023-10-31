@@ -164,6 +164,7 @@ export class Auth {
         user_name: name.value,
         user_email: email.value,
         user_password: password.value,
+        user_confirm_password: confirmPassword.value,
         user_phone: phone.value,
         user_age: +age.value,
         user_gender: gender.value,
