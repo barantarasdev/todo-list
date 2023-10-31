@@ -23,44 +23,56 @@ export class Todos {
     const { id } = todo.dataset
 
     const saveValue = async () => {
-      todoValue.setAttribute('readonly', 'true')
-      todoValue.classList.remove('todo__value--edit')
-      saveButton.classList.remove('enabled')
+      if (saveButton.disabled) {
+        return
+      }
 
       const todo_value = todoValue.value
 
       if (!todo_value.length) {
-        removeTodo(id)
+        saveButton.disabled = true
+        await removeTodo(id)
+        saveButton.disabled = false
 
         return
       }
 
+      todoValue.setAttribute('readonly', 'true')
+      todoValue.classList.remove('todo__value--edit')
+      saveButton.classList.remove('enabled')
+
       await updateTodo(id, { todo_value })
       eventEmitter.emit(this.TODO_UPDATE, {
         todo_id: id,
-        options: { todo_value },
+        options: { todo_value, todo_completed: false },
       })
     }
 
-    todoValue.addEventListener('blur', saveValue)
-    todoValue.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') saveValue()
-    })
+    if (!todoValue.dataset.listenersAttached) {
+      todoValue.addEventListener('blur', saveValue)
+      todoValue.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter') {
+          saveValue()
+        }
+      })
+      todoValue.dataset.listenersAttached = 'true'
+    }
+
     const { classList } = target
     const isEditing =
       classList.contains('todo__value') && !classList.contains('checked')
 
     if (isEditing) {
       e.preventDefault()
-
       todoValue.removeAttribute('readonly')
       todoValue.classList.add('todo__value--edit')
       saveButton.classList.add('enabled')
-
       return
     }
 
-    if (classList.contains('todo__button--save')) saveValue()
+    if (classList.contains('todo__button--save')) {
+      saveValue()
+    }
   }
 
   render = () => {

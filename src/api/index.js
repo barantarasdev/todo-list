@@ -7,17 +7,19 @@ import { handleLogout } from '../helpers/index.js'
 const BASE_URL = 'http://localhost:3000'
 
 function sendRequest(url, method, data = null, isVerify = false, count = 0) {
-  const options = { method }
+  const options = {
+    method,
+    headers: {},
+  }
   const accessToken = getDataFromLocaleStorage('accessToken')
 
   if (data) {
     options.body = JSON.stringify(data)
+    options.headers['Content-Type'] = 'application/json'
   }
 
   if (isVerify) {
-    options.headers = {
-      Authorization: `Bearer ${accessToken}`,
-    }
+    options.headers.Authorization = `Bearer ${accessToken}`
   }
 
   return fetch(BASE_URL + url, options).then(async (response) => {
@@ -32,7 +34,7 @@ function sendRequest(url, method, data = null, isVerify = false, count = 0) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          token: getDataFromLocaleStorage('refreshToken'),
+          refresh_token: getDataFromLocaleStorage('refreshToken'),
         }),
       })
 
@@ -59,13 +61,14 @@ function sendRequest(url, method, data = null, isVerify = false, count = 0) {
 }
 
 export const client = {
+  get: (url, isVerify) => sendRequest(url, 'GET', null, isVerify),
   post: (url, data, isVerify) => sendRequest(url, 'POST', data, isVerify),
   patch: (url, data) => sendRequest(url, 'PATCH', data, true),
   delete: (url, isVerify) => sendRequest(url, 'DELETE', null, isVerify),
 }
 
 export const getTodos = (userId) => {
-  return client.post(`/todos/user/${userId}`, null, true)
+  return client.get(`/users/${userId}/todos`, true)
 }
 
 export const createTodo = (data) => {
@@ -89,10 +92,7 @@ export const signIn = (data) => {
 }
 
 export const logOut = () => {
-  return client.post(
-    `/logout`,
-    JSON.stringify({
-      token: getDataFromLocaleStorage('refreshToken'),
-    }),
-  )
+  return client.post(`/logout`, {
+    refresh_token: getDataFromLocaleStorage('refreshToken'),
+  })
 }

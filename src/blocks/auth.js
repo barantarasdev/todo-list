@@ -141,14 +141,8 @@ export class Auth {
           await signIn(userData)
 
         handleLogin({ user_name, user_id }, accessToken, refreshToken)
-
         const { todos } = await getTodos(user_id)
-
-        todos.forEach((todo) => {
-          eventEmitter.emit(this.SET_ACTIONS.TODO.TODO_CREATE, {
-            ...todo,
-          })
-        })
+        eventEmitter.emit(this.SET_ACTIONS.SET_TODO, todos)
       } catch (error) {
         eventEmitter.emit(this.SET_ACTIONS.CALL_MODAL, 'User not found')
       }
@@ -170,8 +164,9 @@ export class Auth {
         user_name: name.value,
         user_email: email.value,
         user_password: password.value,
+        user_confirm_password: confirmPassword.value,
         user_phone: phone.value,
-        user_age: age.value,
+        user_age: +age.value,
         user_gender: gender.value,
         user_site: site.value,
       }
