@@ -1,17 +1,9 @@
 import { Component } from 'react'
-
-import SignIn from 'src/auth/signIn'
-import SignUp from 'src/auth/signUp'
 import ErrorBoundary from 'src/components/ErrorBoundary'
 import Snackbar from 'src/components/Snackbar'
 import Layout from 'src/components/Layout'
 import { PrimaryContext } from 'src/context'
-import {
-  createTodo,
-  deleteTodo,
-  getTodos,
-  updateTodo,
-} from 'src/services/todoService'
+import { createTodo, deleteTodo, getTodos, updateTodo } from 'src/services/todoService'
 import { getDataFromLocaleStorage } from 'src/helpers/storageHelper'
 import { ROUTES } from 'src/constants'
 
@@ -24,7 +16,7 @@ class App extends Component {
     this.state = { route: ROUTES.SIGN_IN, todos: [], snackbar: '' }
   }
 
-  onCreateTodo = async (todo) => {
+  onCreateTodo = async todo => {
     const { todo_id } = await createTodo(todo)
     this.setState(({ todos }) => ({
       todos: [...todos, { ...todo, todo_id }],
@@ -34,30 +26,28 @@ class App extends Component {
   onUpdateTodo = async (id, options) => {
     await updateTodo(id, options)
     this.setState(({ todos }) => ({
-      todos: todos.map((currentTodo) =>
-        currentTodo.todo_id === id
-          ? { ...currentTodo, ...options }
-          : currentTodo,
+      todos: todos.map(currentTodo =>
+        currentTodo.todo_id === id ? { ...currentTodo, ...options } : currentTodo
       ),
     }))
   }
 
-  onDeleteTodo = async (id) => {
+  onDeleteTodo = async id => {
     await deleteTodo(id)
     this.setState(({ todos }) => ({
-      todos: todos.filter((currentTodo) => currentTodo.todo_id !== id),
+      todos: todos.filter(currentTodo => currentTodo.todo_id !== id),
     }))
   }
 
-  setRoute = (route) => {
+  setRoute = route => {
     this.setState({ route })
   }
 
-  setTodos = (todos) => {
+  setTodos = todos => {
     this.setState({ todos })
   }
 
-  setSnackbar = (snackbar) => {
+  setSnackbar = snackbar => {
     this.setState({ snackbar })
   }
 
@@ -74,16 +64,6 @@ class App extends Component {
   }
 
   render() {
-    const { route } = this.context
-
-    if (route === ROUTES.SIGN_IN) {
-      return <SignIn />
-    }
-
-    if (route === ROUTES.SIGN_UP) {
-      return <SignUp />
-    }
-
     return (
       <PrimaryContext.Provider
         value={{

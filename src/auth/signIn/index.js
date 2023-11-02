@@ -1,53 +1,53 @@
-import { Component } from 'react'
+import {Component} from 'react';
 
-import { PrimaryContext } from 'src/context'
-import { signIn } from 'src/services/userService'
-import { getTodos } from 'src/services/todoService'
-import { onLogIn } from 'src/helpers/userHelper'
-import { ROUTES } from 'src/constants'
-import 'src/auth/styles.css'
-import Input from 'src/components/common/input'
+import {PrimaryContext} from 'src/context';
+import {signIn} from 'src/services/userService';
+import {getTodos} from 'src/services/todoService';
+import {storeUser} from 'src/helpers/userHelper';
+import {ROUTES} from 'src/constants';
+import 'src/auth/styles.css';
+import Input from 'src/components/common/input';
 
 class SignIn extends Component {
-  static contextType = PrimaryContext
+  static contextType = PrimaryContext;
 
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.state = { email: '', password: '' }
+    this.state = {email: '', password: ''};
   }
 
-  onChange = ({ target: { id, value } }) => {
-    this.setState({ [id]: value })
-  }
+  onChange = ({target: {id, value}}) => {
+    this.setState({[id]: value});
+  };
 
   onClick = () => {
-    this.context.setRoute(ROUTES.SIGN_UP)
-  }
+    this.context.setRoute(ROUTES.SIGN_UP);
+  };
 
   onSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const userData = {
       user_email: this.state.email,
       user_password: this.state.password,
-    }
+    };
 
     try {
-      const { user_name, access_token, refresh_token, user_id } =
-        await signIn(userData)
-      onLogIn({ user_name, user_id }, access_token, refresh_token)
+      const {user_name, access_token, refresh_token, user_id} =
+        await signIn(userData);
+      storeUser({user_name, user_id}, access_token, refresh_token);
 
-      const { todos } = await getTodos(user_id)
-      this.context.setRoute(ROUTES.HOME)
-      this.context.setTodos(todos)
+      const {todos} = await getTodos(user_id);
+      this.context.setRoute(ROUTES.HOME);
+      this.context.setTodos(todos);
     } catch (error) {
-      this.context.setSnackbar('User not found')
+      this.context.setSnackbar('User not found');
     }
-  }
+  };
 
   render() {
-    const { email, password } = this.state
+    const {email, password} = this.state;
 
     return (
       <div className="auth">
@@ -79,8 +79,8 @@ class SignIn extends Component {
           </button>
         </form>
       </div>
-    )
+    );
   }
 }
 
-export default SignIn
+export default SignIn;

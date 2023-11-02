@@ -1,12 +1,13 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { EnvironmentPlugin } = require('webpack')
+import path from 'path'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import { EnvironmentPlugin } from 'webpack'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
 const config = {
   entry: './src/index.js',
+  mode: 'development',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -46,18 +47,25 @@ const config = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: 'asset',
       },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
     ],
   },
   resolve: {
     alias: {
       src: path.resolve(__dirname, 'src'),
     },
-    extensions: ['*', '.js', '.jsx', '.css'],
+    extensions: ['.tsx', '.ts', '.js'],
   },
 }
 
 module.exports = () => {
-  config.mode = isProduction ? 'production' : 'development'
+  if (isProduction) {
+    config.mode = 'production'
+  }
 
   return config
 }

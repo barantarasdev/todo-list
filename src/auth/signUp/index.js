@@ -1,20 +1,19 @@
-import { Component } from 'react'
+import {Component} from 'react';
 
-import { GENDER_OPTIONS } from 'src/auth/signUp/constants'
-import Select from 'src/components/common/select'
-import Input from 'src/components/common/input'
-import { PrimaryContext } from 'src/context'
-import { signUp } from 'src/services/userService'
-import { validateSignUp } from 'src/helpers/validationHelper'
-import { onLogIn } from 'src/helpers/userHelper'
-import { ROUTES } from 'src/constants'
-import 'src/auth/styles.css'
+import Select from 'src/components/common/select';
+import Input from 'src/components/common/input';
+import {PrimaryContext} from 'src/context';
+import {signUp} from 'src/services/userService';
+import {validateSignUp} from 'src/helpers/validationHelper';
+import {GENDER_OPTIONS, ROUTES} from 'src/constants';
+import 'src/auth/styles.css';
+import {storeUser} from "src/helpers/userHelper";
 
 class SignUp extends Component {
-  static contextType = PrimaryContext
+  static contextType = PrimaryContext;
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       formData: {
@@ -28,57 +27,57 @@ class SignUp extends Component {
         site: '',
       },
       errors: [],
-    }
+    };
   }
 
-  onChange = ({ target: { id, value } }) => {
-    const isErrors = Object.keys(this.state.errors).length
+  onChange = ({target: {id, value}}) => {
+    const isErrors = Object.keys(this.state.errors).length;
 
     this.setState((prevStates) => ({
-      formData: { ...prevStates.formData, [id]: value },
-    }))
+      formData: {...prevStates.formData, [id]: value},
+    }));
 
     if (isErrors) {
       const validatedInput = validateSignUp(
         id,
         value,
         id === 'confirmPassword' ? this.state.formData.password : null,
-      )
+      );
 
-      this.setState(({ errors }) => {
-        const newErrors = { ...errors }
+      this.setState(({errors}) => {
+        const newErrors = {...errors};
 
         if (validatedInput) {
-          newErrors[id] = validatedInput
+          newErrors[id] = validatedInput;
         } else {
-          delete newErrors[id]
+          delete newErrors[id];
         }
 
         return {
-          errors: { ...newErrors },
-        }
-      })
+          errors: {...newErrors},
+        };
+      });
     }
-  }
+  };
 
   onSubmit = async (e) => {
-    e.preventDefault()
-    const { formData } = this.state
-    const errors = {}
+    e.preventDefault();
+    const {formData} = this.state;
+    const errors = {};
 
     Object.entries(formData).forEach(([key, value]) => {
       const error = validateSignUp(
         key,
         value,
         key === 'confirmPassword' ? formData.password : null,
-      )
+      );
 
       if (error) {
-        errors[key] = error
+        errors[key] = error;
       }
-    })
+    });
 
-    this.setState({ errors })
+    this.setState({errors});
 
     if (!Object.keys(this.state.errors).length) {
       const newUser = {
@@ -90,29 +89,29 @@ class SignUp extends Component {
         user_age: Number(formData.age),
         user_gender: formData.gender,
         user_site: formData.site,
-      }
+      };
 
       try {
-        const { access_token, refresh_token, user_id } = await signUp(newUser)
-        onLogIn(
-          { user_name: newUser.user_name, user_id },
+        const {access_token, refresh_token, user_id} = await signUp(newUser);
+        storeUser(
+          {user_name: newUser.user_name, user_id},
           access_token,
           refresh_token,
-        )
-        this.context.setTodos([])
-        this.context.setRoute(ROUTES.HOME)
+        );
+        this.context.setTodos([]);
+        this.context.setRoute(ROUTES.HOME);
       } catch (err) {
-        this.context.setSnackbar('User already exists')
+        this.context.setSnackbar('User already exists');
       }
     }
-  }
+  };
 
   onClick = () => {
-    this.context.setRoute(ROUTES.SIGN_IN)
-  }
+    this.context.setRoute(ROUTES.SIGN_IN);
+  };
 
   render() {
-    const { errors, formData } = this.state
+    const {errors, formData} = this.state;
 
     return (
       <div className="auth">
@@ -204,8 +203,8 @@ class SignUp extends Component {
           </button>
         </form>
       </div>
-    )
+    );
   }
 }
 
-export default SignUp
+export default SignUp;

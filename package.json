@@ -1,5 +1,5 @@
 {
-  "name": "my-webpack-project",
+  "name": "todo-list",
   "version": "1.0.0",
   "private": true,
   "repository": "git@github.com:barantarasdev/todo-list.git",
@@ -7,17 +7,25 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
-    "dev": "webpack serve --mode=development"
+    "dev": "webpack serve --mode=development",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.22.15",
-    "eslint": "^8.51.0",
+    "@types/react": "^18.2.34",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "eslint": "^8.52.0",
+    "eslint-config-airbnb-typescript": "17.1.0",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   },
@@ -25,13 +33,17 @@
     "@babel/core": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
+    "@types/node": "^20.8.10",
     "@webpack-cli/generators": "^3.0.7",
     "babel-loader": "^9.1.3",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.8.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.3",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
     "style-loader": "^3.3.3",
+    "ts-node": "^10.9.1",
     "webpack-dev-server": "^4.15.1"
   },
   "description": "Todo list"

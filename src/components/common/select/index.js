@@ -1,14 +1,14 @@
-import { Component } from 'react'
+import {Component} from 'react';
 
-import 'src/components/common/select/styles.css'
+import 'src/components/common/select/styles.css';
 
 class Select extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
-    const { value, onChange, options, id } = this.props
+    const {value, onChange, options, id} = this.props;
 
     return (
       <select
@@ -22,14 +22,14 @@ class Select extends Component {
           Choose option
         </option>
 
-        {options.map(({ value, name }) => (
+        {options.map(({value, title}) => (
           <option key={value} value={value}>
-            {name}
+            {title}
           </option>
         ))}
       </select>
-    )
+    );
   }
 }
 
-export default Select
+export default Select;
