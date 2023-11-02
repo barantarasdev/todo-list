@@ -1,24 +1,14 @@
 module.exports = {
-  env: {
-    browser: true,
-    commonjs: true,
-    es2021: true,
+  parser: '@babel/eslint-parser',
+  plugins: ['react'],
+  rules: {
+    'no-undef': 'off',
+    'react/react-in-jsx-scope': 'off',
+    indent: 'off',
   },
-  extends: 'eslint:recommended',
-  overrides: [
-    {
-      env: {
-        node: true,
-      },
-      files: ['.eslintrc.{js,cjs}'],
-      parserOptions: {
-        sourceType: 'module',
-      },
+  settings: {
+    react: {
+      version: 'detect',
     },
-  ],
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
   },
-  rules: {},
 }

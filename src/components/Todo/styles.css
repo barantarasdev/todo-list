@@ -1,0 +1,38 @@
+.todo {
+  width: 100%;
+  padding: 5px 10px;
+  display: flex;
+  gap: var(--primary-gap);
+  background-color: var(--white-color);
+  border-radius: var(--primary-border-radius);
+}
+
+.todo__form {
+  width: 100%;
+  display: flex;
+  gap: var(--primary-gap);
+}
+
+.todo__value {
+  width: 100%;
+  height: 30px;
+  padding: 5px 10px;
+  border-radius: var(--primary-border-radius);
+  color: var(--white-color);
+  background-color: var(--green-color);
+}
+
+.todo__value[readOnly] {
+  color: var(--black-color);
+  background-color: inherit;
+}
+
+.todo__btn {
+  padding: 0 5px;
+  background-color: var(--green-color);
+  border-radius: var(--primary-border-radius);
+}
+
+.todo__btn--remove {
+  background-color: var(--red-color);
+}

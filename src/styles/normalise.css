@@ -1,3 +1,9 @@
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,7 +15,6 @@ ul {
 }
 
 input {
-  padding: 5px 10px;
   border: none;
   outline: none;
 }
@@ -17,45 +22,20 @@ input {
 button {
   border: none;
   cursor: pointer;
+  color: inherit;
   background-color: transparent;
-  transition: opacity var(--primary-duration);
 }
 
-.button:hover {
-  opacity: 0.7;
+select {
+  outline: none;
+  border: none;
+}
+
+h2 {
+  font-size: 50px;
+  margin-bottom: 10px;
 }
 
 input[type='checkbox'] {
   cursor: pointer;
-}
-
-body,
-html {
-  height: 100%;
-  width: 100%;
-}
-
-.form {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-}
-
-.input {
-  width: 100%;
-  background-color: var(--primary-background-color);
-  border-radius: var(--primary-border-radius);
-}
-
-.button {
-  padding: 10px 20px;
-  background-color: var(--primary-background-color);
-  border-radius: var(--primary-border-radius);
-}
-
-.select {
-  height: 40px;
-  padding: 10px;
-  border: none;
-  outline: none;
 }

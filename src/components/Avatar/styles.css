@@ -1,0 +1,35 @@
+.avatar {
+  --avatar-item-height: 40px;
+}
+
+.avatar__btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--white-color);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.avatar__items {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  bottom: calc(-1 * var(--avatar-item-height));
+}
+
+.avatar__item {
+  min-width: 160px;
+  height: var(--avatar-item-height);
+}
+
+.avatar__item__btn {
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: var(--primary-background-color);
+}
