@@ -3,10 +3,10 @@ import {Route, Routes} from 'react-router'
 
 import SignIn from 'src/auth/signIn'
 import SignUp from 'src/auth/signUp'
-import Layout from 'src/components/Layout'
 import withPrivateRoute from 'src/hocks/withPrivateRoute'
 import withRestrictedRoute from 'src/hocks/withRestrictRoute'
 import Home from 'src/pages/Home'
+import Layout from 'src/pages/Layout'
 import NotFound from 'src/pages/NotFound'
 import {Routes as RoutesT} from 'src/types'
 

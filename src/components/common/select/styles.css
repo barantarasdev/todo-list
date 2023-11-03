@@ -1,7 +1,0 @@
-.select {
-  width: 100%;
-  padding: 5px;
-  color: var(--gray-color);
-  height: var(--auth-input-height);
-  border-radius: var(--primary-border-radius);
-}

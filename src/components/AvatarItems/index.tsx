@@ -1,10 +1,10 @@
 import {Component} from 'react'
 
+import * as Styled from 'src/components/AvatarItems/styles'
 import {AVATAR_ITEMS} from 'src/constants'
 import {removeUser} from 'src/helpers/userHelper'
 import withNavigation from 'src/hocks/withNavigation'
 import {logOut} from 'src/services/userService'
-import 'src/components/AvatarItems/styles.css'
 import {NavigateT, Routes} from 'src/types'
 
 class AvatarItem extends Component<NavigateT> {
@@ -20,19 +20,15 @@ class AvatarItem extends Component<NavigateT> {
 
   render() {
     return (
-      <ul className="avatar__items">
+      <Styled.List>
         {AVATAR_ITEMS.map(({value, title}) => (
-          <li key={value} className="avatar__item">
-            <button
-              type="button"
-              onClick={() => this.onClick(value)}
-              className="avatar__item__btn"
-            >
+          <Styled.Item key={value}>
+            <Styled.Button type="button" onClick={() => this.onClick(value)}>
               {title}
-            </button>
-          </li>
+            </Styled.Button>
+          </Styled.Item>
         ))}
-      </ul>
+      </Styled.List>
     )
   }
 }

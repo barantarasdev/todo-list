@@ -8,10 +8,10 @@ import {
 } from 'react'
 
 import clearIcon from 'src/../public/assets/icons/clear.svg'
+import * as Styled from 'src/components/AddTodo/styles'
 import {AddTodoStatesT} from 'src/components/AddTodo/types'
 import PrimaryContext from 'src/context'
 import {getDataFromLocalStorage} from 'src/helpers/storageHelper'
-import 'src/components/AddTodo/styles.css'
 
 class AddTodo extends Component<{}, AddTodoStatesT> {
   static contextType = PrimaryContext
@@ -64,34 +64,27 @@ class AddTodo extends Component<{}, AddTodoStatesT> {
     const {value} = this.state
 
     return (
-      <div className="add_todo">
-        <form className="add_todo__form" onSubmit={this.onSubmit}>
-          <div className="add_todo__form__container">
-            <input
+      <Styled.FormBlock>
+        <Styled.Form onSubmit={this.onSubmit}>
+          <Styled.InputBlock>
+            <Styled.Input
               ref={this.inputRef}
-              className="add_todo__input"
               type="text"
               value={value}
               onChange={this.onChange}
-              placeholder="Add todo..."
+              placeholder="New todo..."
             />
 
-            {value.length && (
-              <button
-                type="button"
-                className="add_todo__form__btn"
-                onClick={this.onClear}
-              >
-                <img className="icon" src={clearIcon} alt="clear icon" />
-              </button>
+            {!!value.length && (
+              <Styled.IconButton type="button" onClick={this.onClear}>
+                <img src={clearIcon} alt="clear icon" />
+              </Styled.IconButton>
             )}
-          </div>
+          </Styled.InputBlock>
 
-          <button className="add_todo__btn" type="submit">
-            ADD
-          </button>
-        </form>
-      </div>
+          <Styled.Button type="submit">ADD</Styled.Button>
+        </Styled.Form>
+      </Styled.FormBlock>
     )
   }
 }

@@ -9,4 +9,4 @@ export const AVATAR_ITEMS: GeneralOptionsT = [
   {value: 'logout', title: 'Logout'},
 ]
 
-export const SNACKBAR_TIME: number = 1500
+export const SNACKBAR_TIME: number = 2000

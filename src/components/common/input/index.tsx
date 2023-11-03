@@ -1,7 +1,8 @@
 import {Component} from 'react'
 
-import 'src/components/common/input/styles.css'
+import * as Styled from 'src/components/common/input/styles'
 import {InputProps, InputStatesT} from 'src/components/common/input/types'
+import {InputBlock, Label} from 'src/styles'
 
 class Input extends Component<InputProps, InputStatesT> {
   constructor(props: InputProps) {
@@ -22,21 +23,22 @@ class Input extends Component<InputProps, InputStatesT> {
     const {isFocused} = this.state
 
     const {id, type, placeholder, value, onChange, errors = {}} = this.props
-    const isActive = isFocused || value
+    const isActive = isFocused || !!value
 
     return (
-      <div className="input">
-        <div className={`input__container ${isActive ? 'active' : ''}`}>
-          <label
+      <InputBlock>
+        <Styled.InputContent>
+          <Styled.TopLabel
+            $isError={!!errors[id]}
+            $isActive={isActive}
             htmlFor={id}
-            className={`input__label--placeholder ${isActive ? 'active' : ''}`}
           >
             {placeholder}
-          </label>
+          </Styled.TopLabel>
 
-          <input
-            className="input__value"
-            placeholder={!isActive ? '' : placeholder}
+          <Styled.Input
+            $isActive={isActive}
+            placeholder={placeholder}
             type={type}
             id={id}
             value={value}
@@ -44,12 +46,12 @@ class Input extends Component<InputProps, InputStatesT> {
             onFocus={this.onFocus}
             onBlur={this.onBlur}
           />
-        </div>
+        </Styled.InputContent>
 
-        <label className="input__label" htmlFor={id}>
-          {errors[id] && <span>{errors[id]}</span>}
-        </label>
-      </div>
+        <Label htmlFor={id} $isError={!!errors[id]}>
+          {errors[id]}
+        </Label>
+      </InputBlock>
     )
   }
 }

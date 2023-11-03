@@ -1,8 +1,9 @@
 import {Component, ContextType} from 'react'
+import {CSSTransition} from 'react-transition-group'
 
 import Todo from 'src/components/Todo'
+import {StyledTransitionGroup} from 'src/components/Todos/styles'
 import PrimaryContext from 'src/context'
-import 'src/components/Todos/styles.css'
 
 class Todos extends Component {
   static contextType = PrimaryContext
@@ -13,10 +14,14 @@ class Todos extends Component {
     const {todos} = this.context
 
     return (
-      <ul className="todos">
-        {todos.map(todo => (
-          <Todo key={todo.todo_id} todo={todo} />
-        ))}
+      <ul>
+        <StyledTransitionGroup>
+          {todos.map(todo => (
+            <CSSTransition key={todo.todo_id} timeout={300} classNames="item">
+              <Todo todo={todo} />
+            </CSSTransition>
+          ))}
+        </StyledTransitionGroup>
       </ul>
     )
   }

@@ -6,4 +6,5 @@ export type SelectProps = {
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void
   options: GeneralOptionsT
   id: string
+  isError?: boolean
 }

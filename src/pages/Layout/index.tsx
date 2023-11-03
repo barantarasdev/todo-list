@@ -2,16 +2,19 @@ import {Component} from 'react'
 import {Outlet} from 'react-router'
 import {useNavigate} from 'react-router-dom'
 
-import ErrorBoundary from 'src/components/ErrorBoundary'
+import SnackBar from 'src/components/Snackbar'
 import PrimaryContext from 'src/context'
 import {getDataFromLocalStorage} from 'src/helpers/storageHelper'
 import withNavigation from 'src/hocks/withNavigation'
+import ErrorBoundary from 'src/pages/ErrorBoundary'
 import {
   createTodo,
   deleteTodo,
   getTodos,
   updateTodo,
 } from 'src/services/todoService'
+import {RootContent} from 'src/styles'
+import GlobalStyle from 'src/styles/globalStyles'
 import {AppState, Routes, SimpleTodo, Todo, UpdatedTodo} from 'src/types'
 
 type LayoutProps = {
@@ -92,7 +95,12 @@ class Layout extends Component<LayoutProps, AppState> {
         }}
       >
         <ErrorBoundary>
-          <Outlet />
+          <GlobalStyle />
+          <RootContent>
+            <Outlet />
+
+            <SnackBar />
+          </RootContent>
         </ErrorBoundary>
       </PrimaryContext.Provider>
     )

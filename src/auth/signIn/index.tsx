@@ -1,13 +1,11 @@
 import {ChangeEvent, Component, ContextType, FormEvent} from 'react'
-import {Link} from 'react-router-dom'
-
+import * as Styled from 'src/auth/styles'
 import Input from 'src/components/common/input'
 import PrimaryContext from 'src/context'
 import {storeUser} from 'src/helpers/userHelper'
 import withNavigation from 'src/hocks/withNavigation'
 import {getTodos} from 'src/services/todoService'
 import {signIn} from 'src/services/userService'
-import 'src/auth/styles.css'
 import {NavigateT, Routes, SignInT} from 'src/types'
 
 class SignIn extends Component<NavigateT, SignInT> {
@@ -54,10 +52,10 @@ class SignIn extends Component<NavigateT, SignInT> {
     const {user_email, user_password} = this.state
 
     return (
-      <div className="auth">
-        <h2>Sign in</h2>
+      <Styled.FormBlock>
+        <Styled.Title>Sign in</Styled.Title>
 
-        <form className="auth__form" onSubmit={this.onSubmit} noValidate>
+        <Styled.Form onSubmit={this.onSubmit} noValidate>
           <Input
             id="user_email"
             type="email"
@@ -74,15 +72,11 @@ class SignIn extends Component<NavigateT, SignInT> {
             onChange={this.onChange}
           />
 
-          <button className="auth__btn" type="submit">
-            Sign in
-          </button>
+          <Styled.Button type="submit">Sign in</Styled.Button>
 
-          <Link to={Routes.SIGN_UP} className="auth__link">
-            Sign up
-          </Link>
-        </form>
-      </div>
+          <Styled.Link to={Routes.SIGN_UP}>Sign up</Styled.Link>
+        </Styled.Form>
+      </Styled.FormBlock>
     )
   }
 }

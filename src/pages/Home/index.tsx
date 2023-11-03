@@ -3,19 +3,20 @@ import {PureComponent} from 'react'
 import AddTodo from 'src/components/AddTodo'
 import Header from 'src/components/Header'
 import Todos from 'src/components/Todos'
+import * as Styled from 'src/pages/Home/styles'
 
 class Home extends PureComponent {
   render() {
     return (
-      <>
+      <Styled.Home>
         <Header />
 
-        <main>
+        <Styled.Main>
           <AddTodo />
 
           <Todos />
-        </main>
-      </>
+        </Styled.Main>
+      </Styled.Home>
     )
   }
 }

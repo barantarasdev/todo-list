@@ -1,7 +1,7 @@
 import {ChangeEvent, Component, ContextType, FormEvent} from 'react'
-import {Link} from 'react-router-dom'
 
 import {SignUpStatesT} from 'src/auth/signUp/types'
+import * as Styled from 'src/auth/styles'
 import Input from 'src/components/common/input'
 import Select from 'src/components/common/select'
 import {GENDER_OPTIONS} from 'src/constants'
@@ -10,7 +10,7 @@ import {storeUser} from 'src/helpers/userHelper'
 import validateSignUp from 'src/helpers/validationHelper'
 import withNavigation from 'src/hocks/withNavigation'
 import {signUp} from 'src/services/userService'
-import 'src/auth/styles.css'
+import {InputBlock, Label} from 'src/styles'
 import {NavigateT, Routes, ValidatesT} from 'src/types'
 
 class SignUp extends Component<NavigateT, SignUpStatesT> {
@@ -111,10 +111,10 @@ class SignUp extends Component<NavigateT, SignUpStatesT> {
     const {errors, formData} = this.state
 
     return (
-      <div className="auth">
-        <h2>Sign up</h2>
+      <Styled.FormBlock>
+        <Styled.Title>Sign up</Styled.Title>
 
-        <form className="auth__form" onSubmit={this.onSubmit} noValidate>
+        <Styled.Form onSubmit={this.onSubmit} noValidate>
           <Input
             id="user_name"
             type="text"
@@ -151,18 +151,19 @@ class SignUp extends Component<NavigateT, SignUpStatesT> {
             errors={errors}
           />
 
-          <div className="input">
+          <InputBlock>
             <Select
+              isError={!!errors.user_gender}
               id="user_gender"
               options={GENDER_OPTIONS}
               value={formData.user_gender}
               onChange={this.onChange}
             />
 
-            <label className="input__label" htmlFor="gender">
-              {errors.user_gender && <span>{errors.user_gender}</span>}
-            </label>
-          </div>
+            <Label $isError={!!errors.user_gender} htmlFor="gender">
+              {errors.user_gender}
+            </Label>
+          </InputBlock>
 
           <Input
             id="user_site"
@@ -191,15 +192,11 @@ class SignUp extends Component<NavigateT, SignUpStatesT> {
             errors={errors}
           />
 
-          <button className="auth__btn" type="submit">
-            Sign up
-          </button>
+          <Styled.Button type="submit">Sign up</Styled.Button>
 
-          <Link to={Routes.SIGN_IN} className="auth__link">
-            Sign in
-          </Link>
-        </form>
-      </div>
+          <Styled.Link to={Routes.SIGN_IN}>Sign in</Styled.Link>
+        </Styled.Form>
+      </Styled.FormBlock>
     )
   }
 }

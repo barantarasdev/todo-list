@@ -9,9 +9,9 @@ import React, {
 import confirmIcon from 'src/../public/assets/icons/confirm.svg'
 import removeIcon from 'src/../public/assets/icons/remove.svg'
 
+import * as Styled from 'src/components/Todo/styles'
 import {TodoProps, TodoStatesT} from 'src/components/Todo/types'
 import PrimaryContext from 'src/context'
-import 'src/components/Todo/styles.css'
 
 class Todo extends Component<TodoProps, TodoStatesT> {
   static contextType = PrimaryContext
@@ -99,15 +99,15 @@ class Todo extends Component<TodoProps, TodoStatesT> {
     }
 
     return (
-      <li className="todo">
+      <Styled.Item $isFocused={isEditing} $isCompleted={todo_completed}>
         <input
           type="checkbox"
           checked={todo_completed}
           onChange={this.onChangeCheckbox}
         />
 
-        <form className="todo__form" onSubmit={this.onSubmit}>
-          <input
+        <Styled.Form onSubmit={this.onSubmit}>
+          <Styled.Input
             className="todo__value"
             type="text"
             style={inputValueStyle}
@@ -121,24 +121,16 @@ class Todo extends Component<TodoProps, TodoStatesT> {
           />
 
           {isEditing && (
-            <button
-              type="button"
-              className="todo__btn"
-              onClick={() => this.onSubmit()}
-            >
+            <Styled.Button type="button" onClick={() => this.onSubmit()}>
               <img className="icon" src={confirmIcon} alt="icon confirm" />
-            </button>
+            </Styled.Button>
           )}
-        </form>
+        </Styled.Form>
 
-        <button
-          type="button"
-          className="todo__btn todo__btn--remove"
-          onClick={this.onDelete}
-        >
-          <img className="icon" src={removeIcon} alt="icon remove" />
-        </button>
-      </li>
+        <Styled.RemoveButton type="button" onClick={this.onDelete}>
+          <img src={removeIcon} alt="icon remove" />
+        </Styled.RemoveButton>
+      </Styled.Item>
     )
   }
 }
