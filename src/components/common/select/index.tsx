@@ -1,20 +1,17 @@
-import {Component} from 'react';
+import {PureComponent} from 'react'
 
-import 'src/components/common/select/styles.css';
+import 'src/components/common/select/styles.css'
+import {SelectProps} from 'src/components/common/select/types'
 
-class Select extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+class Select extends PureComponent<SelectProps> {
   render() {
-    const {value, onChange, options, id} = this.props;
+    const {value: ValueProps, onChange, options, id} = this.props
 
     return (
       <select
         id={id}
         className="select"
-        value={value}
+        value={ValueProps}
         onChange={onChange}
         required
       >
@@ -28,8 +25,8 @@ class Select extends Component {
           </option>
         ))}
       </select>
-    );
+    )
   }
 }
 
-export default Select;
+export default Select

@@ -28,12 +28,6 @@
         "html": true
       }
     ],
-    "@typescript-eslint/consistent-type-imports": [
-      "error",
-      {
-        "prefer": "type-imports"
-      }
-    ],
     "import/order": [
       "error",
       {
@@ -62,9 +56,14 @@
   "overrides": [
     {
       "files": [
+        "*.ts",
         "*.tsx"
       ],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/naming-convention": "off",
+        "react/jsx-no-constructed-context-values": "off",
+        "react/static-property-placement": "off"
+      }
     }
   ],
   "settings": {

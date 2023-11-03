@@ -1,12 +1,12 @@
-import path from 'path'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import { EnvironmentPlugin } from 'webpack'
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const {EnvironmentPlugin} = require('webpack')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
 const config = {
-  entry: './src/index.js',
+  entry: './src/index.tsx',
   mode: 'development',
   output: {
     filename: 'bundle.js',

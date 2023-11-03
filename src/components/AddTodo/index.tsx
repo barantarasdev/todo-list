@@ -1,37 +1,53 @@
-import { Component, createRef } from 'react'
-import clearIcon from 'src/../public/assets/icons/clear.svg'
+import {
+  ChangeEvent,
+  Component,
+  ContextType,
+  createRef,
+  FormEvent,
+  RefObject,
+} from 'react'
 
-import { PrimaryContext } from 'src/context'
-import { getDataFromLocaleStorage } from 'src/helpers/storageHelper'
+import clearIcon from 'src/../public/assets/icons/clear.svg'
+import {AddTodoStatesT} from 'src/components/AddTodo/types'
+import PrimaryContext from 'src/context'
+import {getDataFromLocaleStorage} from 'src/helpers/storageHelper'
 import 'src/components/AddTodo/styles.css'
 
-class AddTodo extends Component {
+class AddTodo extends Component<{}, AddTodoStatesT> {
   static contextType = PrimaryContext
 
-  constructor(props) {
+  context!: ContextType<typeof PrimaryContext>
+
+  private readonly inputRef: RefObject<HTMLInputElement>
+
+  constructor(props: {}) {
     super(props)
 
-    this.state = { value: '' }
-    this.inputRef = createRef()
+    this.state = {value: ''}
+    this.inputRef = createRef<HTMLInputElement>()
   }
 
-  onChange = ({ target: { value } }) => {
-    this.setState({ value })
+  onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const {value} = e.target
+
+    this.setState({value})
   }
 
   onClear = () => {
-    this.setState({ value: '' }, () => {
-      this.inputRef.current.focus()
+    this.setState({value: ''}, () => {
+      this.inputRef.current?.focus()
     })
   }
 
-  onSubmit = (e) => {
+  onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const {value} = this.state
+    const {onCreateTodo} = this.context
 
-    const todo_value = this.state.value
+    const todo_value = value
 
     if (todo_value.length) {
-      const { user_id } = getDataFromLocaleStorage('user')
+      const {user_id} = getDataFromLocaleStorage('user')
 
       const todo = {
         todo_value,
@@ -39,13 +55,13 @@ class AddTodo extends Component {
         todo_completed: false,
       }
 
-      this.context.onCreateTodo(todo)
-      this.setState({ value: '' })
+      onCreateTodo(todo)
+      this.setState({value: ''})
     }
   }
 
   render() {
-    const { value } = this.state
+    const {value} = this.state
 
     return (
       <div className="add_todo">

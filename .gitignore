@@ -1,7 +1,7 @@
   # Runtime data
-  .idea
-  node_modules
-  dist
+  .idea/
+  node_modules/
+  dist/
 
   # Logs
   yarn-error.log

@@ -1,25 +1,28 @@
-import { Component } from 'react'
+import {Component} from 'react'
 
 import 'src/components/common/input/styles.css'
+import {InputProps, InputStatesT} from 'src/components/common/input/types'
 
-class Input extends Component {
-  constructor(props) {
+class Input extends Component<InputProps, InputStatesT> {
+  constructor(props: InputProps) {
     super(props)
 
-    this.state = { isFocused: false }
+    this.state = {isFocused: false}
   }
 
   onFocus = () => {
-    this.setState({ isFocused: true })
+    this.setState({isFocused: true})
   }
 
   onBlur = () => {
-    this.setState({ isFocused: false })
+    this.setState({isFocused: false})
   }
 
   render() {
-    const { id, type, placeholder, value, onChange, errors = [] } = this.props
-    const isActive = this.state.isFocused || value
+    const {isFocused} = this.state
+
+    const {id, type, placeholder, value, onChange, errors = {}} = this.props
+    const isActive = isFocused || value
 
     return (
       <div className="input">
@@ -44,7 +47,7 @@ class Input extends Component {
         </div>
 
         <label className="input__label" htmlFor={id}>
-          {errors[id] && <>{errors[id]}</>}
+          {errors[id] && <span>{errors[id]}</span>}
         </label>
       </div>
     )

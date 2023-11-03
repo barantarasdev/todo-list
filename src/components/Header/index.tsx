@@ -1,12 +1,12 @@
-import { Component } from 'react'
+import {PureComponent} from 'react'
 
 import Avatar from 'src/components/Avatar'
 import 'src/components/Header/styles.css'
-import { getDataFromLocaleStorage } from 'src/helpers/storageHelper'
+import {getDataFromLocaleStorage} from 'src/helpers/storageHelper'
 
-class Header extends Component {
+class Header extends PureComponent {
   render() {
-    const { user_name } = getDataFromLocaleStorage('user')
+    const {user_name} = getDataFromLocaleStorage('user')
 
     return (
       <header className="header">
