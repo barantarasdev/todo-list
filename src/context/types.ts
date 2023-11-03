@@ -1,9 +1,6 @@
-import {Routes, SimpleTodo, Todo, UpdatedTodo} from 'src/types'
+import {SimpleTodo, Todo, UpdatedTodo} from 'src/types'
 
 export type PrimaryContextT = {
-  route: Routes
-  setRoute: (route: Routes) => void
-
   todos: Todo[]
   setTodos: (todos: Todo[]) => void
   onCreateTodo: (todo: SimpleTodo) => void

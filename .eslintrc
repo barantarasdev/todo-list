@@ -62,7 +62,14 @@
       "rules": {
         "@typescript-eslint/naming-convention": "off",
         "react/jsx-no-constructed-context-values": "off",
-        "react/static-property-placement": "off"
+        "react/static-property-placement": "off",
+        "react/function-component-definition": [
+          2,
+          {
+            "namedComponents": "arrow-function",
+            "unnamedComponents": "arrow-function"
+          }
+        ]
       }
     }
   ],

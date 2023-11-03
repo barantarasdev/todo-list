@@ -1,4 +1,4 @@
-import {Routes} from 'src/types'
+import {useNavigate} from 'react-router-dom'
 
 export type Todo = {
   todo_id: string
@@ -34,7 +34,6 @@ export type UpdatedTodo = Omit<SimpleTodo, 'user_id'>
 export type Methods = 'GET' | 'POST' | 'PATCH' | 'DELETE'
 
 export type AppState = {
-  route: Routes
   todos: Todo[]
   snackbar: string
 }
@@ -42,3 +41,7 @@ export type AppState = {
 export type GeneralOptionsT = {value: string; title: string}[]
 
 export type SignInT = Pick<User, 'user_email' | 'user_password'>
+
+export type NavigateT = {
+  navigate: ReturnType<typeof useNavigate>
+}

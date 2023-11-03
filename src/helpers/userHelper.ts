@@ -1,4 +1,4 @@
-import {setDataToLocaleStorage} from 'src/helpers/storageHelper'
+import {setDataToLocalStorage} from 'src/helpers/storageHelper'
 
 export function removeUser(): void {
   localStorage.removeItem('user')
@@ -11,7 +11,7 @@ export function storeUser(
   access_token: string,
   refresh_token: string
 ): void {
-  setDataToLocaleStorage('user', user)
-  setDataToLocaleStorage('access_token', access_token)
-  setDataToLocaleStorage('refresh_token', refresh_token)
+  setDataToLocalStorage('user', user)
+  setDataToLocalStorage('access_token', access_token)
+  setDataToLocalStorage('refresh_token', refresh_token)
 }

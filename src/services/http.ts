@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import {
-  getDataFromLocaleStorage,
-  setDataToLocaleStorage,
+  getDataFromLocalStorage,
+  setDataToLocalStorage,
 } from 'src/helpers/storageHelper'
 import {removeUser} from 'src/helpers/userHelper'
 import {Methods} from 'src/types'
@@ -24,7 +24,7 @@ async function sendRequest(
   }
 
   if (isVerify) {
-    const access_token = getDataFromLocaleStorage('access_token')
+    const access_token = getDataFromLocalStorage('access_token')
 
     headers.Authorization = `Bearer ${access_token}`
   }
@@ -41,15 +41,15 @@ async function sendRequest(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        refresh_token: getDataFromLocaleStorage('refresh_token'),
+        refresh_token: getDataFromLocalStorage('refresh_token'),
       }),
     })
     const {access_token: access_token_1, refresh_token} =
       await refreshResponse.json()
 
     if (refreshResponse.ok) {
-      setDataToLocaleStorage('access_token', access_token_1)
-      setDataToLocaleStorage('refresh_token', refresh_token)
+      setDataToLocalStorage('access_token', access_token_1)
+      setDataToLocalStorage('refresh_token', refresh_token)
 
       return sendRequest(url, method, data, isVerify, count + 1)
     }

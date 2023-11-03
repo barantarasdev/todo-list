@@ -10,7 +10,7 @@ import {
 import clearIcon from 'src/../public/assets/icons/clear.svg'
 import {AddTodoStatesT} from 'src/components/AddTodo/types'
 import PrimaryContext from 'src/context'
-import {getDataFromLocaleStorage} from 'src/helpers/storageHelper'
+import {getDataFromLocalStorage} from 'src/helpers/storageHelper'
 import 'src/components/AddTodo/styles.css'
 
 class AddTodo extends Component<{}, AddTodoStatesT> {
@@ -47,7 +47,7 @@ class AddTodo extends Component<{}, AddTodoStatesT> {
     const todo_value = value
 
     if (todo_value.length) {
-      const {user_id} = getDataFromLocaleStorage('user')
+      const {user_id} = getDataFromLocalStorage('user')
 
       const todo = {
         todo_value,

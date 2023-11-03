@@ -1,4 +1,5 @@
 import {ChangeEvent, Component, ContextType, FormEvent} from 'react'
+import {Link} from 'react-router-dom'
 
 import {SignUpStatesT} from 'src/auth/signUp/types'
 import Input from 'src/components/common/input'
@@ -7,16 +8,17 @@ import {GENDER_OPTIONS} from 'src/constants'
 import PrimaryContext from 'src/context'
 import {storeUser} from 'src/helpers/userHelper'
 import validateSignUp from 'src/helpers/validationHelper'
+import withNavigation from 'src/hocks/withNavigation'
 import {signUp} from 'src/services/userService'
 import 'src/auth/styles.css'
-import {Routes, ValidatesT} from 'src/types'
+import {NavigateT, Routes, ValidatesT} from 'src/types'
 
-class SignUp extends Component<{}, SignUpStatesT> {
+class SignUp extends Component<NavigateT, SignUpStatesT> {
   static contextType = PrimaryContext
 
   context!: ContextType<typeof PrimaryContext>
 
-  constructor(props: {}) {
+  constructor(props: NavigateT) {
     super(props)
 
     this.state = {
@@ -68,9 +70,10 @@ class SignUp extends Component<{}, SignUpStatesT> {
 
   onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const {setTodos, setRoute, setSnackbar} = this.context
+    const {setTodos, setSnackbar} = this.context
     const {formData, errors} = this.state
     const newErrors: Record<string, string> = {}
+    const {navigate} = this.props
 
     Object.entries(formData).forEach(([key, value]) => {
       const error = validateSignUp(
@@ -97,17 +100,11 @@ class SignUp extends Component<{}, SignUpStatesT> {
           refresh_token
         )
         setTodos([])
-        setRoute(Routes.HOME)
+        navigate(Routes.HOME)
       } catch (err) {
         setSnackbar('User already exists')
       }
     }
-  }
-
-  onClick = () => {
-    const {setRoute} = this.context
-
-    setRoute(Routes.SIGN_IN)
   }
 
   render() {
@@ -198,13 +195,13 @@ class SignUp extends Component<{}, SignUpStatesT> {
             Sign up
           </button>
 
-          <button type="button" className="auth__link" onClick={this.onClick}>
+          <Link to={Routes.SIGN_IN} className="auth__link">
             Sign in
-          </button>
+          </Link>
         </form>
       </div>
     )
   }
 }
 
-export default SignUp
+export default withNavigation(SignUp)

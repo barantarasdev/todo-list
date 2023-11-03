@@ -1,24 +1,20 @@
-import {Component, ContextType} from 'react'
+import {Component} from 'react'
 
 import {AVATAR_ITEMS} from 'src/constants'
-import PrimaryContext from 'src/context'
 import {removeUser} from 'src/helpers/userHelper'
+import withNavigation from 'src/hocks/withNavigation'
 import {logOut} from 'src/services/userService'
 import 'src/components/AvatarItems/styles.css'
-import {Routes} from 'src/types'
+import {NavigateT, Routes} from 'src/types'
 
-class AvatarItem extends Component {
-  static contextType = PrimaryContext
-
-  context!: ContextType<typeof PrimaryContext>
-
+class AvatarItem extends Component<NavigateT> {
   onClick = async (value: string) => {
-    const {setRoute} = this.context
+    const {navigate} = this.props
 
     if (value === 'logout') {
       await logOut()
       removeUser()
-      setRoute(Routes.SIGN_IN)
+      navigate(Routes.SIGN_IN)
     }
   }
 
@@ -41,4 +37,4 @@ class AvatarItem extends Component {
   }
 }
 
-export default AvatarItem
+export default withNavigation(AvatarItem)

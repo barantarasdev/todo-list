@@ -2,11 +2,11 @@ import {PureComponent} from 'react'
 
 import Avatar from 'src/components/Avatar'
 import 'src/components/Header/styles.css'
-import {getDataFromLocaleStorage} from 'src/helpers/storageHelper'
+import {getDataFromLocalStorage} from 'src/helpers/storageHelper'
 
 class Header extends PureComponent {
   render() {
-    const {user_name} = getDataFromLocaleStorage('user')
+    const {user_name} = getDataFromLocalStorage('user')
 
     return (
       <header className="header">

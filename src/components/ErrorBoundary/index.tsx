@@ -1,15 +1,11 @@
-import {Component, ContextType, PropsWithChildren} from 'react'
-import PrimaryContext from 'src/context'
-import {Routes} from 'src/types'
+import {Component, PropsWithChildren} from 'react'
+import withNavigation from 'src/hocks/withNavigation'
+import {NavigateT, Routes} from 'src/types'
 
-class ErrorBoundary extends Component<PropsWithChildren> {
-  static contextType = PrimaryContext
-
-  context!: ContextType<typeof PrimaryContext>
-
+class ErrorBoundary extends Component<PropsWithChildren & NavigateT> {
   componentDidCatch(): void {
-    const {setRoute} = this.context
-    setRoute(Routes.SIGN_IN)
+    const {navigate} = this.props
+    navigate(Routes.SIGN_IN)
   }
 
   render() {
@@ -19,4 +15,4 @@ class ErrorBoundary extends Component<PropsWithChildren> {
   }
 }
 
-export default ErrorBoundary
+export default withNavigation(ErrorBoundary)

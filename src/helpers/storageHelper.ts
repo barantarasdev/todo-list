@@ -1,4 +1,4 @@
-export function getDataFromLocaleStorage(key: string) {
+export function getDataFromLocalStorage(key: string) {
   const data = localStorage.getItem(key)
 
   if (data) {
@@ -8,6 +8,6 @@ export function getDataFromLocaleStorage(key: string) {
   return null
 }
 
-export function setDataToLocaleStorage(key: string, data: any): void {
+export function setDataToLocalStorage(key: string, data: any): void {
   localStorage.setItem(key, JSON.stringify(data))
 }
