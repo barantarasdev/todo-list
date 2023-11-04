@@ -1,10 +1,6 @@
 import {setSnackbar as setSnackbarSlice} from 'src/store/slices/snackbarSlice'
+import {NavigateT} from 'src/types'
 
-export type SnackbarStatesT = {
-  isActive: boolean
-}
-
-export type SnackbarProps = {
-  snackbar: string
+export type SignInProps = {
   setSnackbar: typeof setSnackbarSlice
-}
+} & NavigateT

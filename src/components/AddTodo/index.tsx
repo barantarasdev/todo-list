@@ -1,26 +1,16 @@
-import {
-  ChangeEvent,
-  Component,
-  ContextType,
-  createRef,
-  FormEvent,
-  RefObject,
-} from 'react'
+import {ChangeEvent, Component, createRef, FormEvent, RefObject} from 'react'
+import {connect} from 'react-redux'
 
 import clearIcon from 'src/../public/assets/icons/clear.svg'
 import * as Styled from 'src/components/AddTodo/styles'
-import {AddTodoStatesT} from 'src/components/AddTodo/types'
-import PrimaryContext from 'src/context'
+import {AddTodoProps, AddTodoStatesT} from 'src/components/AddTodo/types'
 import {getDataFromLocalStorage} from 'src/helpers/storageHelper'
+import {mapDispatchToTodosProps} from 'src/store/slices/todosSlice/TodoMap'
 
-class AddTodo extends Component<{}, AddTodoStatesT> {
-  static contextType = PrimaryContext
-
-  context!: ContextType<typeof PrimaryContext>
-
+class AddTodo extends Component<AddTodoProps, AddTodoStatesT> {
   private readonly inputRef: RefObject<HTMLInputElement>
 
-  constructor(props: {}) {
+  constructor(props: AddTodoProps) {
     super(props)
 
     this.state = {value: ''}
@@ -29,35 +19,30 @@ class AddTodo extends Component<{}, AddTodoStatesT> {
 
   onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const {value} = e.target
-
     this.setState({value})
   }
 
   onClear = () => {
-    this.setState({value: ''}, () => {
-      this.inputRef.current?.focus()
-    })
+    this.setState({value: ''}, () => this.inputRef.current?.focus())
   }
 
-  onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const {value} = this.state
-    const {onCreateTodo} = this.context
 
-    const todo_value = value
+    const {value: todo_value} = this.state
+    const {createTodo} = this.props
 
     if (todo_value.length) {
       const {user_id} = getDataFromLocalStorage('user')
 
-      const todo = {
+      createTodo({
         todo_value,
         user_id,
         todo_completed: false,
-      }
-
-      onCreateTodo(todo)
-      this.setState({value: ''})
+      })
     }
+
+    this.onClear()
   }
 
   render() {
@@ -89,4 +74,4 @@ class AddTodo extends Component<{}, AddTodoStatesT> {
   }
 }
 
-export default AddTodo
+export default connect(null, mapDispatchToTodosProps)(AddTodo)

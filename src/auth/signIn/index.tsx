@@ -1,19 +1,16 @@
-import {ChangeEvent, Component, ContextType, FormEvent} from 'react'
+import {ChangeEvent, Component, FormEvent} from 'react'
+import {connect} from 'react-redux'
+import {SignInProps} from 'src/auth/signIn/types'
 import * as Styled from 'src/auth/styles'
 import Input from 'src/components/common/input'
-import PrimaryContext from 'src/context'
 import {storeUser} from 'src/helpers/userHelper'
 import withNavigation from 'src/hocks/withNavigation'
-import {getTodos} from 'src/services/todoService'
 import {signIn} from 'src/services/userService'
-import {NavigateT, Routes, SignInT} from 'src/types'
+import {mapDispatchToSnackbarProps} from 'src/store/slices/snackbarSlice/snackbarMap'
+import {Routes, SignInT} from 'src/types'
 
-class SignIn extends Component<NavigateT, SignInT> {
-  static contextType = PrimaryContext
-
-  context!: ContextType<typeof PrimaryContext>
-
-  constructor(props: NavigateT) {
+class SignIn extends Component<SignInProps, SignInT> {
+  constructor(props: SignInProps) {
     super(props)
 
     this.state = {user_email: '', user_password: ''}
@@ -30,8 +27,7 @@ class SignIn extends Component<NavigateT, SignInT> {
   onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const {user_email, user_password} = this.state
-    const {setSnackbar, setTodos} = this.context
-    const {navigate} = this.props
+    const {navigate, setSnackbar, setTodos} = this.props
 
     try {
       const {user_name, access_token, refresh_token, user_id} = await signIn({
@@ -40,9 +36,8 @@ class SignIn extends Component<NavigateT, SignInT> {
       })
       storeUser({user_name, user_id}, access_token, refresh_token)
 
-      const {todos} = await getTodos(user_id)
+      setTodos(user_id)
       navigate(Routes.HOME)
-      setTodos(todos)
     } catch (error) {
       setSnackbar('User not found')
     }
@@ -81,4 +76,4 @@ class SignIn extends Component<NavigateT, SignInT> {
   }
 }
 
-export default withNavigation(SignIn)
+export default withNavigation(connect(null, mapDispatchToSnackbarProps)(SignIn))

@@ -5,6 +5,7 @@ import {NavigateT, Routes} from 'src/types'
 class ErrorBoundary extends Component<PropsWithChildren & NavigateT> {
   componentDidCatch(): void {
     const {navigate} = this.props
+
     navigate(Routes.SIGN_IN)
   }
 

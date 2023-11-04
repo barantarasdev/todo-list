@@ -28,11 +28,15 @@ export const Form = styled.form`
   align-items: center;
 `
 
-export const Input = styled.input`
+export const Input = styled.input<{$isCompleted: boolean}>`
   width: 100%;
   height: 30px;
   padding: 5px 0;
   font-size: 20px;
+  text-decoration: ${props => (props.$isCompleted ? 'line-through' : 'auto')}
+}
+
+;
 `
 
 export const Button = styled(AnimatedButton)`

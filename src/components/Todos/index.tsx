@@ -1,17 +1,15 @@
-import {Component, ContextType} from 'react'
+import {PureComponent} from 'react'
+import {connect} from 'react-redux'
 import {CSSTransition} from 'react-transition-group'
 
 import Todo from 'src/components/Todo'
 import {StyledTransitionGroup} from 'src/components/Todos/styles'
-import PrimaryContext from 'src/context'
+import {TodosProps} from 'src/components/Todos/types'
+import {mapStateToTodosProps} from 'src/store/slices/todosSlice/TodoMap'
 
-class Todos extends Component {
-  static contextType = PrimaryContext
-
-  context!: ContextType<typeof PrimaryContext>
-
+class Todos extends PureComponent<TodosProps> {
   render() {
-    const {todos} = this.context
+    const {todos} = this.props
 
     return (
       <ul>
@@ -27,4 +25,4 @@ class Todos extends Component {
   }
 }
 
-export default Todos
+export default connect(mapStateToTodosProps)(Todos)

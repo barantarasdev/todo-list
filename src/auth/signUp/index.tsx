@@ -1,24 +1,21 @@
-import {ChangeEvent, Component, ContextType, FormEvent} from 'react'
+import {ChangeEvent, Component, FormEvent} from 'react'
 
-import {SignUpStatesT} from 'src/auth/signUp/types'
+import {connect} from 'react-redux'
+import {SignUpProps, SignUpStatesT} from 'src/auth/signUp/types'
 import * as Styled from 'src/auth/styles'
 import Input from 'src/components/common/input'
 import Select from 'src/components/common/select'
 import {GENDER_OPTIONS} from 'src/constants'
-import PrimaryContext from 'src/context'
 import {storeUser} from 'src/helpers/userHelper'
 import validateSignUp from 'src/helpers/validationHelper'
 import withNavigation from 'src/hocks/withNavigation'
 import {signUp} from 'src/services/userService'
+import {mapDispatchToSnackbarProps} from 'src/store/slices/snackbarSlice/snackbarMap'
 import {InputBlock, Label} from 'src/styles'
-import {NavigateT, Routes, ValidatesT} from 'src/types'
+import {Routes, ValidatesT} from 'src/types'
 
-class SignUp extends Component<NavigateT, SignUpStatesT> {
-  static contextType = PrimaryContext
-
-  context!: ContextType<typeof PrimaryContext>
-
-  constructor(props: NavigateT) {
+class SignUp extends Component<SignUpProps, SignUpStatesT> {
+  constructor(props: SignUpProps) {
     super(props)
 
     this.state = {
@@ -70,10 +67,9 @@ class SignUp extends Component<NavigateT, SignUpStatesT> {
 
   onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const {setTodos, setSnackbar} = this.context
     const {formData, errors} = this.state
     const newErrors: Record<string, string> = {}
-    const {navigate} = this.props
+    const {navigate, setSnackbar} = this.props
 
     Object.entries(formData).forEach(([key, value]) => {
       const error = validateSignUp(
@@ -99,7 +95,6 @@ class SignUp extends Component<NavigateT, SignUpStatesT> {
           access_token,
           refresh_token
         )
-        setTodos([])
         navigate(Routes.HOME)
       } catch (err) {
         setSnackbar('User already exists')
@@ -201,4 +196,4 @@ class SignUp extends Component<NavigateT, SignUpStatesT> {
   }
 }
 
-export default withNavigation(SignUp)
+export default withNavigation(connect(null, mapDispatchToSnackbarProps)(SignUp))

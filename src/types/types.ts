@@ -27,18 +27,13 @@ export type ValidatesT =
   | 'user_phone'
   | 'user_site'
 
-export type SimpleTodo = Omit<Todo, 'todo_id'>
+export type CreateTodoT = Omit<Todo, 'todo_id'>
 
-export type UpdatedTodo = Omit<SimpleTodo, 'user_id'>
+export type UpdateTodoT = Omit<CreateTodoT, 'user_id'>
 
 export type Methods = 'GET' | 'POST' | 'PATCH' | 'DELETE'
 
-export type AppState = {
-  todos: Todo[]
-  snackbar: string
-}
-
-export type GeneralOptionsT = {value: string; title: string}[]
+export type GeneralOptionT = {value: string; title: string}
 
 export type SignInT = Pick<User, 'user_email' | 'user_password'>
 

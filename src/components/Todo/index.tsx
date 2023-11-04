@@ -1,57 +1,51 @@
-import React, {
-  ChangeEvent,
-  Component,
-  ContextType,
-  createRef,
-  FormEvent,
-  RefObject,
-} from 'react'
+import React, {ChangeEvent, Component, createRef, RefObject} from 'react'
+import {connect} from 'react-redux'
 import confirmIcon from 'src/../public/assets/icons/confirm.svg'
 import removeIcon from 'src/../public/assets/icons/remove.svg'
 
 import * as Styled from 'src/components/Todo/styles'
 import {TodoProps, TodoStatesT} from 'src/components/Todo/types'
-import PrimaryContext from 'src/context'
+import {mapDispatchToTodosProps} from 'src/store/slices/todosSlice/TodoMap'
 
 class Todo extends Component<TodoProps, TodoStatesT> {
-  static contextType = PrimaryContext
-
-  context!: ContextType<typeof PrimaryContext>
-
   private readonly inputRef: RefObject<HTMLInputElement>
 
   constructor(props: TodoProps) {
     super(props)
 
-    const {todo} = this.props
+    const {
+      todo: {todo_value, todo_completed},
+    } = this.props
     this.state = {
-      todo_value: todo.todo_value,
-      todo_completed: todo.todo_completed,
+      todo_value,
+      todo_completed,
       isEditing: false,
     }
     this.inputRef = createRef()
   }
 
   onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
-    this.setState({todo_value: value})
+    const {value: todo_value} = e.target
+    this.setState({todo_value})
   }
 
   onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
-    const {checked} = e.target
-    const {onUpdateTodo} = this.context
-    const {todo} = this.props
+    const {checked: todo_completed} = e.target
+    const {
+      todo: {todo_id},
+      updateTodo,
+    } = this.props
     const {todo_value} = this.state
 
-    this.setState({todo_completed: checked}, () => {
-      onUpdateTodo(todo.todo_id, {
-        todo_completed: checked,
+    this.setState({todo_completed}, () => {
+      updateTodo(todo_id, {
+        todo_completed,
         todo_value,
       })
     })
   }
 
-  onClick = () => {
+  onFocus = () => {
     const {todo_completed} = this.state
 
     if (!todo_completed) {
@@ -59,44 +53,48 @@ class Todo extends Component<TodoProps, TodoStatesT> {
     }
   }
 
-  onDelete = () => {
-    const {onDeleteTodo} = this.context
-    const {todo} = this.props
+  onBlur = () => {
+    const {isEditing} = this.state
 
-    onDeleteTodo(todo.todo_id)
-  }
-
-  onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter') {
+    if (isEditing) {
       this.onSubmit()
     }
   }
 
-  onSubmit = (e?: FormEvent<HTMLFormElement>) => {
-    e?.preventDefault()
+  onDelete = () => {
+    const {
+      todo: {todo_id},
+      deleteTodo,
+    } = this.props
+
+    deleteTodo(todo_id)
+  }
+
+  onSubmit = (e?: any) => {
+    if (e) {
+      e.preventDefault()
+    }
+
     const {todo_value} = this.state
-    const {todo} = this.props
-    const {onUpdateTodo} = this.context
+    const {
+      todo: {todo_id},
+      updateTodo,
+    } = this.props
 
     if (!todo_value.length) {
       this.onDelete()
     } else {
-      onUpdateTodo(todo.todo_id, {
+      updateTodo(todo_id, {
         todo_value,
         todo_completed: false,
       })
     }
 
-    this.setState({isEditing: false}, () => {
-      this.inputRef.current?.blur()
-    })
+    this.setState({isEditing: false}, () => this.inputRef.current?.blur())
   }
 
   render() {
     const {todo_value, todo_completed, isEditing} = this.state
-    const inputValueStyle = {
-      textDecoration: todo_completed ? 'line-through' : 'auto',
-    }
 
     return (
       <Styled.Item $isFocused={isEditing} $isCompleted={todo_completed}>
@@ -108,21 +106,19 @@ class Todo extends Component<TodoProps, TodoStatesT> {
 
         <Styled.Form onSubmit={this.onSubmit}>
           <Styled.Input
-            className="todo__value"
+            $isCompleted={todo_completed}
             type="text"
-            style={inputValueStyle}
             value={todo_value}
             ref={this.inputRef}
             onChange={this.onChange}
-            onFocus={this.onClick}
-            onBlur={() => this.onSubmit()}
-            onKeyDown={this.onKeyDown}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
             readOnly={!isEditing}
           />
 
           {isEditing && (
-            <Styled.Button type="button" onClick={() => this.onSubmit()}>
-              <img className="icon" src={confirmIcon} alt="icon confirm" />
+            <Styled.Button type="button" onClick={this.onSubmit}>
+              <img src={confirmIcon} alt="icon confirm" />
             </Styled.Button>
           )}
         </Styled.Form>
@@ -135,4 +131,4 @@ class Todo extends Component<TodoProps, TodoStatesT> {
   }
 }
 
-export default Todo
+export default connect(null, mapDispatchToTodosProps)(Todo)

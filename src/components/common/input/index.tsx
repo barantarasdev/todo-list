@@ -11,25 +11,23 @@ class Input extends Component<InputProps, InputStatesT> {
     this.state = {isFocused: false}
   }
 
-  onFocus = () => {
-    this.setState({isFocused: true})
-  }
-
-  onBlur = () => {
-    this.setState({isFocused: false})
+  onToggleIsFocused = () => {
+    this.setState(({isFocused}) => ({
+      isFocused: !isFocused,
+    }))
   }
 
   render() {
     const {isFocused} = this.state
-
     const {id, type, placeholder, value, onChange, errors = {}} = this.props
     const isActive = isFocused || !!value
+    const isInputError = !!errors[id]
 
     return (
       <InputBlock>
         <Styled.InputContent>
           <Styled.TopLabel
-            $isError={!!errors[id]}
+            $isError={isInputError}
             $isActive={isActive}
             htmlFor={id}
           >
@@ -43,12 +41,12 @@ class Input extends Component<InputProps, InputStatesT> {
             id={id}
             value={value}
             onChange={onChange}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
+            onFocus={this.onToggleIsFocused}
+            onBlur={this.onToggleIsFocused}
           />
         </Styled.InputContent>
 
-        <Label htmlFor={id} $isError={!!errors[id]}>
+        <Label htmlFor={id} $isError={isInputError}>
           {errors[id]}
         </Label>
       </InputBlock>

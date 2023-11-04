@@ -43,12 +43,8 @@ class Avatar extends Component<{}, AvatarStatesT> {
 
     return (
       <Styled.Avatar ref={this.avatarRef}>
-        <Styled.Button
-          type="button"
-          className="avatar__btn"
-          onClick={this.onClickAvatar}
-        >
-          <img className="icon" src={userIcon} alt="user icon" />
+        <Styled.Button type="button" onClick={this.onClickAvatar}>
+          <img src={userIcon} alt="user icon" />
         </Styled.Button>
 
         {isActive && <AvatarItems />}
