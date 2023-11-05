@@ -1,7 +1,6 @@
 import {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {CSSTransition} from 'react-transition-group'
-
 import Todo from 'src/components/Todo'
 import {StyledTransitionGroup} from 'src/components/Todos/styles'
 import {TodosProps} from 'src/components/Todos/types'

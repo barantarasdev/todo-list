@@ -1,6 +1,5 @@
-import {ChangeEvent, Component, createRef, FormEvent, RefObject} from 'react'
+import {ChangeEvent, Component, FormEvent, RefObject, createRef} from 'react'
 import {connect} from 'react-redux'
-
 import clearIcon from 'src/../public/assets/icons/clear.svg'
 import * as Styled from 'src/components/AddTodo/styles'
 import {AddTodoProps, AddTodoStatesT} from 'src/components/AddTodo/types'
@@ -26,7 +25,7 @@ class AddTodo extends Component<AddTodoProps, AddTodoStatesT> {
     this.setState({value: ''}, () => this.inputRef.current?.focus())
   }
 
-  onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const {value: todo_value} = this.state

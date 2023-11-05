@@ -1,3 +1,3 @@
-export type SnackbarState = {
+export type SnackbarStateT = {
   snackbar: string
 }

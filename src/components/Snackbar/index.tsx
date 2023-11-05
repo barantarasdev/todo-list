@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {createPortal} from 'react-dom'
 import {connect} from 'react-redux'
-
 import StyledSnackbar from 'src/components/Snackbar/styles'
 import {SnackbarProps, SnackbarStatesT} from 'src/components/Snackbar/types'
 import {SNACKBAR_TIME} from 'src/constants'

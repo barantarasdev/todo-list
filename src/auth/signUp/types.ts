@@ -1,11 +1,11 @@
-import {setSnackbar as setSnackbarSlice} from 'src/store/slices/snackbarSlice'
-import {NavigateT, User} from 'src/types'
+import {NavigateT, UserT} from 'src/types'
 
 export type SignUpStatesT = {
-  formData: User
+  formData: UserT
   errors: Record<string, string>
+  isSubmitted: boolean
 }
 
 export type SignUpProps = {
-  setSnackbar: typeof setSnackbarSlice
+  setSnackbar: (message: string) => void
 } & NavigateT

@@ -1,7 +1,7 @@
-import {Todo} from 'src/types'
+import {TodoT} from 'src/types'
 
-export type TodosState = {
-  todos: Todo[]
+export type TodosStateT = {
+  todos: TodoT[]
 }
 
 export enum TodosCreators {

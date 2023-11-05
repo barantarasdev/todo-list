@@ -1,22 +1,18 @@
 /* eslint-disable no-param-reassign */
-
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {TodosCreators, TodosState} from 'src/store/slices/todosSlice/types'
-import {CreateTodoT, Todo, UpdateTodoT} from 'src/types'
-
-const initialState: TodosState = {
-  todos: [],
-}
+import {PayloadAction, createSlice} from '@reduxjs/toolkit'
+import initialState from 'src/store/slices/todosSlice/initialState'
+import {TodosStateT} from 'src/store/slices/todosSlice/types'
+import {TodoT, UpdateTodoT} from 'src/types'
 
 const reducers = {
-  setTodos: (state: TodosState, action: PayloadAction<Todo[]>) => {
+  setTodos: (state: TodosStateT, action: PayloadAction<TodoT[]>) => {
     state.todos = action.payload
   },
-  createTodo: (state: TodosState, action: PayloadAction<Todo>) => {
+  createTodo: (state: TodosStateT, action: PayloadAction<TodoT>) => {
     state.todos.push(action.payload)
   },
   updateTodo: (
-    state: TodosState,
+    state: TodosStateT,
     action: PayloadAction<{todo_id: string} & UpdateTodoT>
   ) => {
     state.todos = state.todos.map(todo =>
@@ -25,7 +21,7 @@ const reducers = {
         : todo
     )
   },
-  deleteTodo: (state: TodosState, action: PayloadAction<string>) => {
+  deleteTodo: (state: TodosStateT, action: PayloadAction<string>) => {
     state.todos = state.todos.filter(({todo_id}) => todo_id !== action.payload)
   },
 }
@@ -34,26 +30,6 @@ const todosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers,
-})
-
-export const setTodosCreator = (id: string) => ({
-  type: TodosCreators.ASYNC_SET_TODOS,
-  payload: id,
-})
-
-export const createTodoCreator = (todo: CreateTodoT) => ({
-  type: TodosCreators.ASYNC_CREATE_TODO,
-  payload: todo,
-})
-
-export const deleteTodoCreator = (id: string) => ({
-  type: TodosCreators.ASYNC_DELETE_TODO,
-  payload: id,
-})
-
-export const updateTodoCreator = (id: string, todo: UpdateTodoT) => ({
-  type: TodosCreators.ASYNC_UPDATE_TODO,
-  payload: {id, todo},
 })
 
 export const {setTodos, createTodo, updateTodo, deleteTodo} = todosSlice.actions

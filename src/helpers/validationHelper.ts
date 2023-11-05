@@ -1,4 +1,4 @@
-import {ValidatesT} from 'src/types'
+import {ValidateT} from 'src/types'
 
 function validateEmail(value: string): boolean {
   return (
@@ -33,7 +33,7 @@ function validatePassword(value: string): boolean {
 }
 
 function validateSignUp(
-  type: ValidatesT,
+  type: ValidateT,
   value: string | number,
   currentPassword?: string | null
 ): string | null {

@@ -1,7 +1,6 @@
 import {Component} from 'react'
 import {connect} from 'react-redux'
 import {Outlet} from 'react-router'
-
 import SnackBar from 'src/components/Snackbar'
 import {getDataFromLocalStorage} from 'src/helpers/storageHelper'
 import withNavigation from 'src/hocks/withNavigation'
@@ -10,20 +9,21 @@ import {LayoutProps} from 'src/pages/Layout/types'
 import {mapDispatchToTodosProps} from 'src/store/slices/todosSlice/TodoMap'
 import {RootContent} from 'src/styles'
 import GlobalStyle from 'src/styles/globalStyles'
-import {Routes} from 'src/types'
+import {RoutesPath} from 'src/types'
 
 class Layout extends Component<LayoutProps> {
-  async componentDidMount() {
+  componentDidMount() {
     const user = getDataFromLocalStorage('user')
     const {navigate, setTodos} = this.props
+    const {HOME, SIGN_IN} = RoutesPath
 
     if (user) {
       setTodos(user.user_id)
 
-      return navigate(Routes.HOME)
+      return navigate(HOME)
     }
 
-    return navigate(Routes.SIGN_IN)
+    return navigate(SIGN_IN)
   }
 
   render() {
@@ -40,4 +40,4 @@ class Layout extends Component<LayoutProps> {
   }
 }
 
-export default connect(null, mapDispatchToTodosProps)(withNavigation(Layout))
+export default withNavigation(connect(null, mapDispatchToTodosProps)(Layout))

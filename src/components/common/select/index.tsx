@@ -1,5 +1,4 @@
 import {PureComponent} from 'react'
-
 import StyledSelect from 'src/components/common/select/styles'
 import {SelectProps} from 'src/components/common/select/types'
 

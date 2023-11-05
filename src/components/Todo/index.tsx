@@ -1,8 +1,7 @@
-import React, {ChangeEvent, Component, createRef, RefObject} from 'react'
+import React, {ChangeEvent, Component, RefObject, createRef} from 'react'
 import {connect} from 'react-redux'
 import confirmIcon from 'src/../public/assets/icons/confirm.svg'
 import removeIcon from 'src/../public/assets/icons/remove.svg'
-
 import * as Styled from 'src/components/Todo/styles'
 import {TodoProps, TodoStatesT} from 'src/components/Todo/types'
 import {mapDispatchToTodosProps} from 'src/store/slices/todosSlice/TodoMap'

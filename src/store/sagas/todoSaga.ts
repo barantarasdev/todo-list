@@ -1,19 +1,20 @@
 import {PayloadAction} from '@reduxjs/toolkit'
-import {put, call, takeEvery} from 'redux-saga/effects'
+import {call, put, takeEvery} from 'redux-saga/effects'
 import {
-  deleteTodo,
   createTodo,
+  deleteTodo,
   getTodos,
   updateTodo,
 } from 'src/services/todoService'
+import {UpdateTodoWorkerPayloadT} from 'src/store/sagas/types'
 import {
-  deleteTodo as deleteTodoSlice,
   createTodo as createTodoSlice,
-  updateTodo as updateTodoSlice,
+  deleteTodo as deleteTodoSlice,
   setTodos,
+  updateTodo as updateTodoSlice,
 } from 'src/store/slices/todosSlice'
 import {TodosCreators} from 'src/store/slices/todosSlice/types'
-import {CreateTodoT, UpdateTodoT} from 'src/types'
+import {CreateTodoT} from 'src/types'
 
 function* setTodosWorker(action: PayloadAction<string>) {
   const {todos} = yield call(getTodos, action.payload)
@@ -30,12 +31,7 @@ function* deleteTodoWorker(action: PayloadAction<string>) {
   yield put(deleteTodoSlice(action.payload))
 }
 
-type UpdateTodoWorkerPayload = {
-  todo: UpdateTodoT
-  id: string
-}
-
-function* updateTodoWorker(action: PayloadAction<UpdateTodoWorkerPayload>) {
+function* updateTodoWorker(action: PayloadAction<UpdateTodoWorkerPayloadT>) {
   yield call(updateTodo, action.payload.id, action.payload.todo)
   yield put(
     updateTodoSlice({todo_id: action.payload.id, ...action.payload.todo})

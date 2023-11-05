@@ -1,12 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-
-import React from 'react'
+import {ComponentType} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {NavigateT} from 'src/types'
 
-function withNavigation<T extends NavigateT>(
-  Component: React.ComponentType<T>
-) {
+function withNavigation<T extends NavigateT>(Component: ComponentType<T>) {
   return (props: Omit<T, keyof NavigateT>) => {
     const navigate = useNavigate()
 

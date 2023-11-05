@@ -1,6 +1,5 @@
-import {useNavigate} from 'react-router-dom'
+import {NavigateT} from 'src/types'
 
 export type LayoutProps = {
-  navigate: ReturnType<typeof useNavigate>
   setTodos: (id: string) => void
-}
+} & NavigateT

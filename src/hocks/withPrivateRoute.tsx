@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-
-import React, {ComponentType, ReactElement, PropsWithChildren} from 'react'
+import React, {ComponentType, PropsWithChildren, ReactElement} from 'react'
 import {Navigate} from 'react-router-dom'
 import {getDataFromLocalStorage} from 'src/helpers/storageHelper'
-import {Routes} from 'src/types'
+import {RoutesPath} from 'src/types'
 
 function withPrivateRoute<T extends {}>(
   WrappedComponent: ComponentType<PropsWithChildren<T>>
@@ -14,7 +13,7 @@ function withPrivateRoute<T extends {}>(
     return user ? (
       <WrappedComponent {...props} />
     ) : (
-      <Navigate to={Routes.SIGN_IN} replace />
+      <Navigate to={RoutesPath.SIGN_IN} replace />
     )
   }
 }

@@ -1,5 +1,4 @@
 import {Component} from 'react'
-
 import * as Styled from 'src/components/common/input/styles'
 import {InputProps, InputStatesT} from 'src/components/common/input/types'
 import {InputBlock, Label} from 'src/styles'

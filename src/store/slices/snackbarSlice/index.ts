@@ -1,20 +1,19 @@
 /* eslint-disable no-param-reassign */
+import {PayloadAction, createSlice} from '@reduxjs/toolkit'
+import {SnackbarStateT} from 'src/store/slices/snackbarSlice/types'
 
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {SnackbarState} from 'src/store/slices/snackbarSlice/types'
-
-const initialState: SnackbarState = {
+const initialState: SnackbarStateT = {
   snackbar: '',
 }
 
 const reducers = {
-  setSnackbar: (state: SnackbarState, action: PayloadAction<string>) => {
+  setSnackbar: (state: SnackbarStateT, action: PayloadAction<string>) => {
     state.snackbar = action.payload
   },
 }
 
 const snackbarSlice = createSlice({
-  name: 'Snackbar',
+  name: 'snackbar',
   initialState,
   reducers,
 })

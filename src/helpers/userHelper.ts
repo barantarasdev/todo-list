@@ -2,10 +2,10 @@ import {setDataToLocalStorage} from 'src/helpers/storageHelper'
 import {logOut} from 'src/services/userService'
 
 export async function removeUser(): Promise<void> {
+  await logOut()
   localStorage.removeItem('user')
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
-  await logOut()
 }
 
 export function storeUser(

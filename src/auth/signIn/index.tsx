@@ -1,3 +1,4 @@
+import {Dispatch} from '@reduxjs/toolkit'
 import {ChangeEvent, Component, FormEvent} from 'react'
 import {connect} from 'react-redux'
 import {SignInProps} from 'src/auth/signIn/types'
@@ -7,7 +8,8 @@ import {storeUser} from 'src/helpers/userHelper'
 import withNavigation from 'src/hocks/withNavigation'
 import {signIn} from 'src/services/userService'
 import {mapDispatchToSnackbarProps} from 'src/store/slices/snackbarSlice/snackbarMap'
-import {Routes, SignInT} from 'src/types'
+import {mapDispatchToTodosProps} from 'src/store/slices/todosSlice/TodoMap'
+import {RoutesPath, SignInT} from 'src/types'
 
 class SignIn extends Component<SignInProps, SignInT> {
   constructor(props: SignInProps) {
@@ -37,7 +39,7 @@ class SignIn extends Component<SignInProps, SignInT> {
       storeUser({user_name, user_id}, access_token, refresh_token)
 
       setTodos(user_id)
-      navigate(Routes.HOME)
+      navigate(RoutesPath.HOME)
     } catch (error) {
       setSnackbar('User not found')
     }
@@ -69,11 +71,18 @@ class SignIn extends Component<SignInProps, SignInT> {
 
           <Styled.Button type="submit">Sign in</Styled.Button>
 
-          <Styled.Link to={Routes.SIGN_UP}>Sign up</Styled.Link>
+          <Styled.Link to={RoutesPath.SIGN_UP}>Sign up</Styled.Link>
         </Styled.Form>
       </Styled.FormBlock>
     )
   }
 }
 
-export default withNavigation(connect(null, mapDispatchToSnackbarProps)(SignIn))
+function mapDispatchToProps(dispatch: Dispatch) {
+  return {
+    ...mapDispatchToTodosProps(dispatch),
+    ...mapDispatchToSnackbarProps(dispatch),
+  }
+}
+
+export default withNavigation(connect(null, mapDispatchToProps)(SignIn))

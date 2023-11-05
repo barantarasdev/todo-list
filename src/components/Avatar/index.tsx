@@ -1,6 +1,5 @@
-import {Component, createRef, RefObject} from 'react'
+import {Component, RefObject, createRef} from 'react'
 import userIcon from 'src/../public/assets/icons/user.svg'
-
 import * as Styled from 'src/components/Avatar/styles'
 import {AvatarStatesT} from 'src/components/Avatar/types'
 import AvatarItems from 'src/components/AvatarItems'

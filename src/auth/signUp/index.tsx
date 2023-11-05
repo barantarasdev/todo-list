@@ -1,5 +1,4 @@
 import {ChangeEvent, Component, FormEvent} from 'react'
-
 import {connect} from 'react-redux'
 import {SignUpProps, SignUpStatesT} from 'src/auth/signUp/types'
 import * as Styled from 'src/auth/styles'
@@ -12,7 +11,7 @@ import withNavigation from 'src/hocks/withNavigation'
 import {signUp} from 'src/services/userService'
 import {mapDispatchToSnackbarProps} from 'src/store/slices/snackbarSlice/snackbarMap'
 import {InputBlock, Label} from 'src/styles'
-import {Routes, ValidatesT} from 'src/types'
+import {RoutesPath, ValidateT} from 'src/types'
 
 class SignUp extends Component<SignUpProps, SignUpStatesT> {
   constructor(props: SignUpProps) {
@@ -30,21 +29,21 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
         user_site: '',
       },
       errors: {},
+      isSubmitted: false,
     }
   }
 
   onChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const {id, value} = e.target
-    const {errors, formData} = this.state
-    const isErrors = Object.keys(errors).length
+    const {formData, isSubmitted} = this.state
 
     this.setState(prevStates => ({
       formData: {...prevStates.formData, [id]: value},
     }))
 
-    if (isErrors) {
+    if (isSubmitted) {
       const validatedInput = validateSignUp(
-        id as ValidatesT,
+        id as ValidateT,
         value,
         id === 'user_confirm_password' ? formData.user_password : null
       )
@@ -67,25 +66,25 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
 
   onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const {formData, errors} = this.state
+    const {formData} = this.state
     const newErrors: Record<string, string> = {}
     const {navigate, setSnackbar} = this.props
 
     Object.entries(formData).forEach(([key, value]) => {
       const error = validateSignUp(
-        key as ValidatesT,
+        key as ValidateT,
         value,
         key === 'user_confirm_password' ? formData.user_password : null
       )
 
       if (error) {
-        newErrors[key] = error as string
+        newErrors[key] = error
       }
     })
 
-    this.setState({errors: newErrors})
+    this.setState({errors: newErrors, isSubmitted: true})
 
-    if (!Object.keys(errors).length) {
+    if (!Object.values(newErrors).length) {
       try {
         const {access_token, refresh_token, user_id} = await signUp({
           ...formData,
@@ -95,7 +94,8 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
           access_token,
           refresh_token
         )
-        navigate(Routes.HOME)
+        this.setState({isSubmitted: false})
+        navigate(RoutesPath.HOME)
       } catch (err) {
         setSnackbar('User already exists')
       }
@@ -187,9 +187,11 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
             errors={errors}
           />
 
-          <Styled.Button type="submit">Sign up</Styled.Button>
+          <Styled.Button type="submit" disabled={!!Object.keys(errors).length}>
+            Sign up
+          </Styled.Button>
 
-          <Styled.Link to={Routes.SIGN_IN}>Sign in</Styled.Link>
+          <Styled.Link to={RoutesPath.SIGN_IN}>Sign in</Styled.Link>
         </Styled.Form>
       </Styled.FormBlock>
     )

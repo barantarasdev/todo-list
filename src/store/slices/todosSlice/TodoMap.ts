@@ -2,10 +2,10 @@ import {Dispatch} from '@reduxjs/toolkit'
 import {RootState} from 'src/store'
 import {
   createTodoCreator,
-  setTodosCreator,
   deleteTodoCreator,
+  setTodosCreator,
   updateTodoCreator,
-} from 'src/store/slices/todosSlice'
+} from 'src/store/slices/todosSlice/actionCreators'
 import {CreateTodoT, UpdateTodoT} from 'src/types'
 
 export const mapStateToTodosProps = (state: RootState) => ({

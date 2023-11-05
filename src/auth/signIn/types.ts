@@ -1,6 +1,6 @@
-import {setSnackbar as setSnackbarSlice} from 'src/store/slices/snackbarSlice'
 import {NavigateT} from 'src/types'
 
 export type SignInProps = {
-  setSnackbar: typeof setSnackbarSlice
+  setSnackbar: (message: string) => void
+  setTodos: (id: string) => void
 } & NavigateT

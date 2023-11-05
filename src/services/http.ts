@@ -4,13 +4,13 @@ import {
   setDataToLocalStorage,
 } from 'src/helpers/storageHelper'
 import {removeUser} from 'src/helpers/userHelper'
-import {Methods} from 'src/types'
+import {MethodsT} from 'src/types'
 
 const BASE_URL = process.env.BASE_URL
 
 async function sendRequest(
   url: string,
-  method: Methods,
+  method: MethodsT,
   data: any = null,
   isVerify: boolean = false,
   count: number = 0
@@ -44,11 +44,10 @@ async function sendRequest(
         refresh_token: getDataFromLocalStorage('refresh_token'),
       }),
     })
-    const {access_token: access_token_1, refresh_token} =
-      await refreshResponse.json()
+    const {access_token, refresh_token} = await refreshResponse.json()
 
     if (refreshResponse.ok) {
-      setDataToLocalStorage('access_token', access_token_1)
+      setDataToLocalStorage('access_token', access_token)
       setDataToLocalStorage('refresh_token', refresh_token)
 
       return sendRequest(url, method, data, isVerify, count + 1)

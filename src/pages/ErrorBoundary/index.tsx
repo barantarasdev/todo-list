@@ -1,12 +1,12 @@
 import {Component, PropsWithChildren} from 'react'
 import withNavigation from 'src/hocks/withNavigation'
-import {NavigateT, Routes} from 'src/types'
+import {NavigateT, RoutesPath} from 'src/types'
 
 class ErrorBoundary extends Component<PropsWithChildren & NavigateT> {
-  componentDidCatch(): void {
+  componentDidCatch() {
     const {navigate} = this.props
 
-    navigate(Routes.SIGN_IN)
+    navigate(RoutesPath.SIGN_IN)
   }
 
   render() {

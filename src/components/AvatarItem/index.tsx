@@ -1,18 +1,20 @@
 import {Component} from 'react'
 import * as Styled from 'src/components/AvatarItem/styles'
 import {AvatarItemProps} from 'src/components/AvatarItem/types'
+import {removeUser} from 'src/helpers/userHelper'
 import withNavigation from 'src/hocks/withNavigation'
-import {AvatarItems, Routes} from 'src/types'
+import {AvatarItems, RoutesPath} from 'src/types'
 
 class AvatarItem extends Component<AvatarItemProps> {
-  onClick = () => {
+  onClick = async () => {
     const {
       navigate,
       item: {value},
     } = this.props
 
     if (value === AvatarItems.LOGOUT) {
-      navigate(Routes.SIGN_IN)
+      await removeUser()
+      navigate(RoutesPath.SIGN_IN)
     }
   }
 
@@ -23,9 +25,7 @@ class AvatarItem extends Component<AvatarItemProps> {
 
     return (
       <Styled.Item>
-        <Styled.Button type="button" onClick={this.onClick}>
-          {title}
-        </Styled.Button>
+        <Styled.Button onClick={this.onClick}>{title}</Styled.Button>
       </Styled.Item>
     )
   }

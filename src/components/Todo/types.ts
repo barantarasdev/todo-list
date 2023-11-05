@@ -1,4 +1,4 @@
-import {Todo, UpdateTodoT} from 'src/types'
+import {TodoT, UpdateTodoT} from 'src/types'
 
 export type TodoStatesT = {
   todo_value: string
@@ -7,7 +7,7 @@ export type TodoStatesT = {
 }
 
 export type TodoProps = {
-  todo: Todo
+  todo: TodoT
   deleteTodo: (id: string) => void
   updateTodo: (id: string, todo: UpdateTodoT) => void
 }
