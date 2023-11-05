@@ -3,7 +3,7 @@ import {ChangeEvent, Component, FormEvent} from 'react'
 import {connect} from 'react-redux'
 import {SignInProps} from 'src/auth/signIn/types'
 import * as Styled from 'src/auth/styles'
-import Input from 'src/components/common/input'
+import Input from 'src/components/common/Input'
 import {storeUser} from 'src/helpers/userHelper'
 import withNavigation from 'src/hocks/withNavigation'
 import {signIn} from 'src/services/userService'
@@ -47,6 +47,7 @@ class SignIn extends Component<SignInProps, SignInT> {
 
   render() {
     const {user_email, user_password} = this.state
+    const isDisabledButton = !user_email.length || !user_password.length
 
     return (
       <Styled.FormBlock>
@@ -67,9 +68,12 @@ class SignIn extends Component<SignInProps, SignInT> {
             placeholder="Password"
             value={user_password}
             onChange={this.onChange}
+            isPassword
           />
 
-          <Styled.Button type="submit">Sign in</Styled.Button>
+          <Styled.Button type="submit" disabled={isDisabledButton}>
+            Sign in
+          </Styled.Button>
 
           <Styled.Link to={RoutesPath.SIGN_UP}>Sign up</Styled.Link>
         </Styled.Form>

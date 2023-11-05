@@ -1,13 +1,14 @@
 import {Component} from 'react'
-import * as Styled from 'src/components/common/input/styles'
-import {InputProps, InputStatesT} from 'src/components/common/input/types'
+import EyeButton from 'src/components/EyeButton'
+import * as Styled from 'src/components/common/Input/styles'
+import {InputProps, InputStatesT} from 'src/components/common/Input/types'
 import {InputBlock, Label} from 'src/styles'
 
 class Input extends Component<InputProps, InputStatesT> {
   constructor(props: InputProps) {
     super(props)
 
-    this.state = {isFocused: false}
+    this.state = {isFocused: false, isVisiblePassword: false}
   }
 
   onToggleIsFocused = () => {
@@ -16,11 +17,26 @@ class Input extends Component<InputProps, InputStatesT> {
     }))
   }
 
+  onToggleIsVisiblePassword = () => {
+    this.setState(({isVisiblePassword}) => ({
+      isVisiblePassword: !isVisiblePassword,
+    }))
+  }
+
   render() {
-    const {isFocused} = this.state
-    const {id, type, placeholder, value, onChange, errors = {}} = this.props
+    const {isFocused, isVisiblePassword} = this.state
+    const {
+      id,
+      type,
+      placeholder,
+      value,
+      onChange,
+      errors = {},
+      isPassword = false,
+    } = this.props
     const isActive = isFocused || !!value
     const isInputError = !!errors[id]
+    const isEyeButton = isPassword && !!String(value).length
 
     return (
       <InputBlock>
@@ -36,13 +52,20 @@ class Input extends Component<InputProps, InputStatesT> {
           <Styled.Input
             $isActive={isActive}
             placeholder={placeholder}
-            type={type}
+            type={isVisiblePassword ? 'text' : type}
             id={id}
             value={value}
             onChange={onChange}
             onFocus={this.onToggleIsFocused}
             onBlur={this.onToggleIsFocused}
           />
+
+          {isEyeButton && (
+            <EyeButton
+              isVisiblePassword={isVisiblePassword}
+              onToggleIsVisiblePassword={this.onToggleIsVisiblePassword}
+            />
+          )}
         </Styled.InputContent>
 
         <Label htmlFor={id} $isError={isInputError}>

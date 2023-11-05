@@ -44,5 +44,5 @@ export const Label = styled.label<{$isError: boolean}>`
   color: var(--color-error);
   pointer-events: none;
   transition: all var(--primary-duration);
-  opacity: ${props => (props.$isError ? 1 : 0)};
+  opacity: ${({$isError}) => ($isError ? 1 : 0)};
 `

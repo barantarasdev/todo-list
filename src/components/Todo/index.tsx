@@ -4,6 +4,7 @@ import confirmIcon from 'src/../public/assets/icons/confirm.svg'
 import removeIcon from 'src/../public/assets/icons/remove.svg'
 import * as Styled from 'src/components/Todo/styles'
 import {TodoProps, TodoStatesT} from 'src/components/Todo/types'
+import Checkbox from 'src/components/common/Checkbox'
 import {mapDispatchToTodosProps} from 'src/store/slices/todosSlice/TodoMap'
 
 class Todo extends Component<TodoProps, TodoStatesT> {
@@ -28,17 +29,16 @@ class Todo extends Component<TodoProps, TodoStatesT> {
     this.setState({todo_value})
   }
 
-  onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
-    const {checked: todo_completed} = e.target
+  onChangeCheckbox = () => {
     const {
       todo: {todo_id},
       updateTodo,
     } = this.props
-    const {todo_value} = this.state
+    const {todo_value, todo_completed} = this.state
 
-    this.setState({todo_completed}, () => {
+    this.setState({todo_completed: !todo_completed}, () => {
       updateTodo(todo_id, {
-        todo_completed,
+        todo_completed: !todo_completed,
         todo_value,
       })
     })
@@ -97,11 +97,7 @@ class Todo extends Component<TodoProps, TodoStatesT> {
 
     return (
       <Styled.Item $isFocused={isEditing} $isCompleted={todo_completed}>
-        <input
-          type="checkbox"
-          checked={todo_completed}
-          onChange={this.onChangeCheckbox}
-        />
+        <Checkbox value={todo_completed} onChange={this.onChangeCheckbox} />
 
         <Styled.Form onSubmit={this.onSubmit}>
           <Styled.Input

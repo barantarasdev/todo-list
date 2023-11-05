@@ -1,6 +1,6 @@
 import {PureComponent} from 'react'
-import StyledSelect from 'src/components/common/select/styles'
-import {SelectProps} from 'src/components/common/select/types'
+import StyledSelect from 'src/components/common/Select/styles'
+import {SelectProps} from 'src/components/common/Select/types'
 
 class Select extends PureComponent<SelectProps> {
   render() {

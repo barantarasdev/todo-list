@@ -2,8 +2,8 @@ import {ChangeEvent, Component, FormEvent} from 'react'
 import {connect} from 'react-redux'
 import {SignUpProps, SignUpStatesT} from 'src/auth/signUp/types'
 import * as Styled from 'src/auth/styles'
-import Input from 'src/components/common/input'
-import Select from 'src/components/common/select'
+import Input from 'src/components/common/Input'
+import Select from 'src/components/common/Select'
 import {GENDER_OPTIONS} from 'src/constants'
 import {storeUser} from 'src/helpers/userHelper'
 import validateSignUp from 'src/helpers/validationHelper'
@@ -176,6 +176,7 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
             value={formData.user_password}
             onChange={this.onChange}
             errors={errors}
+            isPassword
           />
 
           <Input
@@ -185,6 +186,7 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
             value={formData.user_confirm_password}
             onChange={this.onChange}
             errors={errors}
+            isPassword
           />
 
           <Styled.Button type="submit" disabled={!!Object.keys(errors).length}>

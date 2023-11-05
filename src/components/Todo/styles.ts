@@ -8,12 +8,12 @@ export const Item = styled.li<{$isFocused: boolean; $isCompleted: boolean}>`
   display: flex;
   align-items: center;
   gap: var(--primary-gap);
-  background-color: ${props => {
-    if (props.$isFocused) {
+  background-color: ${({$isFocused, $isCompleted}) => {
+    if ($isFocused) {
       return 'var(--color-white)'
     }
 
-    if (props.$isCompleted) {
+    if ($isCompleted) {
       return 'var(--color-disabled)'
     }
 
@@ -33,7 +33,8 @@ export const Input = styled.input<{$isCompleted: boolean}>`
   height: 30px;
   padding: 5px 0;
   font-size: 20px;
-  text-decoration: ${props => (props.$isCompleted ? 'line-through' : 'auto')}
+  text-decoration: ${({$isCompleted}) =>
+    $isCompleted ? 'line-through' : 'auto'}
 }
 
 ;
