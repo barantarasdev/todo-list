@@ -1,43 +1,32 @@
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 type GendersT = 'f' | 'g' | ''
 
 export type TodoT = {
-  todo_id: string
-  user_id: string
-  todo_value: string
-  todo_completed: boolean
+  todoId: string
+  userId: string
+  todoValue: string
+  todoCompleted: boolean
 }
 
 export type UserT = {
-  user_name: string
-  user_email: string
-  user_password: string
-  user_confirm_password: string
-  user_phone: string
-  user_age: string
-  user_gender: GendersT
-  user_site: string
+  userName: string
+  userEmail: string
+  userPassword: string
+  userConfirmPassword: string
+  userPhone: string
+  userAge: string
+  userGender: GendersT
+  userSite: string
 }
 
-export type ValidateT =
-  | 'user_name'
-  | 'user_age'
-  | 'user_email'
-  | 'user_password'
-  | 'user_confirm_password'
-  | 'user_phone'
-  | 'user_site'
+export type CreateTodoT = Omit<TodoT, 'todoId'>
 
-export type CreateTodoT = Omit<TodoT, 'todo_id'>
+export type UpdateTodoT = Omit<CreateTodoT, 'userId'>
 
-export type UpdateTodoT = Omit<CreateTodoT, 'user_id'>
+export type GeneralOptionT = { value: string; title: string }
 
-export type MethodsT = 'GET' | 'POST' | 'PATCH' | 'DELETE'
-
-export type GeneralOptionT = {value: string; title: string}
-
-export type SignInT = Pick<UserT, 'user_email' | 'user_password'>
+export type SignInT = Pick<UserT, 'userEmail' | 'userPassword'>
 
 export type NavigateT = {
   navigate: ReturnType<typeof useNavigate>

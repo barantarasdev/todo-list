@@ -1,32 +1,32 @@
-import {Component} from 'react'
+import { Component } from 'react'
 import EyeButton from 'src/components/EyeButton'
 import * as Styled from 'src/components/common/Input/styles'
-import {InputProps, InputStatesT} from 'src/components/common/Input/types'
-import {InputBlock, Label} from 'src/styles'
+import { InputProps, InputStatesT } from 'src/components/common/Input/types'
+import { InputBlock, Label } from 'src/styles'
 
 class Input extends Component<InputProps, InputStatesT> {
   constructor(props: InputProps) {
     super(props)
 
-    this.state = {isFocused: false, isVisiblePassword: false}
+    this.state = { isFocused: false, isVisiblePassword: false }
   }
 
   onToggleIsFocused = () => {
-    this.setState(({isFocused}) => ({
+    this.setState(({ isFocused }) => ({
       isFocused: !isFocused,
     }))
   }
 
   onToggleIsVisiblePassword = () => {
-    this.setState(({isVisiblePassword}) => ({
+    this.setState(({ isVisiblePassword }) => ({
       isVisiblePassword: !isVisiblePassword,
     }))
   }
 
   render() {
-    const {isFocused, isVisiblePassword} = this.state
+    const { isFocused, isVisiblePassword } = this.state
     const {
-      id,
+      name,
       type,
       placeholder,
       value,
@@ -35,7 +35,7 @@ class Input extends Component<InputProps, InputStatesT> {
       isPassword = false,
     } = this.props
     const isActive = isFocused || !!value
-    const isInputError = !!errors[id]
+    const isInputError = !!errors[name]
     const isEyeButton = isPassword && !!String(value).length
 
     return (
@@ -44,7 +44,7 @@ class Input extends Component<InputProps, InputStatesT> {
           <Styled.TopLabel
             $isError={isInputError}
             $isActive={isActive}
-            htmlFor={id}
+            htmlFor={name}
           >
             {placeholder}
           </Styled.TopLabel>
@@ -53,7 +53,8 @@ class Input extends Component<InputProps, InputStatesT> {
             $isActive={isActive}
             placeholder={placeholder}
             type={isVisiblePassword ? 'text' : type}
-            id={id}
+            id={name}
+            name={name}
             value={value}
             onChange={onChange}
             onFocus={this.onToggleIsFocused}
@@ -68,8 +69,8 @@ class Input extends Component<InputProps, InputStatesT> {
           )}
         </Styled.InputContent>
 
-        <Label htmlFor={id} $isError={isInputError}>
-          {errors[id]}
+        <Label htmlFor={name} $isError={isInputError}>
+          {errors[name]}
         </Label>
       </InputBlock>
     )

@@ -1,7 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const {EnvironmentPlugin} = require('webpack')
+const { EnvironmentPlugin, DefinePlugin } = require('webpack')
+require('dotenv').config()
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -26,9 +27,10 @@ const config = {
     new MiniCssExtractPlugin({
       filename: isProduction ? '[name].[contenthash].css' : '[name].css',
     }),
-    new EnvironmentPlugin({
-      BASE_URL: 'http://localhost:3000',
+    new DefinePlugin({
+      'process.env': JSON.stringify(process.env),
     }),
+    new EnvironmentPlugin(['BASE_URL']),
   ],
   module: {
     rules: [

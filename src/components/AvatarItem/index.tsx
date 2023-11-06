@@ -1,26 +1,26 @@
-import {Component} from 'react'
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import * as Styled from 'src/components/AvatarItem/styles'
-import {AvatarItemProps} from 'src/components/AvatarItem/types'
-import {removeUser} from 'src/helpers/userHelper'
+import { AvatarItemProps } from 'src/components/AvatarItem/types'
 import withNavigation from 'src/hocks/withNavigation'
-import {AvatarItems, RoutesPath} from 'src/types'
+import { mapDispatchToUserProps } from 'src/store/slices/userSlice/userMap'
+import { AvatarItems } from 'src/types'
 
 class AvatarItem extends Component<AvatarItemProps> {
   onClick = async () => {
     const {
       navigate,
-      item: {value},
+      logout,
+      item: { value },
     } = this.props
-
     if (value === AvatarItems.LOGOUT) {
-      await removeUser()
-      navigate(RoutesPath.SIGN_IN)
+      logout(navigate)
     }
   }
 
   render() {
     const {
-      item: {title},
+      item: { title },
     } = this.props
 
     return (
@@ -31,4 +31,4 @@ class AvatarItem extends Component<AvatarItemProps> {
   }
 }
 
-export default withNavigation(AvatarItem)
+export default withNavigation(connect(null, mapDispatchToUserProps)(AvatarItem))

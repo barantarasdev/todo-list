@@ -1,12 +1,12 @@
-import {Dispatch} from '@reduxjs/toolkit'
-import {RootState} from 'src/store'
+import { Dispatch } from '@reduxjs/toolkit'
+import { RootState } from 'src/store'
 import {
   createTodoCreator,
   deleteTodoCreator,
   setTodosCreator,
   updateTodoCreator,
 } from 'src/store/slices/todosSlice/actionCreators'
-import {CreateTodoT, UpdateTodoT} from 'src/types'
+import { CreateTodoT, UpdateTodoT } from 'src/types'
 
 export const mapStateToTodosProps = (state: RootState) => ({
   todos: state.todos.todos,

@@ -1,5 +1,5 @@
 import client from 'src/services/apiClient'
-import {CreateTodoT, UpdateTodoT} from 'src/types'
+import { CreateTodoT, UpdateTodoT } from 'src/types'
 
 export const getTodos = (userId: string) =>
   client.get(`/users/${userId}/todos`, true)

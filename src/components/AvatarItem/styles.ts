@@ -1,4 +1,4 @@
-import {square} from 'src/styles/mixins'
+import { square } from 'src/styles/mixins'
 import styled from 'styled-components'
 
 export const Item = styled.li`
@@ -14,6 +14,5 @@ export const Button = styled.button`
   &:hover {
     text-decoration: underline;
   }
-
   ${square('100%')}
 `

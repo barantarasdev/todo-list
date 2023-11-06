@@ -1,19 +1,23 @@
-import {Component, PropsWithChildren} from 'react'
+import { Component } from 'react'
+import { connect } from 'react-redux'
 import withNavigation from 'src/hocks/withNavigation'
-import {NavigateT, RoutesPath} from 'src/types'
+import { ErrorBoundaryProps } from 'src/pages/ErrorBoundary/types'
+import { mapDispatchToUserProps } from 'src/store/slices/userSlice/userMap'
 
-class ErrorBoundary extends Component<PropsWithChildren & NavigateT> {
+class ErrorBoundary extends Component<ErrorBoundaryProps> {
   componentDidCatch() {
-    const {navigate} = this.props
+    const { logout, navigate } = this.props
 
-    navigate(RoutesPath.SIGN_IN)
+    logout(navigate)
   }
 
   render() {
-    const {children} = this.props
+    const { children } = this.props
 
     return children
   }
 }
 
-export default withNavigation(ErrorBoundary)
+export default withNavigation(
+  connect(null, mapDispatchToUserProps)(ErrorBoundary)
+)

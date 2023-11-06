@@ -1,7 +1,7 @@
-import {Component, RefObject, createRef} from 'react'
+import { Component, RefObject, createRef } from 'react'
 import userIcon from 'src/../public/assets/icons/user.svg'
 import * as Styled from 'src/components/Avatar/styles'
-import {AvatarStatesT} from 'src/components/Avatar/types'
+import { AvatarStatesT } from 'src/components/Avatar/types'
 import AvatarItems from 'src/components/AvatarItems'
 
 class Avatar extends Component<{}, AvatarStatesT> {
@@ -10,7 +10,7 @@ class Avatar extends Component<{}, AvatarStatesT> {
   constructor(props: {}) {
     super(props)
 
-    this.state = {isActive: false}
+    this.state = { isActive: false }
     this.avatarRef = createRef()
   }
 
@@ -23,7 +23,7 @@ class Avatar extends Component<{}, AvatarStatesT> {
   }
 
   onClickAvatar = () => {
-    this.setState(({isActive}) => ({
+    this.setState(({ isActive }) => ({
       isActive: !isActive,
     }))
   }
@@ -33,12 +33,12 @@ class Avatar extends Component<{}, AvatarStatesT> {
       this.avatarRef && !this.avatarRef.current?.contains(e.target as Node)
 
     if (isClickedOutside) {
-      this.setState({isActive: false})
+      this.setState({ isActive: false })
     }
   }
 
   render() {
-    const {isActive} = this.state
+    const { isActive } = this.state
 
     return (
       <Styled.Avatar ref={this.avatarRef}>

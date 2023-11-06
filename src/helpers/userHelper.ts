@@ -1,19 +1,17 @@
-import {setDataToLocalStorage} from 'src/helpers/storageHelper'
-import {logOut} from 'src/services/userService'
+import { setDataToLocalStorage } from 'src/helpers/storageHelper'
 
-export async function removeUser(): Promise<void> {
-  await logOut()
+export function removeUser(): void {
   localStorage.removeItem('user')
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
+  localStorage.removeItem('accessToken')
+  localStorage.removeItem('refreshToken')
 }
 
 export function storeUser(
   user: Record<string, string>,
-  access_token: string,
-  refresh_token: string
+  accessToken: string,
+  refreshToken: string
 ): void {
   setDataToLocalStorage('user', user)
-  setDataToLocalStorage('access_token', access_token)
-  setDataToLocalStorage('refresh_token', refresh_token)
+  setDataToLocalStorage('accessToken', accessToken)
+  setDataToLocalStorage('refreshToken', refreshToken)
 }

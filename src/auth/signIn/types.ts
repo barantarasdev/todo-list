@@ -1,6 +1,6 @@
-import {NavigateT} from 'src/types'
+import { NavigateFunction } from 'react-router'
+import { NavigateT } from 'src/types'
 
 export type SignInProps = {
-  setSnackbar: (message: string) => void
-  setTodos: (id: string) => void
+  signIn: (email: string, password: string, navigate: NavigateFunction) => void
 } & NavigateT

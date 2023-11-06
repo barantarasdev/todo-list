@@ -1,4 +1,4 @@
-import {CreateTodoT} from 'src/types'
+import { CreateTodoT } from 'src/types'
 
 export type AddTodoStatesT = {
   value: string

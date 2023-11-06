@@ -1,22 +1,21 @@
-/* eslint-disable prefer-destructuring */
 import {
   getDataFromLocalStorage,
   setDataToLocalStorage,
 } from 'src/helpers/storageHelper'
-import {removeUser} from 'src/helpers/userHelper'
-import {MethodsT} from 'src/types'
+import { removeUser } from 'src/helpers/userHelper'
+import { Methods } from 'src/types'
 
-const BASE_URL = process.env.BASE_URL
+const { BASE_URL } = process.env
 
-async function sendRequest(
+async function sendRequest<T>(
   url: string,
-  method: MethodsT,
-  data: any = null,
+  method: Methods,
+  data: unknown = null,
   isVerify: boolean = false,
   count: number = 0
-): Promise<any> {
+): Promise<T> {
   const headers: Record<string, string> = {}
-  const options: RequestInit = {method}
+  const options: RequestInit = { method }
 
   if (data) {
     options.body = JSON.stringify(data)
@@ -24,36 +23,38 @@ async function sendRequest(
   }
 
   if (isVerify) {
-    const access_token = getDataFromLocalStorage('access_token')
+    const accessToken = getDataFromLocalStorage('accessToken')
 
-    headers.Authorization = `Bearer ${access_token}`
+    headers.Authorization = `Bearer ${accessToken}`
   }
 
-  const response = await fetch(BASE_URL + url, {...options, headers})
+  const response = await fetch(BASE_URL + url, { ...options, headers })
+
   if (response.status === 403) {
     if (count > 5) {
       throw new Error('You don"t have limits for this request')
     }
 
     const refreshResponse = await fetch(`${BASE_URL}/refresh`, {
-      method: 'POST',
+      method: Methods.POST,
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        refresh_token: getDataFromLocalStorage('refresh_token'),
+        refreshToken: getDataFromLocalStorage('refreshToken'),
       }),
     })
-    const {access_token, refresh_token} = await refreshResponse.json()
+    const { accessToken, refreshToken } = await refreshResponse.json()
 
     if (refreshResponse.ok) {
-      setDataToLocalStorage('access_token', access_token)
-      setDataToLocalStorage('refresh_token', refresh_token)
+      setDataToLocalStorage('accessToken', accessToken)
+      setDataToLocalStorage('refreshToken', refreshToken)
 
       return sendRequest(url, method, data, isVerify, count + 1)
     }
 
-    return removeUser()
+    removeUser()
+    throw Error('Not authorized')
   }
 
   if (!response.ok) {

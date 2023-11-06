@@ -1,4 +1,4 @@
-import {ValidateT} from 'src/types'
+import { Validate } from 'src/types'
 
 function validateEmail(value: string): boolean {
   return (
@@ -33,7 +33,7 @@ function validatePassword(value: string): boolean {
 }
 
 function validateSignUp(
-  type: ValidateT,
+  type: Validate,
   value: string | number,
   currentPassword?: string | null
 ): string | null {
@@ -41,8 +41,10 @@ function validateSignUp(
     return 'This field is required'
   }
 
+  const { AGE, EMAIL, SITE, PHONE, PASSWORD, CONFIRM_PASSWORD, NAME } = Validate
+
   switch (type) {
-    case 'user_age':
+    case AGE:
       if (+value > 60) {
         return 'This age is old'
       }
@@ -52,37 +54,37 @@ function validateSignUp(
       }
 
       break
-    case 'user_email':
+    case EMAIL:
       if (!validateEmail(String(value))) {
         return 'This email is not valid'
       }
 
       break
-    case 'user_phone':
+    case PHONE:
       if (!validatePhone(String(value))) {
         return 'This phone is not valid'
       }
 
       break
-    case 'user_site':
+    case SITE:
       if (!validateSite(String(value))) {
         return 'This url is not valid'
       }
 
       break
-    case 'user_password':
+    case PASSWORD:
       if (!validatePassword(String(value))) {
         return 'This password is not valid'
       }
 
       break
-    case 'user_confirm_password':
+    case CONFIRM_PASSWORD:
       if (currentPassword !== value) {
         return 'The password does not match'
       }
 
       break
-    case 'user_name':
+    case NAME:
       if (String(value).length < 2) {
         return 'The name must be at least 2 character'
       }

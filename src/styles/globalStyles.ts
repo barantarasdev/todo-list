@@ -1,6 +1,6 @@
 import FONTS from 'src/styles/fonts'
 import VARIABLES from 'src/styles/variables'
-import {createGlobalStyle} from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
   * {

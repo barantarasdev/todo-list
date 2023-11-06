@@ -1,7 +1,7 @@
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import * as Styled from 'src/pages/NotFound/styles'
-import {AnimatedLink} from 'src/styles'
-import {RoutesPath} from 'src/types'
+import { AnimatedLink } from 'src/styles'
+import { RoutesPath } from 'src/types'
 
 class Home extends PureComponent {
   render() {

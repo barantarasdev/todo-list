@@ -1,5 +1,5 @@
-import {Link} from 'react-router-dom'
-import {flexCenter} from 'src/styles/mixins'
+import { Link } from 'react-router-dom'
+import { flexCenter } from 'src/styles/mixins'
 import styled from 'styled-components'
 
 export const RootContent = styled.div`
@@ -35,7 +35,7 @@ export const InputBlock = styled.div`
   width: 100%;
 `
 
-export const Label = styled.label<{$isError: boolean}>`
+export const Label = styled.label<{ $isError: boolean }>`
   height: 25px;
   display: flex;
   align-items: center;
@@ -44,5 +44,5 @@ export const Label = styled.label<{$isError: boolean}>`
   color: var(--color-error);
   pointer-events: none;
   transition: all var(--primary-duration);
-  opacity: ${({$isError}) => ($isError ? 1 : 0)};
+  opacity: ${({ $isError }) => ($isError ? 1 : 0)};
 `

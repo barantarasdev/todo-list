@@ -1,14 +1,14 @@
-import {AnimatedButton} from 'src/styles'
-import {flexCenter} from 'src/styles/mixins'
+import { AnimatedButton } from 'src/styles'
+import { flexCenter } from 'src/styles/mixins'
 import styled from 'styled-components'
 
-export const Item = styled.li<{$isFocused: boolean; $isCompleted: boolean}>`
+export const Item = styled.li<{ $isFocused: boolean; $isCompleted: boolean }>`
   width: 100%;
   padding: 10px;
   display: flex;
   align-items: center;
   gap: var(--primary-gap);
-  background-color: ${({$isFocused, $isCompleted}) => {
+  background-color: ${({ $isFocused, $isCompleted }) => {
     if ($isFocused) {
       return 'var(--color-white)'
     }
@@ -28,12 +28,12 @@ export const Form = styled.form`
   align-items: center;
 `
 
-export const Input = styled.input<{$isCompleted: boolean}>`
+export const Input = styled.input<{ $isCompleted: boolean }>`
   width: 100%;
   height: 30px;
   padding: 5px 0;
   font-size: 20px;
-  text-decoration: ${({$isCompleted}) =>
+  text-decoration: ${({ $isCompleted }) =>
     $isCompleted ? 'line-through' : 'auto'}
 }
 

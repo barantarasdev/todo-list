@@ -1,4 +1,4 @@
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import AddTodo from 'src/components/AddTodo'
 import Header from 'src/components/Header'
 import Todos from 'src/components/Todos'

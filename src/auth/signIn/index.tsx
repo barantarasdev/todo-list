@@ -1,53 +1,39 @@
-import {Dispatch} from '@reduxjs/toolkit'
-import {ChangeEvent, Component, FormEvent} from 'react'
-import {connect} from 'react-redux'
-import {SignInProps} from 'src/auth/signIn/types'
+import { ChangeEvent, Component, FormEvent } from 'react'
+import { connect } from 'react-redux'
+import { SignInProps } from 'src/auth/signIn/types'
 import * as Styled from 'src/auth/styles'
 import Input from 'src/components/common/Input'
-import {storeUser} from 'src/helpers/userHelper'
 import withNavigation from 'src/hocks/withNavigation'
-import {signIn} from 'src/services/userService'
-import {mapDispatchToSnackbarProps} from 'src/store/slices/snackbarSlice/snackbarMap'
-import {mapDispatchToTodosProps} from 'src/store/slices/todosSlice/TodoMap'
-import {RoutesPath, SignInT} from 'src/types'
+import { mapDispatchToUserProps } from 'src/store/slices/userSlice/userMap'
+import { RoutesPath, SignInT, Validate } from 'src/types'
 
 class SignIn extends Component<SignInProps, SignInT> {
   constructor(props: SignInProps) {
     super(props)
 
-    this.state = {user_email: '', user_password: ''}
+    this.state = { userEmail: '', userPassword: '' }
   }
 
   onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {id, value} = e.target
+    const { id, value } = e.target
     this.setState(prevState => ({
       ...prevState,
       [id as keyof SignInT]: value,
     }))
   }
 
-  onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const {user_email, user_password} = this.state
-    const {navigate, setSnackbar, setTodos} = this.props
+    const { userEmail, userPassword } = this.state
+    const { signIn, navigate } = this.props
 
-    try {
-      const {user_name, access_token, refresh_token, user_id} = await signIn({
-        user_email,
-        user_password,
-      })
-      storeUser({user_name, user_id}, access_token, refresh_token)
-
-      setTodos(user_id)
-      navigate(RoutesPath.HOME)
-    } catch (error) {
-      setSnackbar('User not found')
-    }
+    signIn(userEmail, userPassword, navigate)
   }
 
   render() {
-    const {user_email, user_password} = this.state
-    const isDisabledButton = !user_email.length || !user_password.length
+    const { userEmail, userPassword } = this.state
+    const isDisabledButton = !userEmail.length || !userPassword.length
+    const { EMAIL, PASSWORD } = Validate
 
     return (
       <Styled.FormBlock>
@@ -55,18 +41,18 @@ class SignIn extends Component<SignInProps, SignInT> {
 
         <Styled.Form onSubmit={this.onSubmit} noValidate>
           <Input
-            id="user_email"
+            name={EMAIL}
             type="email"
             placeholder="Email"
-            value={user_email}
+            value={userEmail}
             onChange={this.onChange}
           />
 
           <Input
-            id="user_password"
+            name={PASSWORD}
             type="password"
             placeholder="Password"
-            value={user_password}
+            value={userPassword}
             onChange={this.onChange}
             isPassword
           />
@@ -82,11 +68,4 @@ class SignIn extends Component<SignInProps, SignInT> {
   }
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
-  return {
-    ...mapDispatchToTodosProps(dispatch),
-    ...mapDispatchToSnackbarProps(dispatch),
-  }
-}
-
-export default withNavigation(connect(null, mapDispatchToProps)(SignIn))
+export default withNavigation(connect(null, mapDispatchToUserProps)(SignIn))

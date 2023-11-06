@@ -1,5 +1,5 @@
-import {AnimatedButton, AnimatedLink} from 'src/styles'
-import {flexCenter, square} from 'src/styles/mixins'
+import { AnimatedButton, AnimatedLink } from 'src/styles'
+import { flexCenter, square } from 'src/styles/mixins'
 import styled from 'styled-components'
 
 export const FormBlock = styled.div`

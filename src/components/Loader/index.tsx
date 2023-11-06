@@ -1,4 +1,4 @@
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import Spinner from 'src/components/Loader/styles'
 
 class Loader extends PureComponent {

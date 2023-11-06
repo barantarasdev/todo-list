@@ -1,4 +1,4 @@
-import {square} from 'src/styles/mixins'
+import { square } from 'src/styles/mixins'
 import styled from 'styled-components'
 
 export const InputContent = styled.div`
@@ -11,12 +11,12 @@ export const InputContent = styled.div`
   --eye-button-width: 40px;
 `
 
-export const Input = styled.input<{$isActive: boolean}>`
+export const Input = styled.input<{ $isActive: boolean }>`
   padding: 20px var(--padding-left-input) var(--padding-left-input);
   font-size: 19px;
 
   &::placeholder {
-    opacity: ${({$isActive}) => ($isActive ? 1 : 0)};
+    opacity: ${({ $isActive }) => ($isActive ? 1 : 0)};
     transition: opacity var(--primary-duration);
   }
 
@@ -24,13 +24,16 @@ export const Input = styled.input<{$isActive: boolean}>`
 }
 `
 
-export const TopLabel = styled.label<{$isActive: boolean; $isError?: boolean}>`
-  font-size: ${({$isActive}) => ($isActive ? '15px' : '20px')};
-  color: ${({$isError}) =>
+export const TopLabel = styled.label<{
+  $isActive: boolean
+  $isError?: boolean
+}>`
+  font-size: ${({ $isActive }) => ($isActive ? '15px' : '20px')};
+  color: ${({ $isError }) =>
     $isError ? 'var(--color-error)' : 'var(--secondary-color)'};
   position: absolute;
   left: var(--padding-left-input);
-  top: ${({$isActive}) => ($isActive ? '20%' : '50%')};
+  top: ${({ $isActive }) => ($isActive ? '20%' : '50%')};
   transform: translateY(-50%);
   cursor: text;
   transition-property: font-size, top, color;

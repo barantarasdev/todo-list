@@ -1,4 +1,4 @@
-import {flexCenter} from 'src/styles/mixins'
+import { flexCenter } from 'src/styles/mixins'
 import styled from 'styled-components'
 
 export const Avatar = styled.div`

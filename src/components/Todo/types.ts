@@ -1,8 +1,8 @@
-import {TodoT, UpdateTodoT} from 'src/types'
+import { TodoT, UpdateTodoT } from 'src/types'
 
 export type TodoStatesT = {
-  todo_value: string
-  todo_completed: boolean
+  todoValue: string
+  todoCompleted: boolean
   isEditing: boolean
 }
 

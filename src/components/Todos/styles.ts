@@ -1,4 +1,4 @@
-import {TransitionGroup} from 'react-transition-group'
+import { TransitionGroup } from 'react-transition-group'
 import styled from 'styled-components'
 
 export const StyledTransitionGroup = styled(TransitionGroup)`

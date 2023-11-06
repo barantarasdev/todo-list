@@ -1,0 +1,68 @@
+import { PayloadAction } from '@reduxjs/toolkit'
+import { call, put, takeEvery } from 'redux-saga/effects'
+import { removeUser, storeUser } from 'src/helpers/userHelper'
+import { logOut, signIn, signUp } from 'src/services/userService'
+import {
+  LogoutWorkerPayloadT,
+  SignInWorkerPayloadT,
+  SignUpWorkerPayloadT,
+} from 'src/store/sagas/types'
+import { setSnackbar } from 'src/store/slices/snackbarSlice'
+import { setTodos } from 'src/store/slices/todosSlice'
+import { setTodosCreator } from 'src/store/slices/todosSlice/actionCreators'
+import { setUser } from 'src/store/slices/userSlice'
+import { UserCreators } from 'src/store/slices/userSlice/types'
+import { RoutesPath } from 'src/types'
+
+function* signInWorker(action: PayloadAction<SignInWorkerPayloadT>) {
+  try {
+    const { userEmail, userPassword, navigate } = action.payload
+    const { userName, accessToken, refreshToken, userId } = yield call(signIn, {
+      userEmail,
+      userPassword,
+    })
+
+    yield call(storeUser, { userName, userId }, accessToken, refreshToken)
+    yield put(setUser({ userName, userId }))
+    yield put(setTodosCreator(userId))
+
+    navigate(RoutesPath.HOME)
+  } catch (error) {
+    yield put(setSnackbar('User not found'))
+  }
+}
+
+function* signUpWorker(action: PayloadAction<SignUpWorkerPayloadT>) {
+  try {
+    const { data, navigate } = action.payload
+    const { accessToken, refreshToken, userId } = yield call(signUp, data)
+
+    yield call(
+      storeUser,
+      { userName: data.userName, userId },
+      accessToken,
+      refreshToken
+    )
+    yield put(setUser({ userName: data.userName, userId }))
+
+    navigate(RoutesPath.HOME)
+  } catch (error) {
+    yield put(setSnackbar('User already exists'))
+  }
+}
+
+function* logoutWorker(action: PayloadAction<LogoutWorkerPayloadT>) {
+  yield call(logOut)
+  yield put(setTodos([]))
+
+  removeUser()
+  action.payload.navigate(RoutesPath.SIGN_IN)
+}
+
+function* userWatcher() {
+  yield takeEvery(UserCreators.ASYNC_SING_IN, signInWorker)
+  yield takeEvery(UserCreators.ASYNC_SIGN_UP, signUpWorker)
+  yield takeEvery(UserCreators.ASYNC_LOGOUT, logoutWorker)
+}
+
+export default userWatcher

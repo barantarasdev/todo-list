@@ -8,6 +8,6 @@ export function getDataFromLocalStorage(key: string) {
   return null
 }
 
-export function setDataToLocalStorage(key: string, data: any): void {
+export function setDataToLocalStorage(key: string, data: unknown): void {
   localStorage.setItem(key, JSON.stringify(data))
 }

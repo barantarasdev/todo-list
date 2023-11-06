@@ -1,7 +1,8 @@
-import {ChangeEvent} from 'react'
+import { ChangeEvent } from 'react'
+import { Validate } from 'src/types'
 
 export type InputProps = {
-  id: string
+  name: Validate
   type: string
   placeholder: string
   value: string | number

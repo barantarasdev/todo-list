@@ -1,17 +1,14 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React, {ComponentType, PropsWithChildren, ReactElement} from 'react'
-import {Navigate} from 'react-router-dom'
-import {getDataFromLocalStorage} from 'src/helpers/storageHelper'
-import {RoutesPath} from 'src/types'
+import React, { ComponentType } from 'react'
+import { Navigate } from 'react-router-dom'
+import { getDataFromLocalStorage } from 'src/helpers/storageHelper'
+import { RoutesPath } from 'src/types'
 
-function withRestrictedRoute<T extends {}>(
-  WrappedComponent: ComponentType<PropsWithChildren<T>>
-): ComponentType<PropsWithChildren<T>> {
-  return (props: PropsWithChildren<T>): ReactElement => {
-    const accessToken = getDataFromLocalStorage('access_token')
+function withRestrictedRoute(WrappedComponent: ComponentType): ComponentType {
+  return () => {
+    const accessToken = getDataFromLocalStorage('accessToken')
 
     return !accessToken ? (
-      <WrappedComponent {...props} />
+      <WrappedComponent />
     ) : (
       <Navigate to={RoutesPath.HOME} replace />
     )

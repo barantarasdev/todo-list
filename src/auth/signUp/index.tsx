@@ -1,17 +1,15 @@
-import {ChangeEvent, Component, FormEvent} from 'react'
-import {connect} from 'react-redux'
-import {SignUpProps, SignUpStatesT} from 'src/auth/signUp/types'
+import { ChangeEvent, Component, FormEvent } from 'react'
+import { connect } from 'react-redux'
+import { SignUpProps, SignUpStatesT } from 'src/auth/signUp/types'
 import * as Styled from 'src/auth/styles'
 import Input from 'src/components/common/Input'
 import Select from 'src/components/common/Select'
-import {GENDER_OPTIONS} from 'src/constants'
-import {storeUser} from 'src/helpers/userHelper'
+import { GENDER_OPTIONS } from 'src/constants'
 import validateSignUp from 'src/helpers/validationHelper'
 import withNavigation from 'src/hocks/withNavigation'
-import {signUp} from 'src/services/userService'
-import {mapDispatchToSnackbarProps} from 'src/store/slices/snackbarSlice/snackbarMap'
-import {InputBlock, Label} from 'src/styles'
-import {RoutesPath, ValidateT} from 'src/types'
+import { mapDispatchToUserProps } from 'src/store/slices/userSlice/userMap'
+import { InputBlock, Label } from 'src/styles'
+import { RoutesPath, Validate } from 'src/types'
 
 class SignUp extends Component<SignUpProps, SignUpStatesT> {
   constructor(props: SignUpProps) {
@@ -19,14 +17,14 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
 
     this.state = {
       formData: {
-        user_email: '',
-        user_name: '',
-        user_password: '',
-        user_confirm_password: '',
-        user_phone: '',
-        user_age: '',
-        user_gender: '',
-        user_site: '',
+        userEmail: '',
+        userName: '',
+        userPassword: '',
+        userConfirmPassword: '',
+        userPhone: '',
+        userAge: '',
+        userGender: '',
+        userSite: '',
       },
       errors: {},
       isSubmitted: false,
@@ -34,47 +32,47 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
   }
 
   onChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const {id, value} = e.target
-    const {formData, isSubmitted} = this.state
+    const { name, value } = e.target
+    const { formData, isSubmitted } = this.state
 
     this.setState(prevStates => ({
-      formData: {...prevStates.formData, [id]: value},
+      formData: { ...prevStates.formData, [name]: value },
     }))
 
     if (isSubmitted) {
       const validatedInput = validateSignUp(
-        id as ValidateT,
+        name as Validate,
         value,
-        id === 'user_confirm_password' ? formData.user_password : null
+        name === Validate.CONFIRM_PASSWORD ? formData.userPassword : null
       )
 
       this.setState(prevStates => {
-        const newErrors = {...prevStates.errors}
+        const newErrors = { ...prevStates.errors }
 
         if (validatedInput) {
-          newErrors[id] = validatedInput
+          newErrors[name] = validatedInput
         } else {
-          delete newErrors[id]
+          delete newErrors[name]
         }
 
         return {
-          errors: {...newErrors},
+          errors: { ...newErrors },
         }
       })
     }
   }
 
-  onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const {formData} = this.state
+    const { formData } = this.state
     const newErrors: Record<string, string> = {}
-    const {navigate, setSnackbar} = this.props
+    const { signUp, navigate } = this.props
 
     Object.entries(formData).forEach(([key, value]) => {
       const error = validateSignUp(
-        key as ValidateT,
+        key as Validate,
         value,
-        key === 'user_confirm_password' ? formData.user_password : null
+        key === 'userConfirmPassword' ? formData.userPassword : null
       )
 
       if (error) {
@@ -82,28 +80,26 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
       }
     })
 
-    this.setState({errors: newErrors, isSubmitted: true})
+    this.setState({ errors: newErrors, isSubmitted: true })
 
     if (!Object.values(newErrors).length) {
-      try {
-        const {access_token, refresh_token, user_id} = await signUp({
-          ...formData,
-        })
-        storeUser(
-          {user_name: formData.user_name, user_id},
-          access_token,
-          refresh_token
-        )
-        this.setState({isSubmitted: false})
-        navigate(RoutesPath.HOME)
-      } catch (err) {
-        setSnackbar('User already exists')
-      }
+      signUp({ ...formData }, navigate)
+      this.setState({ isSubmitted: false })
     }
   }
 
   render() {
-    const {errors, formData} = this.state
+    const { errors, formData } = this.state
+    const {
+      NAME,
+      AGE,
+      EMAIL,
+      CONFIRM_PASSWORD,
+      PASSWORD,
+      SITE,
+      PHONE,
+      GENDER,
+    } = Validate
 
     return (
       <Styled.FormBlock>
@@ -111,79 +107,79 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
 
         <Styled.Form onSubmit={this.onSubmit} noValidate>
           <Input
-            id="user_name"
+            name={NAME}
             type="text"
             placeholder="Name"
-            value={formData.user_name}
+            value={formData.userName}
             onChange={this.onChange}
             errors={errors}
           />
 
           <Input
-            id="user_email"
+            name={EMAIL}
             type="email"
             placeholder="Email"
-            value={formData.user_email}
+            value={formData.userEmail}
             onChange={this.onChange}
             errors={errors}
           />
 
           <Input
-            id="user_phone"
+            name={PHONE}
             type="tel"
             placeholder="Phone"
-            value={formData.user_phone}
+            value={formData.userPhone}
             onChange={this.onChange}
             errors={errors}
           />
 
           <Input
-            id="user_age"
+            name={AGE}
             type="number"
             placeholder="Age"
-            value={formData.user_age}
+            value={formData.userAge}
             onChange={this.onChange}
             errors={errors}
           />
 
           <InputBlock>
             <Select
-              isError={!!errors.user_gender}
-              id="user_gender"
+              isError={!!errors.userGender}
+              name={GENDER}
               options={GENDER_OPTIONS}
-              value={formData.user_gender}
+              value={formData.userGender}
               onChange={this.onChange}
             />
 
-            <Label $isError={!!errors.user_gender} htmlFor="gender">
-              {errors.user_gender}
+            <Label $isError={!!errors.userGender} htmlFor={GENDER}>
+              {errors.userGender}
             </Label>
           </InputBlock>
 
           <Input
-            id="user_site"
+            name={SITE}
             type="url"
             placeholder="Site"
-            value={formData.user_site}
+            value={formData.userSite}
             onChange={this.onChange}
             errors={errors}
           />
 
           <Input
-            id="user_password"
+            name={PASSWORD}
             type="password"
             placeholder="Password"
-            value={formData.user_password}
+            value={formData.userPassword}
             onChange={this.onChange}
             errors={errors}
             isPassword
           />
 
           <Input
-            id="user_confirm_password"
+            name={CONFIRM_PASSWORD}
             type="password"
             placeholder="Confirm password"
-            value={formData.user_confirm_password}
+            value={formData.userConfirmPassword}
             onChange={this.onChange}
             errors={errors}
             isPassword
@@ -200,4 +196,4 @@ class SignUp extends Component<SignUpProps, SignUpStatesT> {
   }
 }
 
-export default withNavigation(connect(null, mapDispatchToSnackbarProps)(SignUp))
+export default withNavigation(connect(null, mapDispatchToUserProps)(SignUp))

@@ -1,16 +1,17 @@
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import StyledSelect from 'src/components/common/Select/styles'
-import {SelectProps} from 'src/components/common/Select/types'
+import { SelectProps } from 'src/components/common/Select/types'
 
 class Select extends PureComponent<SelectProps> {
   render() {
-    const {value: ValueProps, onChange, options, id, isError} = this.props
+    const { value: valueProps, onChange, options, name, isError } = this.props
 
     return (
       <StyledSelect
         $isError={isError}
-        id={id}
-        value={ValueProps}
+        id={name}
+        name={name}
+        value={valueProps}
         onChange={onChange}
         required
       >
@@ -18,7 +19,7 @@ class Select extends PureComponent<SelectProps> {
           Choose option
         </option>
 
-        {options.map(({value, title}) => (
+        {options.map(({ value, title }) => (
           <option key={value} value={value}>
             {title}
           </option>

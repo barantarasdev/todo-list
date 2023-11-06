@@ -1,5 +1,5 @@
-import {TodosCreators} from 'src/store/slices/todosSlice/types'
-import {CreateTodoT, UpdateTodoT} from 'src/types'
+import { TodosCreators } from 'src/store/slices/todosSlice/types'
+import { CreateTodoT, UpdateTodoT } from 'src/types'
 
 export const setTodosCreator = (id: string) => ({
   type: TodosCreators.ASYNC_SET_TODOS,
@@ -18,5 +18,5 @@ export const deleteTodoCreator = (id: string) => ({
 
 export const updateTodoCreator = (id: string, todo: UpdateTodoT) => ({
   type: TodosCreators.ASYNC_UPDATE_TODO,
-  payload: {id, todo},
+  payload: { id, todo },
 })

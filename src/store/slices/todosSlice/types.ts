@@ -1,4 +1,4 @@
-import {TodoT} from 'src/types'
+import { TodoT } from 'src/types'
 
 export type TodosStateT = {
   todos: TodoT[]

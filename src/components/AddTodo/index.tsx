@@ -1,10 +1,10 @@
-import {ChangeEvent, Component, FormEvent, RefObject, createRef} from 'react'
-import {connect} from 'react-redux'
+import { ChangeEvent, Component, FormEvent, RefObject, createRef } from 'react'
+import { connect } from 'react-redux'
 import clearIcon from 'src/../public/assets/icons/clear.svg'
 import * as Styled from 'src/components/AddTodo/styles'
-import {AddTodoProps, AddTodoStatesT} from 'src/components/AddTodo/types'
-import {getDataFromLocalStorage} from 'src/helpers/storageHelper'
-import {mapDispatchToTodosProps} from 'src/store/slices/todosSlice/TodoMap'
+import { AddTodoProps, AddTodoStatesT } from 'src/components/AddTodo/types'
+import { getDataFromLocalStorage } from 'src/helpers/storageHelper'
+import { mapDispatchToTodosProps } from 'src/store/slices/todosSlice/todoMap'
 
 class AddTodo extends Component<AddTodoProps, AddTodoStatesT> {
   private readonly inputRef: RefObject<HTMLInputElement>
@@ -12,32 +12,32 @@ class AddTodo extends Component<AddTodoProps, AddTodoStatesT> {
   constructor(props: AddTodoProps) {
     super(props)
 
-    this.state = {value: ''}
+    this.state = { value: '' }
     this.inputRef = createRef<HTMLInputElement>()
   }
 
   onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {value} = e.target
-    this.setState({value})
+    const { value } = e.target
+    this.setState({ value })
   }
 
   onClear = () => {
-    this.setState({value: ''}, () => this.inputRef.current?.focus())
+    this.setState({ value: '' }, () => this.inputRef.current?.focus())
   }
 
   onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const {value: todo_value} = this.state
-    const {createTodo} = this.props
+    const { value: todoValue } = this.state
+    const { createTodo } = this.props
 
-    if (todo_value.length) {
-      const {user_id} = getDataFromLocalStorage('user')
+    if (todoValue.length) {
+      const { userId } = getDataFromLocalStorage('user')
 
       createTodo({
-        todo_value,
-        user_id,
-        todo_completed: false,
+        todoValue,
+        userId,
+        todoCompleted: false,
       })
     }
 
@@ -45,7 +45,7 @@ class AddTodo extends Component<AddTodoProps, AddTodoStatesT> {
   }
 
   render() {
-    const {value} = this.state
+    const { value } = this.state
 
     return (
       <Styled.FormBlock>

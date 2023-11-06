@@ -1,4 +1,5 @@
-import {NavigateT, UserT} from 'src/types'
+import { NavigateFunction } from 'react-router'
+import { NavigateT, UserT } from 'src/types'
 
 export type SignUpStatesT = {
   formData: UserT
@@ -7,5 +8,5 @@ export type SignUpStatesT = {
 }
 
 export type SignUpProps = {
-  setSnackbar: (message: string) => void
+  signUp: (data: any, navigate: NavigateFunction) => void
 } & NavigateT

@@ -1,5 +1,5 @@
-import {square} from 'src/styles/mixins'
-import styled, {keyframes} from 'styled-components'
+import { square } from 'src/styles/mixins'
+import styled, { keyframes } from 'styled-components'
 
 const ldsDualRingAnimation = keyframes`
   0% {

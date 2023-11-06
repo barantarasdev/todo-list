@@ -1,7 +1,7 @@
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import AvatarItem from 'src/components/AvatarItem'
 import List from 'src/components/AvatarItems/styles'
-import {AVATAR_ITEMS} from 'src/constants'
+import { AVATAR_ITEMS } from 'src/constants'
 
 class AvatarItems extends PureComponent {
   render() {
