@@ -5,9 +5,9 @@ import { RoutesPath } from 'src/types'
 
 function withPrivateRoute(WrappedComponent: ComponentType): ComponentType {
   return () => {
-    const user = getDataFromLocalStorage('user')
+    const accessToken = getDataFromLocalStorage('accessToken')
 
-    return user ? (
+    return accessToken ? (
       <WrappedComponent />
     ) : (
       <Navigate to={RoutesPath.SIGN_IN} replace />

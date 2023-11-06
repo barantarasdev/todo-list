@@ -7,7 +7,7 @@ export function removeUser(): void {
 }
 
 export function storeUser(
-  user: Record<string, string>,
+  user: { userId: string; userName: string },
   accessToken: string,
   refreshToken: string
 ): void {

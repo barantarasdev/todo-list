@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { SnackbarStateT } from 'src/store/slices/snackbarSlice/types'
 
@@ -7,9 +6,9 @@ const initialState: SnackbarStateT = {
 }
 
 const reducers = {
-  setSnackbar: (state: SnackbarStateT, action: PayloadAction<string>) => {
-    state.snackbar = action.payload
-  },
+  setSnackbar: (state: SnackbarStateT, action: PayloadAction<string>) => ({
+    snackbar: action.payload,
+  }),
 }
 
 const snackbarSlice = createSlice({

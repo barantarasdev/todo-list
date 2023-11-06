@@ -1,71 +1,42 @@
-import { ChangeEvent, Component, FormEvent } from 'react'
-import { connect } from 'react-redux'
-import { SignInProps } from 'src/auth/signIn/types'
+import useSignIn from 'src/auth/signIn/useSignIn'
 import * as Styled from 'src/auth/styles'
 import Input from 'src/components/common/Input'
-import withNavigation from 'src/hocks/withNavigation'
-import { mapDispatchToUserProps } from 'src/store/slices/userSlice/userMap'
-import { RoutesPath, SignInT, Validate } from 'src/types'
+import { RoutesPath, Validate } from 'src/types'
 
-class SignIn extends Component<SignInProps, SignInT> {
-  constructor(props: SignInProps) {
-    super(props)
+const SignIn = () => {
+  const { onSubmit, userEmail, onChange, userPassword, isDisabledButton } =
+    useSignIn()
 
-    this.state = { userEmail: '', userPassword: '' }
-  }
+  return (
+    <Styled.FormBlock>
+      <Styled.Title>Sign in</Styled.Title>
 
-  onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target
-    this.setState(prevState => ({
-      ...prevState,
-      [id as keyof SignInT]: value,
-    }))
-  }
+      <Styled.Form onSubmit={onSubmit} noValidate>
+        <Input
+          name={Validate.EMAIL}
+          type="email"
+          placeholder="Email"
+          value={userEmail}
+          onChange={onChange}
+        />
 
-  onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const { userEmail, userPassword } = this.state
-    const { signIn, navigate } = this.props
+        <Input
+          name={Validate.PASSWORD}
+          type="password"
+          placeholder="Password"
+          value={userPassword}
+          onChange={onChange}
+          isPassword
+        />
 
-    signIn(userEmail, userPassword, navigate)
-  }
+        <Styled.Button type="submit" disabled={isDisabledButton}>
+          Sign in
+        </Styled.Button>
 
-  render() {
-    const { userEmail, userPassword } = this.state
-    const isDisabledButton = !userEmail.length || !userPassword.length
-    const { EMAIL, PASSWORD } = Validate
-
-    return (
-      <Styled.FormBlock>
-        <Styled.Title>Sign in</Styled.Title>
-
-        <Styled.Form onSubmit={this.onSubmit} noValidate>
-          <Input
-            name={EMAIL}
-            type="email"
-            placeholder="Email"
-            value={userEmail}
-            onChange={this.onChange}
-          />
-
-          <Input
-            name={PASSWORD}
-            type="password"
-            placeholder="Password"
-            value={userPassword}
-            onChange={this.onChange}
-            isPassword
-          />
-
-          <Styled.Button type="submit" disabled={isDisabledButton}>
-            Sign in
-          </Styled.Button>
-
-          <Styled.Link to={RoutesPath.SIGN_UP}>Sign up</Styled.Link>
-        </Styled.Form>
-      </Styled.FormBlock>
-    )
-  }
+        <Styled.Link to={RoutesPath.SIGN_UP}>Sign up</Styled.Link>
+      </Styled.Form>
+    </Styled.FormBlock>
+  )
 }
 
-export default withNavigation(connect(null, mapDispatchToUserProps)(SignIn))
+export default SignIn
