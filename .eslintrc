@@ -27,44 +27,23 @@
         "component": true,
         "html": true
       }
-    ],
-    "@typescript-eslint/consistent-type-imports": [
-      "error",
-      {
-        "prefer": "type-imports"
-      }
-    ],
-    "import/order": [
-      "error",
-      {
-        "groups": [
-          "builtin",
-          "external",
-          "parent",
-          "sibling",
-          "index",
-          "object",
-          "type"
-        ],
-        "pathGroups": [
-          {
-            "pattern": "@/**/**",
-            "group": "parent",
-            "position": "before"
-          }
-        ],
-        "alphabetize": {
-          "order": "asc"
-        }
-      }
     ]
   },
   "overrides": [
     {
       "files": [
+        "*.ts",
         "*.tsx"
       ],
-      "rules": {}
+      "rules": {
+        "react/function-component-definition": [
+          2,
+          {
+            "namedComponents": "arrow-function",
+            "unnamedComponents": "arrow-function"
+          }
+        ]
+      }
     }
   ],
   "settings": {

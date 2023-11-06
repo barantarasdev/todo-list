@@ -1,91 +1,33 @@
-import { Component } from 'react'
-import ErrorBoundary from 'src/components/ErrorBoundary'
-import Snackbar from 'src/components/Snackbar'
-import Layout from 'src/components/Layout'
-import { PrimaryContext } from 'src/context'
-import { createTodo, deleteTodo, getTodos, updateTodo } from 'src/services/todoService'
-import { getDataFromLocaleStorage } from 'src/helpers/storageHelper'
-import { ROUTES } from 'src/constants'
+import React, { PureComponent, Suspense } from 'react'
+import { Route, Routes } from 'react-router'
+import SignIn from 'src/auth/signIn'
+import SignUp from 'src/auth/signUp'
+import Loader from 'src/components/Loader'
+import withPrivateRoute from 'src/hocks/withPrivateRoute'
+import withRestrictedRoute from 'src/hocks/withRestrictRoute'
+import Home from 'src/pages/Home'
+import Layout from 'src/pages/Layout'
+import NotFound from 'src/pages/NotFound'
+import { RoutesPath } from 'src/types'
 
-class App extends Component {
-  static contextType = PrimaryContext
+const PrivateHome = withPrivateRoute(Home)
+const PublicSignIn = withRestrictedRoute(SignIn)
+const PublicSignUp = withRestrictedRoute(SignUp)
+const { HOME, SIGN_IN, SIGN_UP } = RoutesPath
 
-  constructor(props) {
-    super(props)
-
-    this.state = { route: ROUTES.SIGN_IN, todos: [], snackbar: '' }
-  }
-
-  onCreateTodo = async todo => {
-    const { todo_id } = await createTodo(todo)
-    this.setState(({ todos }) => ({
-      todos: [...todos, { ...todo, todo_id }],
-    }))
-  }
-
-  onUpdateTodo = async (id, options) => {
-    await updateTodo(id, options)
-    this.setState(({ todos }) => ({
-      todos: todos.map(currentTodo =>
-        currentTodo.todo_id === id ? { ...currentTodo, ...options } : currentTodo
-      ),
-    }))
-  }
-
-  onDeleteTodo = async id => {
-    await deleteTodo(id)
-    this.setState(({ todos }) => ({
-      todos: todos.filter(currentTodo => currentTodo.todo_id !== id),
-    }))
-  }
-
-  setRoute = route => {
-    this.setState({ route })
-  }
-
-  setTodos = todos => {
-    this.setState({ todos })
-  }
-
-  setSnackbar = snackbar => {
-    this.setState({ snackbar })
-  }
-
-  async componentDidMount() {
-    const user = getDataFromLocaleStorage('user')
-
-    if (user) {
-      const { todos } = await getTodos(user.user_id)
-
-      return this.setState({ route: ROUTES.HOME, todos })
-    }
-
-    this.setState({ route: ROUTES.SIGN_IN })
-  }
-
+class App extends PureComponent {
   render() {
     return (
-      <PrimaryContext.Provider
-        value={{
-          todos: this.state.todos,
-          setTodos: this.setTodos,
-          onCreateTodo: this.onCreateTodo,
-          onDeleteTodo: this.onDeleteTodo,
-          onUpdateTodo: this.onUpdateTodo,
-
-          route: this.state.route,
-          setRoute: this.setRoute,
-
-          snackbar: this.state.snackbar,
-          setSnackbar: this.setSnackbar,
-        }}
-      >
-        <ErrorBoundary>
-          <Layout />
-
-          <Snackbar />
-        </ErrorBoundary>
-      </PrimaryContext.Provider>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path={HOME} element={<Layout />}>
+            <Route index element={<PrivateHome />} />
+            <Route path={SIGN_IN} element={<PublicSignIn />} />
+            <Route path={SIGN_UP} element={<PublicSignUp />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </Suspense>
     )
   }
 }
