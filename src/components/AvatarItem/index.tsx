@@ -1,34 +1,16 @@
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { FC } from 'react'
 import * as Styled from 'src/components/AvatarItem/styles'
 import { AvatarItemProps } from 'src/components/AvatarItem/types'
-import withNavigation from 'src/hocks/withNavigation'
-import { mapDispatchToUserProps } from 'src/store/slices/userSlice/userMap'
-import { AvatarItems } from 'src/types'
+import useAvatarItem from 'src/components/AvatarItem/useAvatarItem'
 
-class AvatarItem extends Component<AvatarItemProps> {
-  onClick = async () => {
-    const {
-      navigate,
-      logout,
-      item: { value },
-    } = this.props
-    if (value === AvatarItems.LOGOUT) {
-      logout(navigate)
-    }
-  }
+const AvatarItem: FC<AvatarItemProps> = ({ item }) => {
+  const { onClick } = useAvatarItem({ item })
 
-  render() {
-    const {
-      item: { title },
-    } = this.props
-
-    return (
-      <Styled.Item>
-        <Styled.Button onClick={this.onClick}>{title}</Styled.Button>
-      </Styled.Item>
-    )
-  }
+  return (
+    <Styled.Item>
+      <Styled.Button onClick={onClick}>{item.title}</Styled.Button>
+    </Styled.Item>
+  )
 }
 
-export default withNavigation(connect(null, mapDispatchToUserProps)(AvatarItem))
+export default AvatarItem
