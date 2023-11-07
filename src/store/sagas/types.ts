@@ -15,6 +15,7 @@ export type SignInWorkerPayloadT = {
 export type SignUpWorkerPayloadT = {
   data: UserT
   navigate: NavigateFunction
+  callback: () => void
 }
 
 export type LogoutWorkerPayloadT = {

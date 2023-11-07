@@ -10,9 +10,13 @@ export const SignInCreator = (
   payload: { userEmail: email, userPassword: password, navigate },
 })
 
-export const SignUpCreator = (data: any, navigate: NavigateFunction) => ({
+export const SignUpCreator = (
+  data: any,
+  navigate: NavigateFunction,
+  callback: () => void
+) => ({
   type: UserCreators.ASYNC_SIGN_UP,
-  payload: { data, navigate },
+  payload: { data, navigate, callback },
 })
 
 export const LogoutCreator = (navigate: NavigateFunction) => ({

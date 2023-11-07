@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import withNavigation from 'src/hocks/withNavigation'
 import { ErrorBoundaryProps } from 'src/pages/ErrorBoundary/types'
-import { mapDispatchToUserProps } from 'src/store/slices/userSlice/userMap'
+import mapDispatchToUserProps from 'src/store/slices/userSlice/userMap'
 
 class ErrorBoundary extends Component<ErrorBoundaryProps> {
   componentDidCatch() {
