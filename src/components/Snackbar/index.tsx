@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import StyledSnackbar from 'src/components/Snackbar/styles'
 import useSnackbar from 'src/components/Snackbar/useSnackbar'
 
-const Snackbar = () => {
+function Snackbar() {
   const { isActive, snackbar } = useSnackbar()
 
   if (!isActive) {

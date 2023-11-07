@@ -11,7 +11,7 @@ export const InputContent = styled.div`
   --eye-button-width: 40px;
 `
 
-export const Input = styled.input<{ $isActive: boolean }>`
+export const StyledInput = styled.input<{ $isActive: boolean }>`
   padding: 20px var(--padding-left-input) var(--padding-left-input);
   font-size: 19px;
 
@@ -24,7 +24,7 @@ export const Input = styled.input<{ $isActive: boolean }>`
 }
 `
 
-export const TopLabel = styled.label<{
+export const InputTopLabel = styled.label<{
   $isActive: boolean
   $isError?: boolean
 }>`
@@ -40,7 +40,7 @@ export const TopLabel = styled.label<{
   transition-duration: var(--primary-duration);
 `
 
-export const EyeButton = styled.button`
+export const InputEyeButton = styled.button`
   padding: 0px 10px;
   position: absolute;
   height: 100%;

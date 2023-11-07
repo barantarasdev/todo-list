@@ -1,11 +1,14 @@
-import { FC } from 'react'
 import EyeButton from 'src/components/EyeButton'
-import * as Styled from 'src/components/common/Input/styles'
+import {
+  InputContent,
+  InputTopLabel,
+  StyledInput,
+} from 'src/components/common/Input/styles'
 import { InputProps } from 'src/components/common/Input/types'
 import useInput from 'src/components/common/Input/useInput'
 import { InputBlock, Label } from 'src/styles'
 
-const Input: FC<InputProps> = ({
+function Input({
   name,
   type,
   placeholder,
@@ -13,7 +16,7 @@ const Input: FC<InputProps> = ({
   onChange,
   errors = {},
   isPassword = false,
-}) => {
+}: InputProps) {
   const {
     isVisiblePassword,
     toggleIsFocused,
@@ -30,16 +33,16 @@ const Input: FC<InputProps> = ({
 
   return (
     <InputBlock>
-      <Styled.InputContent>
-        <Styled.TopLabel
+      <InputContent>
+        <InputTopLabel
           $isError={isInputError}
           $isActive={isActive}
           htmlFor={name}
         >
           {placeholder}
-        </Styled.TopLabel>
+        </InputTopLabel>
 
-        <Styled.Input
+        <StyledInput
           $isActive={isActive}
           placeholder={placeholder}
           type={isVisiblePassword ? 'text' : type}
@@ -57,7 +60,7 @@ const Input: FC<InputProps> = ({
             onToggleIsVisiblePassword={toggleIsVisiblePassword}
           />
         )}
-      </Styled.InputContent>
+      </InputContent>
 
       <Label htmlFor={name} $isError={isInputError as boolean}>
         {errors[name]}

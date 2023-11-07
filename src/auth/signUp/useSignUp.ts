@@ -5,7 +5,7 @@ import { useAppDispatch } from 'src/hooks/useRedux'
 import { SignUpCreator } from 'src/store/slices/userSlice/actionCreators'
 import { Validate } from 'src/types'
 
-const useSignUp = () => {
+function useSignUp() {
   const [formData, setFormData] = useState({
     userEmail: '',
     userName: '',

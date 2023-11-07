@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { NavigateT } from 'src/types'
 
 function withNavigation<T extends NavigateT>(Component: ComponentType<T>) {
-  return (props: Omit<T, keyof NavigateT>) => {
+  return function F(props: Omit<T, keyof NavigateT>) {
     const navigate = useNavigate()
 
     const componentProps = { ...props, navigate } as T

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const List = styled.ul`
+export const AvatarItemsList = styled.ul`
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -9,4 +9,4 @@ export const List = styled.ul`
   z-index: 2;
 `
 
-export default List
+export default AvatarItemsList

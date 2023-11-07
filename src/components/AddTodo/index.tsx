@@ -1,15 +1,22 @@
 import clearIcon from 'src/../public/assets/icons/clear.svg'
-import * as Styled from 'src/components/AddTodo/styles'
+import {
+  AddTodoButton,
+  AddTodoForm,
+  AddTodoFormBlock,
+  AddTodoIconButton,
+  AddTodoInput,
+  AddTodoInputBlock,
+} from 'src/components/AddTodo/styles'
 import useAddTodo from 'src/components/AddTodo/useAddTodo'
 
-const AddTodo = () => {
+function AddTodo() {
   const { onSubmit, inputRef, value, onChange, onClear } = useAddTodo()
 
   return (
-    <Styled.FormBlock>
-      <Styled.Form onSubmit={onSubmit}>
-        <Styled.InputBlock>
-          <Styled.Input
+    <AddTodoFormBlock>
+      <AddTodoForm onSubmit={onSubmit}>
+        <AddTodoInputBlock>
+          <AddTodoInput
             ref={inputRef}
             type="text"
             value={value}
@@ -18,15 +25,15 @@ const AddTodo = () => {
           />
 
           {!!value.length && (
-            <Styled.IconButton type="button" onClick={onClear}>
+            <AddTodoIconButton type="button" onClick={onClear}>
               <img src={clearIcon} alt="clear icon" />
-            </Styled.IconButton>
+            </AddTodoIconButton>
           )}
-        </Styled.InputBlock>
+        </AddTodoInputBlock>
 
-        <Styled.Button type="submit">ADD</Styled.Button>
-      </Styled.Form>
-    </Styled.FormBlock>
+        <AddTodoButton type="submit">ADD</AddTodoButton>
+      </AddTodoForm>
+    </AddTodoFormBlock>
   )
 }
 

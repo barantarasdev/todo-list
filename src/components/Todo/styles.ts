@@ -2,7 +2,10 @@ import { AnimatedButton } from 'src/styles'
 import { flexCenter } from 'src/styles/mixins'
 import styled from 'styled-components'
 
-export const Item = styled.li<{ $isFocused: boolean; $isCompleted: boolean }>`
+export const TodoItem = styled.li<{
+  $isFocused: boolean
+  $isCompleted: boolean
+}>`
   width: 100%;
   padding: 10px;
   display: flex;
@@ -22,13 +25,13 @@ export const Item = styled.li<{ $isFocused: boolean; $isCompleted: boolean }>`
   border-radius: var(--primary-border-radius);
 `
 
-export const Form = styled.form`
+export const TodoForm = styled.form`
   width: 100%;
   display: flex;
   align-items: center;
 `
 
-export const Input = styled.input<{ $isCompleted: boolean }>`
+export const TodoInput = styled.input<{ $isCompleted: boolean }>`
   width: 100%;
   height: 30px;
   padding: 5px 0;
@@ -36,11 +39,9 @@ export const Input = styled.input<{ $isCompleted: boolean }>`
   text-decoration: ${({ $isCompleted }) =>
     $isCompleted ? 'line-through' : 'auto'}
 }
-
-;
 `
 
-export const Button = styled(AnimatedButton)`
+export const TodoButton = styled(AnimatedButton)`
   width: 50px;
   height: 35px;
   background-color: var(--color-success);
@@ -48,6 +49,6 @@ export const Button = styled(AnimatedButton)`
   ${flexCenter}
 `
 
-export const RemoveButton = styled(Button)`
+export const TodoRemoveButton = styled(TodoButton)`
   background-color: var(--color-error);
 `

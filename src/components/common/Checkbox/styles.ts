@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Button = styled.button<{ $isChecked: boolean }>`
+const CheckboxButton = styled.button<{ $isChecked: boolean }>`
   width: 30px;
   height: 25px;
   border: 2px solid
@@ -13,4 +13,4 @@ const Button = styled.button<{ $isChecked: boolean }>`
   }
 `
 
-export default Button
+export default CheckboxButton

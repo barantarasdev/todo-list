@@ -1,18 +1,21 @@
+import React from 'react'
 import AddTodo from 'src/components/AddTodo'
 import Header from 'src/components/Header'
 import Todos from 'src/components/Todos'
-import * as Styled from 'src/pages/Home/styles'
+import { StyledHome, StyledMain } from 'src/pages/Home/styles'
 
-const Home = () => (
-  <Styled.Home>
-    <Header />
+function Home() {
+  return (
+    <StyledHome>
+      <Header />
 
-    <Styled.Main>
-      <AddTodo />
+      <StyledMain>
+        <AddTodo />
 
-      <Todos />
-    </Styled.Main>
-  </Styled.Home>
-)
+        <Todos />
+      </StyledMain>
+    </StyledHome>
+  )
+}
 
 export default Home

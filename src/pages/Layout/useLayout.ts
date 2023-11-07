@@ -6,7 +6,7 @@ import { setTodosCreator } from 'src/store/slices/todosSlice/actionCreators'
 import { setUser } from 'src/store/slices/userSlice'
 import { RoutesPath } from 'src/types'
 
-const useLayout = () => {
+function useLayout() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 

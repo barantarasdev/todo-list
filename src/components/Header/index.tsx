@@ -2,7 +2,7 @@ import Avatar from 'src/components/Avatar'
 import StyledHeader from 'src/components/Header/styles'
 import { getDataFromLocalStorage } from 'src/helpers/storageHelper'
 
-const Header = () => {
+function Header() {
   const { userName } = getDataFromLocalStorage('user')
 
   return (

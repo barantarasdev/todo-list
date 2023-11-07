@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const NotFound = styled.h2`
+export const StyledNotFound = styled.h2`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +10,7 @@ export const NotFound = styled.h2`
   transform: translate(-50%, -50%);
 `
 
-export const Title = styled.h2`
+export const NotFoundTitle = styled.h2`
   font-size: 60px;
   text-align: center;
 `

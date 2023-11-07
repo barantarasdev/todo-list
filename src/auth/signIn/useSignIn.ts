@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from 'src/hooks/useRedux'
 import { SignInCreator } from 'src/store/slices/userSlice/actionCreators'
 
-const useSignIn = () => {
+function useSignIn() {
   const [formData, setFormData] = useState({ userEmail: '', userPassword: '' })
 
   const dispatch = useAppDispatch()

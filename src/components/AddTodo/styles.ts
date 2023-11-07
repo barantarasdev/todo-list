@@ -2,16 +2,16 @@ import { AnimatedButton } from 'src/styles'
 import { flexCenter, square } from 'src/styles/mixins'
 import styled from 'styled-components'
 
-export const FormBlock = styled.div`
+export const AddTodoFormBlock = styled.div`
   width: 100%;
 `
 
-export const Form = styled.form`
+export const AddTodoForm = styled.form`
   width: 100%;
   display: flex;
 `
 
-export const InputBlock = styled.div`
+export const AddTodoInputBlock = styled.div`
   width: 100%;
   height: 50px;
   display: flex;
@@ -21,7 +21,7 @@ export const InputBlock = styled.div`
   border-top-left-radius: var(--primary-border-radius);
 `
 
-export const Input = styled.input`
+export const AddTodoInput = styled.input`
   padding: var(--padding-left-input);
   font-size: 20px;
 
@@ -32,13 +32,13 @@ export const Input = styled.input`
   ${square('100%')}
 `
 
-export const IconButton = styled.button`
+export const AddTodoIconButton = styled.button`
   height: 100%;
   width: 40px;
   ${flexCenter}
 `
 
-export const Button = styled(AnimatedButton)`
+export const AddTodoButton = styled(AnimatedButton)`
   padding: 5px 30px;
   font-weight: 700;
   color: var(--secondary-color);

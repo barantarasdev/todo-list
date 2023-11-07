@@ -1,12 +1,17 @@
-import React, { FC } from 'react'
 import confirmIcon from 'src/../public/assets/icons/confirm.svg'
 import removeIcon from 'src/../public/assets/icons/remove.svg'
-import * as Styled from 'src/components/Todo/styles'
+import {
+  TodoButton,
+  TodoForm,
+  TodoInput,
+  TodoItem,
+  TodoRemoveButton,
+} from 'src/components/Todo/styles'
 import { TodoProps } from 'src/components/Todo/types'
 import useTodo from 'src/components/Todo/useTodo'
 import Checkbox from 'src/components/common/Checkbox'
 
-const Todo: FC<TodoProps> = ({ todo }) => {
+function Todo({ todo }: TodoProps) {
   const {
     value,
     inputRef,
@@ -18,14 +23,15 @@ const Todo: FC<TodoProps> = ({ todo }) => {
     onFocus,
     onCompleted,
     onSubmit,
+    onClick,
   } = useTodo({ todo })
 
   return (
-    <Styled.Item $isFocused={isEditing} $isCompleted={isCompleted}>
+    <TodoItem $isFocused={isEditing} $isCompleted={isCompleted}>
       <Checkbox value={isCompleted} onChange={onCompleted} />
 
-      <Styled.Form onSubmit={onSubmit}>
-        <Styled.Input
+      <TodoForm onSubmit={onSubmit}>
+        <TodoInput
           $isCompleted={isCompleted}
           type="text"
           value={value}
@@ -37,16 +43,16 @@ const Todo: FC<TodoProps> = ({ todo }) => {
         />
 
         {isEditing && (
-          <Styled.Button type="submit" onClick={() => onSubmit()}>
+          <TodoButton type="submit" onClick={onClick}>
             <img src={confirmIcon} alt="icon confirm" />
-          </Styled.Button>
+          </TodoButton>
         )}
-      </Styled.Form>
+      </TodoForm>
 
-      <Styled.RemoveButton type="button" onClick={onDelete}>
+      <TodoRemoveButton type="button" onClick={onDelete}>
         <img src={removeIcon} alt="icon remove" />
-      </Styled.RemoveButton>
-    </Styled.Item>
+      </TodoRemoveButton>
+    </TodoItem>
   )
 }
 

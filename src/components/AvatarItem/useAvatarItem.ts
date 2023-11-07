@@ -5,7 +5,7 @@ import { useAppDispatch } from 'src/hooks/useRedux'
 import { LogoutCreator } from 'src/store/slices/userSlice/actionCreators'
 import { AvatarItems } from 'src/types'
 
-const useAvatarItem = ({ item: { value } }: AvatarItemProps) => {
+function useAvatarItem({ item: { value } }: AvatarItemProps) {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 

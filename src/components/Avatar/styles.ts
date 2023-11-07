@@ -1,10 +1,10 @@
 import { flexCenter } from 'src/styles/mixins'
 import styled from 'styled-components'
 
-export const Avatar = styled.div`
+export const StyledAvatar = styled.div`
   overflow: hidden;
 `
 
-export const Button = styled.button`
+export const AvatarButton = styled.button`
   ${flexCenter}
 `

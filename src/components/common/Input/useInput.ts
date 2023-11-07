@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { UseInputProps } from 'src/components/common/Input/types'
 import useActive from 'src/hooks/useActive'
 
-const useInput = ({ value, isPassword, name, errors }: UseInputProps) => {
+function useInput({ value, isPassword, name, errors }: UseInputProps) {
   const { isActive: isFocused, toggleIsActive: toggleIsFocused } = useActive()
   const {
     isActive: isVisiblePassword,

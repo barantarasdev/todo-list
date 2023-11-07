@@ -5,7 +5,7 @@ import useLayout from 'src/pages/Layout/useLayout'
 import { RootContent } from 'src/styles'
 import GlobalStyle from 'src/styles/globalStyles'
 
-const Layout = () => {
+function Layout() {
   useLayout()
 
   return (

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Home = styled.div`
+export const StyledHome = styled.div`
   min-height: inherit;
   width: 60%;
   display: flex;
@@ -8,7 +8,7 @@ export const Home = styled.div`
   gap: 40px;
 `
 
-export const Main = styled.main`
+export const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   gap: 25px;

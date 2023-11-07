@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import useActive from 'src/hooks/useActive'
 
-const useAvatar = () => {
+function useAvatar() {
   const { isActive, toggleIsActive } = useActive()
   const avatarRef = useRef<HTMLInputElement>(null)
 

@@ -1,13 +1,15 @@
 import AvatarItem from 'src/components/AvatarItem'
-import List from 'src/components/AvatarItems/styles'
+import AvatarItemsList from 'src/components/AvatarItems/styles'
 import { AVATAR_ITEMS } from 'src/constants'
 
-const AvatarItems = () => (
-  <List>
-    {AVATAR_ITEMS.map(item => (
-      <AvatarItem key={item.value} item={item} />
-    ))}
-  </List>
-)
+function AvatarItems() {
+  return (
+    <AvatarItemsList>
+      {AVATAR_ITEMS.map(item => (
+        <AvatarItem key={item.value} item={item} />
+      ))}
+    </AvatarItemsList>
+  )
+}
 
 export default AvatarItems

@@ -8,7 +8,7 @@ import {
   updateTodoCreator,
 } from 'src/store/slices/todosSlice/actionCreators'
 
-const useTodo = ({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) => {
+function useTodo({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) {
   const dispatch = useDispatch()
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -83,6 +83,10 @@ const useTodo = ({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) => {
     }
   }, [isEditing, onSubmit])
 
+  const onClick = () => {
+    onSubmit()
+  }
+
   return {
     value,
     inputRef,
@@ -94,6 +98,7 @@ const useTodo = ({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) => {
     onFocus,
     onCompleted,
     onSubmit,
+    onClick,
   }
 }
 

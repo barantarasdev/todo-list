@@ -4,7 +4,7 @@ import useActive from 'src/hooks/useActive'
 import { useAppDispatch, useAppSelector } from 'src/hooks/useRedux'
 import { setSnackbar } from 'src/store/slices/snackbarSlice'
 
-const useSnackbar = () => {
+function useSnackbar() {
   const { isActive, toggleIsActive } = useActive()
   const timeoutIdRef = useRef<number | null>(null)
 

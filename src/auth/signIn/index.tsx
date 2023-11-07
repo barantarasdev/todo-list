@@ -1,17 +1,23 @@
 import useSignIn from 'src/auth/signIn/useSignIn'
-import * as Styled from 'src/auth/styles'
+import {
+  AuthButton,
+  AuthForm,
+  AuthFormBlock,
+  AuthLink,
+  AuthTitle,
+} from 'src/auth/styles'
 import Input from 'src/components/common/Input'
 import { RoutesPath, Validate } from 'src/types'
 
-const SignIn = () => {
+function SignIn() {
   const { onSubmit, userEmail, onChange, userPassword, isDisabledButton } =
     useSignIn()
 
   return (
-    <Styled.FormBlock>
-      <Styled.Title>Sign in</Styled.Title>
+    <AuthFormBlock>
+      <AuthTitle>Sign in</AuthTitle>
 
-      <Styled.Form onSubmit={onSubmit} noValidate>
+      <AuthForm onSubmit={onSubmit} noValidate>
         <Input
           name={Validate.EMAIL}
           type="email"
@@ -29,13 +35,13 @@ const SignIn = () => {
           isPassword
         />
 
-        <Styled.Button type="submit" disabled={isDisabledButton}>
+        <AuthButton type="submit" disabled={isDisabledButton}>
           Sign in
-        </Styled.Button>
+        </AuthButton>
 
-        <Styled.Link to={RoutesPath.SIGN_UP}>Sign up</Styled.Link>
-      </Styled.Form>
-    </Styled.FormBlock>
+        <AuthLink to={RoutesPath.SIGN_UP}>Sign up</AuthLink>
+      </AuthForm>
+    </AuthFormBlock>
   )
 }
 
