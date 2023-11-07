@@ -10,7 +10,7 @@ import {
 import { setSnackbar } from 'src/store/slices/snackbarSlice'
 import { setTodos } from 'src/store/slices/todosSlice'
 import { setTodosCreator } from 'src/store/slices/todosSlice/actionCreators'
-import { setUser } from 'src/store/slices/userSlice'
+import { deleteUser, setUser } from 'src/store/slices/userSlice'
 import { UserCreators } from 'src/store/slices/userSlice/types'
 import { RoutesPath } from 'src/types'
 
@@ -22,7 +22,7 @@ function* signInWorker(action: PayloadAction<SignInWorkerPayloadT>) {
       userPassword,
     })
 
-    yield call(storeUser, { userName, userId }, accessToken, refreshToken)
+    yield call(storeUser, { userId, userName }, accessToken, refreshToken)
     yield put(setUser({ userName, userId }))
     yield put(setTodosCreator(userId))
 
@@ -34,17 +34,18 @@ function* signInWorker(action: PayloadAction<SignInWorkerPayloadT>) {
 
 function* signUpWorker(action: PayloadAction<SignUpWorkerPayloadT>) {
   try {
-    const { data, navigate } = action.payload
+    const { data, navigate, callback } = action.payload
     const { accessToken, refreshToken, userId } = yield call(signUp, data)
 
     yield call(
       storeUser,
-      { userName: data.userName, userId },
+      { userId, userName: data.userName },
       accessToken,
       refreshToken
     )
     yield put(setUser({ userName: data.userName, userId }))
 
+    callback()
     navigate(RoutesPath.HOME)
   } catch (error) {
     yield put(setSnackbar('User already exists'))
@@ -54,6 +55,7 @@ function* signUpWorker(action: PayloadAction<SignUpWorkerPayloadT>) {
 function* logoutWorker(action: PayloadAction<LogoutWorkerPayloadT>) {
   yield call(logOut)
   yield put(setTodos([]))
+  yield put(deleteUser())
 
   removeUser()
   action.payload.navigate(RoutesPath.SIGN_IN)

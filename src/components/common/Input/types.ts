@@ -11,7 +11,7 @@ export type InputProps = {
   isPassword?: boolean
 }
 
-export type InputStatesT = {
-  isFocused: boolean
-  isVisiblePassword: boolean
-}
+export type UseInputProps = Pick<
+  InputProps,
+  'errors' | 'isPassword' | 'value' | 'name'
+>
