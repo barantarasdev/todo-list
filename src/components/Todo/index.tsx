@@ -1,15 +1,9 @@
-import confirmIcon from 'src/../public/assets/icons/confirm.svg'
-import removeIcon from 'src/../public/assets/icons/remove.svg'
-import {
-  TodoButton,
-  TodoForm,
-  TodoInput,
-  TodoItem,
-  TodoRemoveButton,
-} from 'src/components/Todo/styles'
+import { Clear, Done } from '@mui/icons-material'
+import { IconButton, InputBase } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
+import TodoItem from 'src/components/Todo/styles'
 import { TodoProps } from 'src/components/Todo/types'
 import useTodo from 'src/components/Todo/useTodo'
-import Checkbox from 'src/components/common/Checkbox'
 
 function Todo({ todo }: TodoProps) {
   const {
@@ -20,38 +14,37 @@ function Todo({ todo }: TodoProps) {
     onChange,
     onDelete,
     onBlur,
-    onFocus,
     onCompleted,
     onSubmit,
-    onClick,
+    onDoubleClick,
+    onKeyDown,
   } = useTodo({ todo })
 
   return (
     <TodoItem $isFocused={isEditing} $isCompleted={isCompleted}>
-      <Checkbox value={isCompleted} onChange={onCompleted} />
+      <Checkbox checked={isCompleted} onChange={onCompleted} />
 
-      <TodoForm onSubmit={onSubmit}>
-        <TodoInput
-          $isCompleted={isCompleted}
-          type="text"
-          value={value}
-          ref={inputRef}
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          readOnly={!isEditing}
-        />
+      <InputBase
+        inputRef={inputRef}
+        type="text"
+        value={value}
+        onChange={onChange}
+        onDoubleClick={onDoubleClick}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        readOnly={!isEditing}
+        fullWidth
+      />
 
-        {isEditing && (
-          <TodoButton type="submit" onClick={onClick}>
-            <img src={confirmIcon} alt="icon confirm" />
-          </TodoButton>
-        )}
-      </TodoForm>
+      {isEditing && (
+        <IconButton type="submit" onClick={onSubmit}>
+          <Done color="success" />
+        </IconButton>
+      )}
 
-      <TodoRemoveButton type="button" onClick={onDelete}>
-        <img src={removeIcon} alt="icon remove" />
-      </TodoRemoveButton>
+      <IconButton type="button" onClick={onDelete}>
+        <Clear color="error" />
+      </IconButton>
     </TodoItem>
   )
 }

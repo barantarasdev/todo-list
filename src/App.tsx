@@ -1,8 +1,8 @@
+import { CircularProgress } from '@mui/material'
 import React, { Suspense } from 'react'
 import { Route, Routes } from 'react-router'
 import SignIn from 'src/auth/signIn'
 import SignUp from 'src/auth/signUp'
-import Loader from 'src/components/Loader/styles'
 import withPrivateRoute from 'src/hocks/withPrivateRoute'
 import withRestrictedRoute from 'src/hocks/withRestrictRoute'
 import Home from 'src/pages/Home'
@@ -17,7 +17,7 @@ const { HOME, SIGN_IN, SIGN_UP } = RoutesPath
 
 function App() {
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<CircularProgress />}>
       <Routes>
         <Route path={HOME} element={<Layout />}>
           <Route index element={<PrivateHome />} />

@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { TodoProps } from 'src/components/Todo/types'
 import useActive from 'src/hooks/useActive'
@@ -12,70 +12,64 @@ function useTodo({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) {
   const dispatch = useDispatch()
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const [isEditing, setIsEditing] = useState(false)
   const { value, onChange } = useInput(todoValue)
   const { isActive: isCompleted, toggleIsActive: onToggleIsCompleted } =
     useActive(todoCompleted)
-  const { isActive: isEditing, toggleIsActive: onToggleEditing } = useActive()
+  // const { isActive: isEditing, toggleIsActive: onToggleEditing } = useActive()
 
   const onCompleted = useCallback(() => {
+    onToggleIsCompleted()
     dispatch(
       updateTodoCreator(todoId, {
         todoCompleted: !isCompleted,
         todoValue: value,
       })
     )
-    onToggleIsCompleted()
   }, [
     onToggleIsCompleted,
     dispatch,
     updateTodoCreator,
     todoId,
     isCompleted,
-    todoValue,
+    value,
   ])
-
-  const onFocus = useCallback(() => {
-    if (!isCompleted) {
-      onToggleEditing()
-    }
-  }, [isCompleted, onToggleEditing])
 
   const onDelete = useCallback(() => {
     dispatch(deleteTodoCreator(todoId))
   }, [dispatch, deleteTodoCreator, todoId])
 
-  const onSubmit = useCallback(
-    (e?: FormEvent<HTMLFormElement>) => {
-      if (e) {
-        e.preventDefault()
-      }
+  const onSubmit = useCallback(() => {
+    if (!value.length) {
+      onDelete()
+    } else {
+      dispatch(
+        updateTodoCreator(todoId, {
+          todoValue: value,
+          todoCompleted: false,
+        })
+      )
+    }
 
-      if (!value.length) {
-        onDelete()
-      } else {
-        dispatch(
-          updateTodoCreator(todoId, {
-            todoValue: value,
-            todoCompleted: false,
-          })
-        )
-      }
+    setIsEditing(false)
+    inputRef.current?.blur()
+  }, [
+    isEditing,
+    value,
+    onDelete,
+    updateTodoCreator,
+    todoId,
+    dispatch,
+    setIsEditing,
+    inputRef,
+  ])
 
-      onToggleEditing()
-      inputRef.current?.blur()
-    },
-    [
-      value,
-      onDelete,
-      updateTodoCreator,
-      todoId,
-      dispatch,
-      todoValue,
-      todoCompleted,
-      onToggleEditing,
-      inputRef,
-    ]
-  )
+  const onDoubleClick = useCallback(() => {
+    if (!isCompleted) {
+      setIsEditing(true)
+      inputRef.current?.focus()
+    }
+  }, [isCompleted, inputRef, setIsEditing])
 
   const onBlur = useCallback(() => {
     if (isEditing) {
@@ -83,22 +77,27 @@ function useTodo({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) {
     }
   }, [isEditing, onSubmit])
 
-  const onClick = () => {
-    onSubmit()
-  }
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      if (e.key === 'Enter') {
+        onBlur()
+      }
+    },
+    [onBlur]
+  )
 
   return {
     value,
     inputRef,
+    onKeyDown,
     isCompleted,
     isEditing,
     onChange,
+    onDoubleClick,
     onDelete,
     onBlur,
-    onFocus,
     onCompleted,
     onSubmit,
-    onClick,
   }
 }
 

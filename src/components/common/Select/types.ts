@@ -1,10 +1,12 @@
-import { ChangeEvent } from 'react'
+import { SelectChangeEvent } from '@mui/material'
 import { GeneralOptionT } from 'src/types'
 
 export type SelectProps = {
-  value: string
-  onChange: (e: ChangeEvent<HTMLSelectElement>) => void
-  options: GeneralOptionT[]
+  items: GeneralOptionT[]
   name: string
-  isError?: boolean
+  value: string
+  placeholder: string
+  onChange: (e: SelectChangeEvent<string>) => void
+  helperText: string | null
+  error: boolean
 }

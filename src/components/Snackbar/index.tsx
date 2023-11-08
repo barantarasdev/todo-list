@@ -1,17 +1,20 @@
-import React from 'react'
+import { Alert, Snackbar as MUISnackbar } from '@mui/material'
 import { createPortal } from 'react-dom'
-import StyledSnackbar from 'src/components/Snackbar/styles'
 import useSnackbar from 'src/components/Snackbar/useSnackbar'
+import { SNACKBAR_TIME } from 'src/constants'
 
 function Snackbar() {
-  const { isActive, snackbar } = useSnackbar()
-
-  if (!isActive) {
-    return null
-  }
+  const { message, onClose } = useSnackbar()
 
   return createPortal(
-    <StyledSnackbar>{snackbar}</StyledSnackbar>,
+    <MUISnackbar
+      onClose={onClose}
+      open={Boolean(message)}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      autoHideDuration={SNACKBAR_TIME}
+    >
+      <Alert severity="error">{message}</Alert>
+    </MUISnackbar>,
     document.getElementById('snackbar') as HTMLElement
   )
 }

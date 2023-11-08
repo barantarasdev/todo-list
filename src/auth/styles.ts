@@ -1,39 +1,33 @@
-import { AnimatedButton, AnimatedLink } from 'src/styles'
-import { flexCenter, square } from 'src/styles/mixins'
-import styled from 'styled-components'
+import { Box, css, styled } from '@mui/material'
+import { Link } from 'react-router-dom'
 
-export const AuthFormBlock = styled.div`
-  gap: var(--primary-gap);
-  ${square('100%')}
-  ${flexCenter}
-`
+export const AuthFormBlock = styled(Box)(
+  ({ theme: { spacing } }) => css`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: ${spacing(2)};
+  `
+)
 
-export const AuthTitle = styled.h2`
-  margin-bottom: 20px;
-  font-size: 70px;
-  font-weight: 700;
-`
+export const AuthForm = styled('form')(
+  ({ theme: { spacing } }) => css`
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: ${spacing(1)};
+  `
+)
 
-export const AuthForm = styled.form`
-  width: 30%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-export const AuthButton = styled(AnimatedButton)`
-  padding: 15px 40px;
-  margin-bottom: var(--primary-gap);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--secondary-color);
-  background-color: var(--primary-blur);
-  border-radius: var(--primary-border-radius);
-`
-
-export const AuthLink = styled(AnimatedLink)`
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--color-white);
-`
+export const AuthLink = styled(Link)(
+  ({ theme: { palette } }) => css`
+    font-size: 20px;
+    font-weight: 700;
+    color: ${palette.text.primary};
+  `
+)
