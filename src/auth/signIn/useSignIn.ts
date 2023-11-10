@@ -8,8 +8,10 @@ function useSignIn() {
   const navigate = useNavigate()
 
   const onSubmit = useCallback(
-    ({ userEmail, userPassword }: any) => {
-      dispatch(SignInCreator(userEmail, userPassword, navigate))
+    ({ userEmail, userPassword }: Record<string, string>) => {
+      if (userEmail && userPassword) {
+        dispatch(SignInCreator(userEmail, userPassword, navigate))
+      }
     },
     [dispatch, SignInCreator]
   )

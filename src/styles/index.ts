@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 const RootContent = styled.div`
   min-height: 100vh;
+  min-width: fit-content;
   padding: 20px;
   background-image: url('/assets/images/bg.jpg');
   background-repeat: no-repeat;

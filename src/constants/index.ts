@@ -15,3 +15,7 @@ export const GENDER_OPTIONS: GeneralOptionT[] = [
 ]
 
 export const SNACKBAR_TIME: number = 3000
+
+export const HEADER_HEIGHT: string = '50px'
+
+export const SETTINGS: GeneralOptionT[] = [{ value: 'logout', title: 'Logout' }]

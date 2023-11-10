@@ -1,48 +1,94 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { call, put, takeEvery } from 'redux-saga/effects'
+import {
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  takeLeading,
+} from 'redux-saga/effects'
 import {
   createTodo,
   deleteTodo,
-  getTodos,
   updateTodo,
+  updateTodoOrder,
 } from 'src/services/todoService'
-import { UpdateTodoWorkerPayloadT } from 'src/store/sagas/types'
+import {
+  CreateTodoWorkerPayloadT,
+  UpdateTodoOrderWorkerT,
+  UpdateTodoWorkerPayloadT,
+} from 'src/store/sagas/types'
 import {
   createTodo as createTodoSlice,
   deleteTodo as deleteTodoSlice,
-  setTodos,
   updateTodo as updateTodoSlice,
+  updateTodos,
 } from 'src/store/slices/todosSlice'
-import { TodosCreators } from 'src/store/slices/todosSlice/types'
-import { CreateTodoT } from 'src/types'
+import { ColsCreators, DeleteTodoPR } from 'src/store/slices/todosSlice/types'
 
-function* setTodosWorker(action: PayloadAction<string>) {
-  const { todos } = yield call(getTodos, action.payload)
-  yield put(setTodos(todos))
+function* updateTodoOrderWorker(action: PayloadAction<UpdateTodoOrderWorkerT>) {
+  const {
+    sourceTodo,
+    startColId,
+    startTodoList,
+    destinationTodo,
+    colId,
+    todoId,
+    todos,
+  } = action.payload
+
+  if (startColId) {
+    yield put(updateTodos({ colId: startColId, todos: startTodoList }))
+  }
+
+  yield put(updateTodos({ colId, todos }))
+
+  yield call(updateTodoOrder, todoId, sourceTodo, destinationTodo, colId)
 }
 
-function* createTodoWorker(action: PayloadAction<CreateTodoT>) {
-  const { todoId } = yield call(createTodo, action.payload)
-  yield put(createTodoSlice({ ...action.payload, todoId }))
+function* createTodoWorker(action: PayloadAction<CreateTodoWorkerPayloadT>) {
+  const { colId, todo: apTodo } = action.payload
+
+  const { todoId } = yield call(createTodo, colId, apTodo)
+
+  yield put(
+    createTodoSlice({
+      colId,
+      todo: { todoId, ...apTodo },
+    })
+  )
 }
 
-function* deleteTodoWorker(action: PayloadAction<string>) {
-  yield call(deleteTodo, action.payload)
-  yield put(deleteTodoSlice(action.payload))
+function* deleteTodoWorker(action: PayloadAction<DeleteTodoPR>) {
+  const { todoId, colId } = action.payload
+
+  yield call(deleteTodo, todoId)
+  yield put(
+    deleteTodoSlice({
+      todoId,
+      colId,
+    })
+  )
 }
 
 function* updateTodoWorker(action: PayloadAction<UpdateTodoWorkerPayloadT>) {
-  yield call(updateTodo, action.payload.id, action.payload.todo)
+  const { colId, todoId, todo } = action.payload
+
+  yield call(updateTodo, todoId, todo)
+
   yield put(
-    updateTodoSlice({ todoId: action.payload.id, ...action.payload.todo })
+    updateTodoSlice({
+      colId,
+      todoId,
+      todo,
+    })
   )
 }
 
 function* todoWatcher() {
-  yield takeEvery(TodosCreators.ASYNC_SET_TODOS, setTodosWorker)
-  yield takeEvery(TodosCreators.ASYNC_DELETE_TODO, deleteTodoWorker)
-  yield takeEvery(TodosCreators.ASYNC_CREATE_TODO, createTodoWorker)
-  yield takeEvery(TodosCreators.ASYNC_UPDATE_TODO, updateTodoWorker)
+  yield takeLeading(ColsCreators.ASYNC_DELETE_TODO, deleteTodoWorker)
+  yield takeEvery(ColsCreators.ASYNC_CREATE_TODO, createTodoWorker)
+  yield takeEvery(ColsCreators.ASYNC_UPDATE_TODO, updateTodoWorker)
+  yield takeLatest(ColsCreators.ASYNC_UPDATE_TODO_ORDER, updateTodoOrderWorker)
 }
 
 export default todoWatcher

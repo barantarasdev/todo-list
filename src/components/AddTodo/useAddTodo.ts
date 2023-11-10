@@ -1,9 +1,10 @@
 import { FormEvent, useCallback, useRef } from 'react'
+import { AddTodoProps } from 'src/components/AddTodo/types'
 import useInput from 'src/hooks/useInput'
 import { useAppDispatch, useAppSelector } from 'src/hooks/useRedux'
 import { createTodoCreator } from 'src/store/slices/todosSlice/actionCreators'
 
-function useAddTodo() {
+function useAddTodo({ colId }: AddTodoProps) {
   const { value, onChange, onClear: onClearF } = useInput()
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -20,18 +21,18 @@ function useAddTodo() {
       e.preventDefault()
 
       if (value.length && userId) {
-        dispatch(
-          createTodoCreator({
-            todoValue: value,
-            userId,
-            todoCompleted: false,
-          })
-        )
+        const newTodo = {
+          todoValue: value,
+          todoCompleted: false,
+          userId,
+        }
+
+        dispatch(createTodoCreator(colId, newTodo))
       }
 
       onClear()
     },
-    [value, userId, dispatch, createTodoCreator]
+    [value, userId, dispatch, createTodoCreator, colId]
   )
 
   return { onSubmit, inputRef, value, onChange, onClear }

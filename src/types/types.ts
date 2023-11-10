@@ -20,6 +20,13 @@ export type UserT = {
   userSite: string
 }
 
+export type ColT = {
+  colId: string
+  colName: string
+  todos: TodoT[]
+  colOrder?: string
+}
+
 export type CreateTodoT = Omit<TodoT, 'todoId'>
 
 export type UpdateTodoT = Omit<CreateTodoT, 'userId'>

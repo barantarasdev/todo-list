@@ -5,7 +5,7 @@ const TodoItem = styled(ListItem, {
 })<{
   $isFocused: boolean
   $isCompleted: boolean
-}>(({ theme: { palette }, $isFocused, $isCompleted }) => {
+}>(({ theme: { palette, spacing }, $isFocused, $isCompleted }) => {
   let bg
 
   if ($isFocused) {
@@ -18,10 +18,12 @@ const TodoItem = styled(ListItem, {
 
   return css`
     width: 100%;
+    padding: ${spacing(3)};
     display: flex;
     align-items: center;
     background-color: ${bg};
     text-decoration: ${$isCompleted ? 'line-through' : 'auto'};
+    border-radius: 10px;
   `
 })
 

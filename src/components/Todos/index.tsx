@@ -1,23 +1,10 @@
-import { List } from '@mui/material'
-import { CSSTransition } from 'react-transition-group'
 import Todo from 'src/components/Todo'
-import StyledTransitionGroup from 'src/components/Todos/styles'
-import { useAppSelector } from 'src/hooks/useRedux'
+import { TodosProps } from 'src/components/Todos/types'
 
-function Todos() {
-  const { todos } = useAppSelector(state => state.todos)
-
-  return (
-    <List>
-      <StyledTransitionGroup>
-        {todos.map(todo => (
-          <CSSTransition key={todo.todoId} timeout={200} classNames="item">
-            <Todo todo={todo} />
-          </CSSTransition>
-        ))}
-      </StyledTransitionGroup>
-    </List>
-  )
+function Todos({ todos, colId }: TodosProps) {
+  return todos.map((todo, index) => (
+    <Todo key={todo.todoId} todo={todo} colId={colId} index={index} />
+  ))
 }
 
 export default Todos
