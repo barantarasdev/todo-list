@@ -1,17 +1,12 @@
 import { ChangeEvent } from 'react'
-import { Validate } from 'src/types'
 
 export type InputProps = {
-  name: Validate
   type: string
-  placeholder: string
-  value: string | number
+  name: string
+  value: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
-  errors?: Record<string, string>
+  placeholder: string
+  helperText?: string
+  error?: boolean
   isPassword?: boolean
 }
-
-export type UseInputProps = Pick<
-  InputProps,
-  'errors' | 'isPassword' | 'value' | 'name'
->

@@ -1,41 +1,54 @@
+import { Button } from '@mui/material'
+import Typography from '@mui/material/Typography'
+import { Field, Form } from 'react-final-form'
 import useSignIn from 'src/auth/signIn/useSignIn'
-import * as Styled from 'src/auth/styles'
+import { AuthForm, AuthFormBlock, AuthLink } from 'src/auth/styles'
 import Input from 'src/components/common/Input'
-import { RoutesPath, Validate } from 'src/types'
+import { RoutesPath, SignUpInputs } from 'src/types'
 
-const SignIn = () => {
-  const { onSubmit, userEmail, onChange, userPassword, isDisabledButton } =
-    useSignIn()
+function SignIn() {
+  const { onSubmit } = useSignIn()
 
   return (
-    <Styled.FormBlock>
-      <Styled.Title>Sign in</Styled.Title>
+    <AuthFormBlock>
+      <Typography variant="h2">Sign in</Typography>
 
-      <Styled.Form onSubmit={onSubmit} noValidate>
-        <Input
-          name={Validate.EMAIL}
-          type="email"
-          placeholder="Email"
-          value={userEmail}
-          onChange={onChange}
-        />
+      <Form
+        onSubmit={onSubmit}
+        render={({ handleSubmit }) => (
+          <AuthForm onSubmit={handleSubmit} noValidate>
+            <Field name={SignUpInputs.EMAIL}>
+              {({ input: { value, onChange, name } }) => (
+                <Input
+                  type="email"
+                  name={name}
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Email"
+                />
+              )}
+            </Field>
 
-        <Input
-          name={Validate.PASSWORD}
-          type="password"
-          placeholder="Password"
-          value={userPassword}
-          onChange={onChange}
-          isPassword
-        />
+            <Field name={SignUpInputs.PASSWORD}>
+              {({ input: { value, onChange, name } }) => (
+                <Input
+                  type="password"
+                  name={name}
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Password"
+                  isPassword
+                />
+              )}
+            </Field>
 
-        <Styled.Button type="submit" disabled={isDisabledButton}>
-          Sign in
-        </Styled.Button>
+            <Button type="submit">Sign in</Button>
 
-        <Styled.Link to={RoutesPath.SIGN_UP}>Sign up</Styled.Link>
-      </Styled.Form>
-    </Styled.FormBlock>
+            <AuthLink to={RoutesPath.SIGN_UP}>Sign up</AuthLink>
+          </AuthForm>
+        )}
+      />
+    </AuthFormBlock>
   )
 }
 

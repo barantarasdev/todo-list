@@ -1,6 +1,7 @@
-import styled from 'styled-components'
+import { Box, styled } from '@mui/material'
+import Typography from '@mui/material/Typography'
 
-export const NotFound = styled.h2`
+export const StyledNotFound = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +11,7 @@ export const NotFound = styled.h2`
   transform: translate(-50%, -50%);
 `
 
-export const Title = styled.h2`
+export const NotFoundTitle = styled(Typography)`
   font-size: 60px;
   text-align: center;
 `

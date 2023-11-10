@@ -1,32 +1,41 @@
-import { FC } from 'react'
-import StyledSelect from 'src/components/common/Select/styles'
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  Select as MUISelect,
+} from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
 import { SelectProps } from 'src/components/common/Select/types'
 
-const Select: FC<SelectProps> = ({
-  isError,
+function Select({
+  items,
   name,
-  value: currentValue,
-  onChange,
-  options,
-}) => (
-  <StyledSelect
-    $isError={isError}
-    id={name}
-    name={name}
-    value={currentValue}
-    onChange={onChange}
-    required
-  >
-    <option value="" disabled>
-      Choose option
-    </option>
+  value,
+  onChange = () => {},
+  placeholder,
+  error,
+  helperText = ' ',
+}: SelectProps) {
+  return (
+    <FormControl error={error}>
+      <InputLabel id={name}>{placeholder}</InputLabel>
 
-    {options.map(({ value, title }) => (
-      <option key={value} value={value}>
-        {title}
-      </option>
-    ))}
-  </StyledSelect>
-)
+      <MUISelect
+        labelId={name}
+        value={value}
+        label={placeholder}
+        onChange={onChange}
+      >
+        {items.map(({ value: itemValue, title }) => (
+          <MenuItem key={itemValue} value={itemValue}>
+            {title}
+          </MenuItem>
+        ))}
+      </MUISelect>
+
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
+  )
+}
 
 export default Select

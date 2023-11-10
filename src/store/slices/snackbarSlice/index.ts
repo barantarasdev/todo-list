@@ -6,7 +6,10 @@ const initialState: SnackbarStateT = {
 }
 
 const reducers = {
-  setSnackbar: (state: SnackbarStateT, action: PayloadAction<string>) => ({
+  setSnackbar: (
+    state: SnackbarStateT,
+    action: PayloadAction<string | null>
+  ) => ({
     snackbar: action.payload,
   }),
 }

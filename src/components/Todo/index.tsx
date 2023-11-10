@@ -1,12 +1,11 @@
-import React, { FC } from 'react'
-import confirmIcon from 'src/../public/assets/icons/confirm.svg'
-import removeIcon from 'src/../public/assets/icons/remove.svg'
-import * as Styled from 'src/components/Todo/styles'
+import { Clear, Done } from '@mui/icons-material'
+import { IconButton, InputBase } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
+import TodoItem from 'src/components/Todo/styles'
 import { TodoProps } from 'src/components/Todo/types'
 import useTodo from 'src/components/Todo/useTodo'
-import Checkbox from 'src/components/common/Checkbox'
 
-const Todo: FC<TodoProps> = ({ todo }) => {
+function Todo({ todo }: TodoProps) {
   const {
     value,
     inputRef,
@@ -15,38 +14,38 @@ const Todo: FC<TodoProps> = ({ todo }) => {
     onChange,
     onDelete,
     onBlur,
-    onFocus,
     onCompleted,
     onSubmit,
+    onDoubleClick,
+    onKeyDown,
   } = useTodo({ todo })
 
   return (
-    <Styled.Item $isFocused={isEditing} $isCompleted={isCompleted}>
-      <Checkbox value={isCompleted} onChange={onCompleted} />
+    <TodoItem $isFocused={isEditing} $isCompleted={isCompleted}>
+      <Checkbox checked={isCompleted} onChange={onCompleted} />
 
-      <Styled.Form onSubmit={onSubmit}>
-        <Styled.Input
-          $isCompleted={isCompleted}
-          type="text"
-          value={value}
-          ref={inputRef}
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          readOnly={!isEditing}
-        />
+      <InputBase
+        inputRef={inputRef}
+        type="text"
+        value={value}
+        onChange={onChange}
+        onDoubleClick={onDoubleClick}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        readOnly={!isEditing}
+        fullWidth
+      />
 
-        {isEditing && (
-          <Styled.Button type="submit" onClick={() => onSubmit()}>
-            <img src={confirmIcon} alt="icon confirm" />
-          </Styled.Button>
-        )}
-      </Styled.Form>
+      {isEditing && (
+        <IconButton type="submit" onClick={onSubmit}>
+          <Done color="success" />
+        </IconButton>
+      )}
 
-      <Styled.RemoveButton type="button" onClick={onDelete}>
-        <img src={removeIcon} alt="icon remove" />
-      </Styled.RemoveButton>
-    </Styled.Item>
+      <IconButton type="button" onClick={onDelete}>
+        <Clear color="error" />
+      </IconButton>
+    </TodoItem>
   )
 }
 

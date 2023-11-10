@@ -1,21 +1,22 @@
 import { Outlet } from 'react-router'
+import ThemeProvider from 'src/common/themes/ThemeProvider'
 import SnackBar from 'src/components/Snackbar'
 import ErrorBoundary from 'src/pages/ErrorBoundary'
 import useLayout from 'src/pages/Layout/useLayout'
-import { RootContent } from 'src/styles'
-import GlobalStyle from 'src/styles/globalStyles'
+import RootContent from 'src/styles'
 
-const Layout = () => {
+function Layout() {
   useLayout()
 
   return (
     <ErrorBoundary>
-      <GlobalStyle />
-      <RootContent>
-        <Outlet />
+      <ThemeProvider>
+        <RootContent>
+          <Outlet />
 
-        <SnackBar />
-      </RootContent>
+          <SnackBar />
+        </RootContent>
+      </ThemeProvider>
     </ErrorBoundary>
   )
 }

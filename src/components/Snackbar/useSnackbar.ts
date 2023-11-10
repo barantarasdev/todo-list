@@ -1,46 +1,16 @@
-import { useEffect, useRef } from 'react'
-import { SNACKBAR_TIME } from 'src/constants'
-import useActive from 'src/hooks/useActive'
+import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'src/hooks/useRedux'
 import { setSnackbar } from 'src/store/slices/snackbarSlice'
 
-const useSnackbar = () => {
-  const { isActive, toggleIsActive } = useActive()
-  const timeoutIdRef = useRef<number | null>(null)
-
+function useSnackbar() {
   const dispatch = useAppDispatch()
   const { snackbar } = useAppSelector(state => state.snackbar)
 
-  useEffect(() => {
-    if (snackbar) {
-      toggleIsActive()
+  const onClose = useCallback(() => {
+    dispatch(setSnackbar(null))
+  }, [dispatch, setSnackbar])
 
-      if (timeoutIdRef.current) {
-        clearTimeout(timeoutIdRef.current)
-      }
-
-      timeoutIdRef.current = window.setTimeout(() => {
-        toggleIsActive()
-
-        dispatch(setSnackbar(''))
-      }, SNACKBAR_TIME)
-    }
-
-    return () => {
-      if (timeoutIdRef.current) {
-        clearTimeout(timeoutIdRef.current)
-      }
-    }
-  }, [
-    snackbar,
-    toggleIsActive,
-    timeoutIdRef,
-    dispatch,
-    setSnackbar,
-    SNACKBAR_TIME,
-  ])
-
-  return { isActive, snackbar }
+  return { message: snackbar, onClose }
 }
 
 export default useSnackbar

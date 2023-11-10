@@ -1,10 +1,12 @@
+import { css, styled } from '@mui/material'
 import { TransitionGroup } from 'react-transition-group'
-import styled from 'styled-components'
 
-export const StyledTransitionGroup = styled(TransitionGroup)`
-  display: flex;
-  flex-direction: column;
-  gap: var(--primary-gap);
-`
+const StyledTransitionGroup = styled(TransitionGroup)(
+  ({ theme: { spacing } }) => css`
+    display: flex;
+    flex-direction: column;
+    gap: ${spacing(3)};
+  `
+)
 
-export default TransitionGroup
+export default StyledTransitionGroup

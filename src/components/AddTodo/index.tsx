@@ -1,32 +1,41 @@
-import clearIcon from 'src/../public/assets/icons/clear.svg'
-import * as Styled from 'src/components/AddTodo/styles'
+import ClearIcon from '@mui/icons-material/Clear'
+import { IconButton, InputAdornment } from '@mui/material'
+import {
+  AddTodoButton,
+  AddTodoForm,
+  AddTodoFormBlock,
+  AddTodoInput,
+} from 'src/components/AddTodo/styles'
 import useAddTodo from 'src/components/AddTodo/useAddTodo'
 
-const AddTodo = () => {
+function AddTodo() {
   const { onSubmit, inputRef, value, onChange, onClear } = useAddTodo()
 
   return (
-    <Styled.FormBlock>
-      <Styled.Form onSubmit={onSubmit}>
-        <Styled.InputBlock>
-          <Styled.Input
-            ref={inputRef}
-            type="text"
-            value={value}
-            onChange={onChange}
-            placeholder="New todo..."
-          />
+    <AddTodoFormBlock>
+      <AddTodoForm onSubmit={onSubmit}>
+        <AddTodoInput
+          inputRef={inputRef}
+          type="text"
+          value={value}
+          onChange={onChange}
+          placeholder="New todo..."
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                {!!value.length && (
+                  <IconButton onClick={onClear} type="button" edge="end">
+                    <ClearIcon color="primary" />
+                  </IconButton>
+                )}
+              </InputAdornment>
+            ),
+          }}
+        />
 
-          {!!value.length && (
-            <Styled.IconButton type="button" onClick={onClear}>
-              <img src={clearIcon} alt="clear icon" />
-            </Styled.IconButton>
-          )}
-        </Styled.InputBlock>
-
-        <Styled.Button type="submit">ADD</Styled.Button>
-      </Styled.Form>
-    </Styled.FormBlock>
+        <AddTodoButton type="submit">Add</AddTodoButton>
+      </AddTodoForm>
+    </AddTodoFormBlock>
   )
 }
 

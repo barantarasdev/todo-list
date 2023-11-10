@@ -1,105 +1,86 @@
+import { Button } from '@mui/material'
+import Typography from '@mui/material/Typography'
+import React from 'react'
+import { Field, Form } from 'react-final-form'
+import validate from 'src/auth/signUp/helpers'
 import useSignUp from 'src/auth/signUp/useSignUp'
-import * as Styled from 'src/auth/styles'
-import Input from 'src/components/common/Input'
+import { AuthForm, AuthFormBlock, AuthLink } from 'src/auth/styles'
+import AuthField from 'src/components/AuthField'
 import Select from 'src/components/common/Select'
 import { GENDER_OPTIONS } from 'src/constants'
-import { InputBlock, Label } from 'src/styles'
-import { RoutesPath, Validate } from 'src/types'
+import { RoutesPath, SignUpInputs } from 'src/types'
 
-const SignUp = () => {
-  const { formData, errors, onChange, onSubmit } = useSignUp()
+function SignUp() {
+  const { onSubmit, isSubmitted } = useSignUp()
 
   return (
-    <Styled.FormBlock>
-      <Styled.Title>Sign up</Styled.Title>
+    <AuthFormBlock>
+      <Typography variant="h2">Sign up</Typography>
 
-      <Styled.Form onSubmit={onSubmit} noValidate>
-        <Input
-          name={Validate.NAME}
-          type="text"
-          placeholder="Name"
-          value={formData.userName}
-          onChange={onChange}
-          errors={errors}
-        />
+      <Form
+        onSubmit={onSubmit}
+        validate={isSubmitted ? validate : undefined}
+        render={({ handleSubmit }) => (
+          <AuthForm onSubmit={handleSubmit} noValidate>
+            <AuthField
+              type="text"
+              name={SignUpInputs.NAME}
+              placeholder="Name"
+            />
 
-        <Input
-          name={Validate.EMAIL}
-          type="email"
-          placeholder="Email"
-          value={formData.userEmail}
-          onChange={onChange}
-          errors={errors}
-        />
+            <AuthField
+              type="email"
+              name={SignUpInputs.EMAIL}
+              placeholder="Email"
+            />
 
-        <Input
-          name={Validate.PHONE}
-          type="tel"
-          placeholder="Phone"
-          value={formData.userPhone}
-          onChange={onChange}
-          errors={errors}
-        />
+            <AuthField
+              type="tel"
+              name={SignUpInputs.PHONE}
+              placeholder="Phone"
+            />
 
-        <Input
-          name={Validate.AGE}
-          type="number"
-          placeholder="Age"
-          value={formData.userAge}
-          onChange={onChange}
-          errors={errors}
-        />
+            <AuthField
+              type="number"
+              name={SignUpInputs.AGE}
+              placeholder="Age"
+            />
 
-        <InputBlock>
-          <Select
-            isError={!!errors.userGender}
-            name={Validate.GENDER}
-            options={GENDER_OPTIONS}
-            value={formData.userGender}
-            onChange={onChange}
-          />
+            <Field name={SignUpInputs.GENDER}>
+              {({ input: { value, onChange, name }, meta: { error } }) => (
+                <Select
+                  items={GENDER_OPTIONS}
+                  name={name}
+                  value={value}
+                  placeholder="Gender"
+                  onChange={onChange}
+                  error={Boolean(error)}
+                  helperText={error}
+                />
+              )}
+            </Field>
 
-          <Label $isError={!!errors.userGender} htmlFor={Validate.GENDER}>
-            {errors.userGender}
-          </Label>
-        </InputBlock>
+            <AuthField type="url" name={SignUpInputs.SITE} placeholder="Site" />
 
-        <Input
-          name={Validate.SITE}
-          type="url"
-          placeholder="Site"
-          value={formData.userSite}
-          onChange={onChange}
-          errors={errors}
-        />
+            <AuthField
+              type="password"
+              name={SignUpInputs.PASSWORD}
+              placeholder="Password"
+            />
 
-        <Input
-          name={Validate.PASSWORD}
-          type="password"
-          placeholder="Password"
-          value={formData.userPassword}
-          onChange={onChange}
-          errors={errors}
-          isPassword
-        />
+            <AuthField
+              type="password"
+              name={SignUpInputs.CONFIRM_PASSWORD}
+              placeholder="Confirm"
+            />
 
-        <Input
-          name={Validate.CONFIRM_PASSWORD}
-          type="password"
-          placeholder="Confirm password"
-          value={formData.userConfirmPassword}
-          onChange={onChange}
-          errors={errors}
-          isPassword
-        />
+            <Button type="submit">Sign up</Button>
 
-        <Styled.Button type="submit" disabled={!!Object.keys(errors).length}>
-          Sign up
-        </Styled.Button>
-
-        <Styled.Link to={RoutesPath.SIGN_IN}>Sign in</Styled.Link>
-      </Styled.Form>
-    </Styled.FormBlock>
+            <AuthLink to={RoutesPath.SIGN_IN}>Sign in</AuthLink>
+          </AuthForm>
+        )}
+      />
+    </AuthFormBlock>
   )
 }
 

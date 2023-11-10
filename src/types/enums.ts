@@ -4,10 +4,6 @@ export enum RoutesPath {
   HOME = '/',
 }
 
-export enum AvatarItems {
-  LOGOUT = 'logout',
-}
-
 export enum Methods {
   GET = 'GET',
   POST = 'POST',
@@ -15,7 +11,7 @@ export enum Methods {
   DELETE = 'DELETE',
 }
 
-export enum Validate {
+export enum SignUpInputs {
   NAME = 'userName',
   AGE = 'userAge',
   EMAIL = 'userEmail',

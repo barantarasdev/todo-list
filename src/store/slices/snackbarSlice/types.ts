@@ -1,3 +1,3 @@
 export type SnackbarStateT = {
-  snackbar: string
+  snackbar: string | null
 }

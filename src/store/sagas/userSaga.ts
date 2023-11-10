@@ -28,7 +28,7 @@ function* signInWorker(action: PayloadAction<SignInWorkerPayloadT>) {
 
     navigate(RoutesPath.HOME)
   } catch (error) {
-    yield put(setSnackbar('User not found'))
+    yield put(setSnackbar('User not found!'))
   }
 }
 
@@ -48,7 +48,7 @@ function* signUpWorker(action: PayloadAction<SignUpWorkerPayloadT>) {
     callback()
     navigate(RoutesPath.HOME)
   } catch (error) {
-    yield put(setSnackbar('User already exists'))
+    yield put(setSnackbar('User already exists!'))
   }
 }
 

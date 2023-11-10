@@ -1,11 +1,10 @@
-import styled from 'styled-components'
+import { styled } from '@mui/material'
+import Toolbar from '@mui/material/Toolbar'
 
-const StyledHeader = styled.header`
-  width: 100%;
+const StyledToolbar = styled(Toolbar)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
 `
 
-export default StyledHeader
+export default StyledToolbar

@@ -1,12 +1,10 @@
-import { NavigateFunction } from 'react-router'
-import { NavigateT, UserT } from 'src/types'
-
-export type SignUpStatesT = {
-  formData: UserT
-  errors: Record<string, string>
-  isSubmitted: boolean
+export type SignUpValues = {
+  userName: string
+  userAge: number
+  userEmail: string
+  userPassword: string
+  userConfirmPassword: string
+  userPhone: string
+  userSite: string
+  userGender: string
 }
-
-export type SignUpProps = {
-  signUp: (data: any, navigate: NavigateFunction) => void
-} & NavigateT

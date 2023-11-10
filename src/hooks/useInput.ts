@@ -1,6 +1,6 @@
 import { ChangeEvent, useCallback, useState } from 'react'
 
-const useInput = (valueProp = '') => {
+function useInput(valueProp = '') {
   const [value, setValue] = useState(valueProp)
 
   const onChange = useCallback(

@@ -3,7 +3,7 @@ import useInput from 'src/hooks/useInput'
 import { useAppDispatch, useAppSelector } from 'src/hooks/useRedux'
 import { createTodoCreator } from 'src/store/slices/todosSlice/actionCreators'
 
-const useAddTodo = () => {
+function useAddTodo() {
   const { value, onChange, onClear: onClearF } = useInput()
   const inputRef = useRef<HTMLInputElement>(null)
 
