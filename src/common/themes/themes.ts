@@ -43,7 +43,7 @@ const theme = createTheme({
                  url('/assets/fonts/Montserrat-Bold.woff') format('woff');
           }
           
-          body {overflow: visible !important;}
+          body {overflow: visible !important;padding-right: 0px !important;}
       `,
     },
     MuiFormControl: {

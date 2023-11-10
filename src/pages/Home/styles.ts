@@ -14,7 +14,7 @@ export const StyledHome = styled(Box)(
 
 export const StyledMain = styled('main')(
   ({ theme: { spacing } }) => css`
-    margin-top: ${HEADER_HEIGHT};
+    margin-top: ${30 + HEADER_HEIGHT}px;
     display: flex;
     flex-direction: column;
     gap: ${spacing(3)};
