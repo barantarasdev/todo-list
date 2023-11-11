@@ -1,7 +1,7 @@
-import { TodosStateT } from 'src/store/slices/todosSlice/types'
+import { ColsStateT } from 'src/store/slices/todosSlice/types'
 
-const initialState: TodosStateT = {
-  todos: [],
+const initialState: ColsStateT = {
+  cols: [],
 }
 
 export default initialState

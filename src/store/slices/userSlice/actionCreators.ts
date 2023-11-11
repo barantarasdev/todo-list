@@ -1,4 +1,5 @@
 import { NavigateFunction } from 'react-router'
+import { SignUpValues } from 'src/auth/signUp/types'
 import { UserCreators } from 'src/store/slices/userSlice/types'
 
 export const SignInCreator = (
@@ -11,7 +12,7 @@ export const SignInCreator = (
 })
 
 export const SignUpCreator = (
-  data: any,
+  data: SignUpValues,
   navigate: NavigateFunction,
   callback: () => void
 ) => ({

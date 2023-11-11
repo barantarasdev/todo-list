@@ -8,7 +8,10 @@ import {
   updateTodoCreator,
 } from 'src/store/slices/todosSlice/actionCreators'
 
-function useTodo({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) {
+function useTodo({
+  todo: { todoCompleted, todoValue, todoId },
+  colId,
+}: Omit<TodoProps, 'index'>) {
   const dispatch = useDispatch()
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -16,12 +19,11 @@ function useTodo({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) {
   const { value, onChange } = useInput(todoValue)
   const { isActive: isCompleted, toggleIsActive: onToggleIsCompleted } =
     useActive(todoCompleted)
-  // const { isActive: isEditing, toggleIsActive: onToggleEditing } = useActive()
 
   const onCompleted = useCallback(() => {
     onToggleIsCompleted()
     dispatch(
-      updateTodoCreator(todoId, {
+      updateTodoCreator(colId, todoId, {
         todoCompleted: !isCompleted,
         todoValue: value,
       })
@@ -36,15 +38,15 @@ function useTodo({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) {
   ])
 
   const onDelete = useCallback(() => {
-    dispatch(deleteTodoCreator(todoId))
-  }, [dispatch, deleteTodoCreator, todoId])
+    dispatch(deleteTodoCreator(colId, todoId))
+  }, [dispatch, deleteTodoCreator, todoId, colId])
 
   const onSubmit = useCallback(() => {
     if (!value.length) {
       onDelete()
     } else {
       dispatch(
-        updateTodoCreator(todoId, {
+        updateTodoCreator(colId, todoId, {
           todoValue: value,
           todoCompleted: false,
         })
@@ -62,6 +64,7 @@ function useTodo({ todo: { todoCompleted, todoValue, todoId } }: TodoProps) {
     dispatch,
     setIsEditing,
     inputRef,
+    colId,
   ])
 
   const onDoubleClick = useCallback(() => {

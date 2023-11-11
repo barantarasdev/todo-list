@@ -21,3 +21,8 @@ export enum SignUpInputs {
   SITE = 'userSite',
   GENDER = 'userGender',
 }
+
+export enum DND {
+  COLUMN = 'COLUMN',
+  TODOS = 'TODOS',
+}

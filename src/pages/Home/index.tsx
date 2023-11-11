@@ -1,8 +1,11 @@
-import React from 'react'
-import AddTodo from 'src/components/AddTodo'
+import AddColumn from 'src/components/AddColumn'
+import Board from 'src/components/Board'
 import Header from 'src/components/Header'
-import Todos from 'src/components/Todos'
-import { StyledHome, StyledMain } from 'src/pages/Home/styles'
+import {
+  HomeTodosContainer,
+  StyledHome,
+  StyledMain,
+} from 'src/pages/Home/styles'
 
 function Home() {
   return (
@@ -10,9 +13,11 @@ function Home() {
       <Header />
 
       <StyledMain>
-        <AddTodo />
+        <HomeTodosContainer>
+          <Board />
 
-        <Todos />
+          <AddColumn />
+        </HomeTodosContainer>
       </StyledMain>
     </StyledHome>
   )

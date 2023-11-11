@@ -14,8 +14,6 @@ function useSignUp() {
     (values: SignUpValues) => {
       const isValues = Object.keys(values).length
 
-      setIsSubmitted(true)
-
       if (isValues) {
         dispatch(
           SignUpCreator({ ...values }, navigate, () => {
@@ -23,6 +21,8 @@ function useSignUp() {
           })
         )
       }
+
+      setIsSubmitted(true)
     },
     [setIsSubmitted, SignUpCreator, dispatch]
   )

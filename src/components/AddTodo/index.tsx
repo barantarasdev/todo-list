@@ -6,10 +6,11 @@ import {
   AddTodoFormBlock,
   AddTodoInput,
 } from 'src/components/AddTodo/styles'
+import { AddTodoProps } from 'src/components/AddTodo/types'
 import useAddTodo from 'src/components/AddTodo/useAddTodo'
 
-function AddTodo() {
-  const { onSubmit, inputRef, value, onChange, onClear } = useAddTodo()
+function AddTodo({ colId }: AddTodoProps) {
+  const { onSubmit, inputRef, value, onChange, onClear } = useAddTodo({ colId })
 
   return (
     <AddTodoFormBlock>

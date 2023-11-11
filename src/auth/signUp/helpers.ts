@@ -2,7 +2,7 @@ import { signUpValidationSchema } from 'src/auth/signUp/form'
 import { SignUpValues } from 'src/auth/signUp/types'
 import { ValidationError } from 'yup'
 
-const validate = async (values: SignUpValues) => {
+async function validate(values: SignUpValues) {
   try {
     await signUpValidationSchema.validate(values, { abortEarly: false })
   } catch (error) {

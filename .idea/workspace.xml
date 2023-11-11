@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6e16922a-f46e-449d-8b22-bef7bf53beb2" name="Changes" comment="Fix - Fixed conflicts">
+      <change beforePath="$PROJECT_DIR$/src/common/themes/themes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/themes/themes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home/styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/styles.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myAllFileTypesSelected" value="true" />
+    <option name="mySelectedFileTypes">
+      <set />
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="main" />
+    <option name="OPTIONS">
+      <set>
+        <option value="SQUASH" />
+      </set>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="feat/add-dots-to-a-long-value-in-input" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--follow-tags" />
+        <option name="title" value="Current Branch" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feat/rewrite-styles-with-MUI-and-form-with-FinalForm-yup" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SHOW_RECENT_BRANCHES" value="false" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;state&quot;: &quot;MERGED&quot;,
+      &quot;assignee&quot;: &quot;barantarasdev&quot;,
+      &quot;author&quot;: &quot;barantarasdev&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;MERGED&quot;,
+    &quot;assignee&quot;: &quot;barantarasdev&quot;,
+    &quot;author&quot;: &quot;barantarasdev&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="78699e9e-602a-46c9-a9b7-254bc47bac3c" />
+        <option name="url" value="git@github.com:barantarasdev/todo-list.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2Wq0CynkbcFnzqkapGnv7mWSh7N" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/implement-move-todo-functionality&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;21.1.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.8.10&quot;,
+    &quot;js.linters.configure.manually.selectedeslint&quot;: &quot;true&quot;,
+    &quot;js.linters.configure.manually.selectedtslint&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/taras/new/todo-list/src/store/slices/colSlice&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;/Users/taras/new/todo-list/node_modules/eslint&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettier.import.notification.dismissed&quot;: &quot;true&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/taras/new/todo-list/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/taras/new/todo-list/node_modules/typescript/lib&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/store/slices/colSlice" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pages" />
+      <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$/src/components/common" />
+      <recent name="$PROJECT_DIR$/src/store/slices/snackbarSlice" />
+      <recent name="$PROJECT_DIR$/src/store/slices" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6e16922a-f46e-449d-8b22-bef7bf53beb2" name="Changes" comment="" />
+      <created>1697444679787</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1697444679787</updated>
+      <workItem from="1697444680813" duration="2237000" />
+      <workItem from="1697447021633" duration="445000" />
+      <workItem from="1697447470260" duration="25402000" />
+      <workItem from="1697479293600" duration="376000" />
+      <workItem from="1697487074730" duration="584000" />
+      <workItem from="1697488931297" duration="4892000" />
+      <workItem from="1697528717180" duration="109000" />
+      <workItem from="1697528838161" duration="673000" />
+      <workItem from="1697529514479" duration="85000" />
+      <workItem from="1697529601632" duration="179000" />
+      <workItem from="1697529793530" duration="74000" />
+      <workItem from="1697529869284" duration="1953000" />
+      <workItem from="1697531828057" duration="7926000" />
+      <workItem from="1697539772928" duration="17160000" />
+      <workItem from="1697560785224" duration="3075000" />
+      <workItem from="1697612926253" duration="139000" />
+      <workItem from="1697613068199" duration="17864000" />
+      <workItem from="1697638169113" duration="8095000" />
+      <workItem from="1697698293636" duration="22774000" />
+      <workItem from="1697724945510" duration="119120000" />
+      <workItem from="1698127156743" duration="248000" />
+      <workItem from="1698130823917" duration="15771000" />
+      <workItem from="1698153286289" duration="38000" />
+      <workItem from="1698153334342" duration="5596000" />
+      <workItem from="1698217088546" duration="1248000" />
+      <workItem from="1698222255458" duration="28304000" />
+      <workItem from="1698402586504" duration="17931000" />
+      <workItem from="1698531966155" duration="7733000" />
+      <workItem from="1698580669148" duration="9000" />
+      <workItem from="1698580690912" duration="46000" />
+      <workItem from="1698652628172" duration="23252000" />
+      <workItem from="1698765259787" duration="607000" />
+      <workItem from="1698783168378" duration="644000" />
+      <workItem from="1698783854962" duration="2591000" />
+      <workItem from="1698821369816" duration="5999000" />
+      <workItem from="1698827383693" duration="128000" />
+      <workItem from="1698827520346" duration="3076000" />
+      <workItem from="1698830607104" duration="1395000" />
+      <workItem from="1698832064842" duration="38108000" />
+      <workItem from="1698926252581" duration="4358000" />
+      <workItem from="1698930656664" duration="8393000" />
+      <workItem from="1698954492787" duration="839000" />
+      <workItem from="1698955399155" duration="1465000" />
+      <workItem from="1698956871877" duration="629000" />
+      <workItem from="1698957519945" duration="295000" />
+      <workItem from="1698957822345" duration="118000" />
+      <workItem from="1698957947118" duration="254000" />
+      <workItem from="1698958207966" duration="707000" />
+      <workItem from="1698958928478" duration="747000" />
+      <workItem from="1698962655455" duration="655000" />
+      <workItem from="1698963318315" duration="5628000" />
+      <workItem from="1698997429783" duration="4495000" />
+      <workItem from="1699001954030" duration="6655000" />
+      <workItem from="1699008634560" duration="404000" />
+      <workItem from="1699009047808" duration="107000" />
+      <workItem from="1699009163200" duration="11922000" />
+      <workItem from="1699023449328" duration="4990000" />
+      <workItem from="1699038646200" duration="12789000" />
+      <workItem from="1699052333749" duration="309000" />
+      <workItem from="1699052656643" duration="24028000" />
+      <workItem from="1699137456419" duration="116000" />
+      <workItem from="1699137579477" duration="123000" />
+      <workItem from="1699137716205" duration="809000" />
+      <workItem from="1699138536588" duration="267000" />
+      <workItem from="1699139324327" duration="4730000" />
+      <workItem from="1699177760495" duration="11927000" />
+      <workItem from="1699260746162" duration="365000" />
+      <workItem from="1699261165710" duration="92000" />
+      <workItem from="1699261273194" duration="4243000" />
+      <workItem from="1699265536479" duration="6946000" />
+      <workItem from="1699272871577" duration="1938000" />
+      <workItem from="1699274816773" duration="9128000" />
+      <workItem from="1699298219287" duration="21752000" />
+      <workItem from="1699352122272" duration="160000" />
+      <workItem from="1699352286270" duration="18000" />
+      <workItem from="1699352667242" duration="251000" />
+      <workItem from="1699352922639" duration="2787000" />
+      <workItem from="1699356547234" duration="10041000" />
+      <workItem from="1699366774209" duration="691000" />
+      <workItem from="1699367471698" duration="3969000" />
+      <workItem from="1699428732811" duration="30818000" />
+      <workItem from="1699469212992" duration="2653000" />
+      <workItem from="1699473258313" duration="810000" />
+      <workItem from="1699474204977" duration="2363000" />
+      <workItem from="1699477473401" duration="23892000" />
+      <workItem from="1699533925889" duration="8399000" />
+      <workItem from="1699543048658" duration="11194000" />
+      <workItem from="1699558477932" duration="2707000" />
+      <workItem from="1699564458246" duration="23778000" />
+      <workItem from="1699627708784" duration="415000" />
+    </task>
+    <task id="LOCAL-00001" summary="Fix - Change data for sending to server">
+      <option name="closed" value="true" />
+      <created>1698788506735</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1698788506735</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fix - Fixed conflicts">
+      <option name="closed" value="true" />
+      <created>1699346027129</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1699346027129</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fix - Fixed conflicts">
+      <option name="closed" value="true" />
+      <created>1699346408521</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1699346408521</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Fix - Change data for sending to server" />
+    <MESSAGE value="Fix - Fixed conflicts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix - Fixed conflicts" />
+  </component>
+</project>

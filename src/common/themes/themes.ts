@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material'
 import lightPalette from 'src/common/themes/lightPalette'
+import { HEADER_HEIGHT } from 'src/constants'
 
 const theme = createTheme({
   ...lightPalette,
@@ -25,24 +26,6 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: `
-        .item-enter {
-          opacity: 0;
-         }
-
-         .item-enter-active {
-            opacity: 1;
-            transition: opacity 0.3s;
-          }
-
-          .item-exit {
-            opacity: 1;
-          }
-
-          .item-exit-active {
-            opacity: 0;
-            transition: opacity var(--primary-duration) ease-in;
-          }
-  
           @font-face {
             font-family: 'Montserrat';
             font-style: normal;
@@ -59,11 +42,20 @@ const theme = createTheme({
                  url('/assets/fonts/Montserrat-Bold.woff2') format('woff2'),
                  url('/assets/fonts/Montserrat-Bold.woff') format('woff');
           }
+          
+          body {overflow: visible !important;padding-right: 0px !important;}
       `,
     },
     MuiFormControl: {
       defaultProps: {
         fullWidth: true,
+      },
+    },
+    MuiMenu: {
+      styleOverrides: {
+        root: {
+          padding: '0px !important',
+        },
       },
     },
     MuiInputLabel: {
@@ -128,13 +120,45 @@ const theme = createTheme({
     },
     MuiAppBar: {
       defaultProps: {
-        position: 'static',
+        position: 'fixed',
+      },
+      styleOverrides: {
+        root: {
+          flexDirection: 'row',
+          padding: 0,
+          height: HEADER_HEIGHT,
+        },
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          padding: '10px 0 !important',
+        },
       },
     },
     MuiListItem: {
       styleOverrides: {
         root: {
           padding: '0',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          paddingRight: '0px !important',
+        },
+      },
+    },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          width: '100%',
+          minHeight: 'inherit !important',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         },
       },
     },

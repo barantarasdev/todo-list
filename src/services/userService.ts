@@ -1,4 +1,3 @@
-import { getDataFromLocalStorage } from 'src/helpers/storageHelper'
 import client from 'src/services/apiClient'
 import { AuthValuesT } from 'src/services/types'
 import { SignInT, UserT } from 'src/types'
@@ -9,7 +8,7 @@ export const signUp = (data: UserT) =>
 export const signIn = (data: SignInT) =>
   client.post<AuthValuesT>(`/login`, data)
 
-export const logOut = () =>
+export const logOut = (refreshToken: string) =>
   client.post<AuthValuesT>(`/logout`, {
-    refreshToken: getDataFromLocalStorage('refreshToken'),
+    refreshToken,
   })
