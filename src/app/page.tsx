@@ -1,3 +1,7 @@
-export default function Home() {
-  return <main>123</main>
+import Main from '@/components/Home'
+
+function Home() {
+  return <Main />
 }
+
+export default Home

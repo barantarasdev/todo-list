@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
 
-const montserrat = Montserrat({ subsets: ['latin'], weight: ['500', '700'] })
+import StoreProvider from '@/store/StoreProvider'
+import ThemeProvider from '@/common/themes/ThemeProvider'
+import Header from '@/components/Header'
+import Main from '@/components/Main/styles'
+import Snackbar from '@/components/Snackbar'
 
 export const metadata: Metadata = {
   title: 'TodoList',
@@ -15,10 +18,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>
-        <header>Header</header>
+      <body>
+        <StoreProvider>
+          <ThemeProvider>
+            <Header />
 
-        <main>{children}</main>
+            <Main>{children}</Main>
+
+            <Snackbar />
+          </ThemeProvider>
+        </StoreProvider>
       </body>
     </html>
   )
