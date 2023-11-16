@@ -10,12 +10,12 @@ import WithAuthRoute from '@/hocks/WithAuthRoute'
 import useSignUp from '@/app/auth/signUp/useSignUp'
 import { GENDER_OPTIONS } from '@/constants'
 import { RoutesE, SignUpInputsE } from '@/types'
-import { AuthForm, AuthFormBlock, AuthLink } from '@/styles'
+import { AuthForm, AuthFormBlock, StyledLink } from '@/styles'
 
 function SignUp() {
   const { NAME, AGE, EMAIL, PASSWORD, CONFIRM_PASSWORD, PHONE, SITE, GENDER } =
     SignUpInputsE
-  const { isSubmitted, onSubmit, onValidate } = useSignUp()
+  const { onSubmit, onValidate } = useSignUp()
 
   return (
     <AuthFormBlock>
@@ -58,11 +58,11 @@ function SignUp() {
               placeholder="Confirm"
             />
 
-            <Button type="submit" disabled={isSubmitted && !valid}>
+            <Button type="submit" disabled={!valid}>
               Sign up
             </Button>
 
-            <AuthLink href={RoutesE.SIGN_IN}>Sign in</AuthLink>
+            <StyledLink href={RoutesE.SIGN_IN}>Sign in</StyledLink>
           </AuthForm>
         )}
       />

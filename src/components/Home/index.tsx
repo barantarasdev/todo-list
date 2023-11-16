@@ -1,17 +1,20 @@
 'use client'
 
-import Board from '@/components/Board'
-import AddColumn from '@/components/AddColumn'
+import { Typography } from '@mui/material'
+
 import WithPrivateRoute from '@/hocks/WithPrivateRoutes'
-import StyledHome from '@/components/Home/styles'
+import useHome from '@/components/Home/useHome'
+import Section from '@/components/Home/styles'
 
 function Main() {
-  return (
-    <StyledHome>
-      <Board />
+  const { userName } = useHome()
 
-      <AddColumn />
-    </StyledHome>
+  return (
+    <Section>
+      <Typography variant="h1">
+        Welcome, <br /> {userName}
+      </Typography>
+    </Section>
   )
 }
 

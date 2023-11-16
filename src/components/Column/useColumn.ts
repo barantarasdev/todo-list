@@ -3,37 +3,34 @@ import { FormEvent, useCallback, useRef } from 'react'
 import { createTodoCreator } from '@/store/slices/columnSlice/actionCreator'
 import { useAppDispatch } from '@/hooks/useRedux'
 import useInput from '@/hooks/useInput'
-import { getDataFromLocalStorage } from '@/utils'
-import { AddTodoProps } from '@/components/AddTodo/types'
+import { UseColumnProps } from '@/components/Column/types'
 
-function useAddTodo({ columnId }: AddTodoProps) {
+function useColumn({ columnId, boardId }: UseColumnProps) {
+  const dispatch = useAppDispatch()
   const inputRef = useRef<HTMLInputElement>(null)
   const { value, onChange, onClear } = useInput({ inputRef })
-
-  const dispatch = useAppDispatch()
 
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
 
-      const { userId } = getDataFromLocalStorage('user')
-
-      if (value.length && userId) {
+      if (value.length) {
         const todo = {
           todoValue: value,
           todoCompleted: false,
-          userId,
+          boardId,
+          columnId,
         }
 
-        dispatch(createTodoCreator({ columnId, todo }))
+        dispatch(createTodoCreator({ todo }))
       }
 
       onClear()
     },
-    [value, dispatch, columnId, onClear]
+    [value, dispatch, columnId, onClear, boardId]
   )
 
   return { onSubmit, inputRef, value, onChange, onClear }
 }
 
-export default useAddTodo
+export default useColumn

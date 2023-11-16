@@ -1,11 +1,12 @@
+import { MethodsE } from '@/types'
 import {
   getDataFromLocalStorage,
-  setDataToLocalStorage,
   removeUser,
-} from '@/utils'
-import { MethodsE } from '@/types'
+  setDataToLocalStorage,
+} from '@/utils/localeStorage'
+import wait from '@/utils/others'
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 async function sendRequest<T>(
   url: string,
@@ -28,14 +29,19 @@ async function sendRequest<T>(
     headers.Authorization = `Bearer ${accessToken}`
   }
 
-  const response = await fetch(BASE_URL + url, { ...options, headers })
+  await wait(300)
+  const response = await fetch(BASE_URL + url, {
+    ...options,
+    headers,
+  })
 
   if (response.status === 403) {
     if (count > 5) {
+      removeUser()
       throw new Error('You don"t have limits for this request')
     }
 
-    const refreshResponse = await fetch(`${BASE_URL}/refresh`, {
+    const refreshResponse = await fetch(`${BASE_URL}/auth/refresh`, {
       method: MethodsE.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -54,10 +60,11 @@ async function sendRequest<T>(
     }
 
     removeUser()
-    throw Error('Not authorized')
+    throw new Error('Not authorized')
   }
 
   if (!response.ok) {
+    removeUser()
     throw new Error('Error')
   }
 

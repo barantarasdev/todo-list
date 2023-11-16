@@ -7,10 +7,11 @@ import Field from '@/components/common/Field'
 import WithAuthRoute from '@/hocks/WithAuthRoute'
 import useSignIn from '@/app/auth/signIn/useSignIn'
 import { RoutesE, SignInInputsE } from '@/types'
-import { AuthForm, AuthFormBlock, AuthLink } from '@/styles'
+import { AuthForm, AuthFormBlock, StyledLink } from '@/styles'
 
 function SignIn() {
   const { onSubmit } = useSignIn()
+  const { EMAIL, PASSWORD } = SignInInputsE
 
   return (
     <AuthFormBlock>
@@ -20,21 +21,13 @@ function SignIn() {
         onSubmit={onSubmit}
         render={({ handleSubmit }) => (
           <AuthForm onSubmit={handleSubmit} noValidate>
-            <Field
-              type="email"
-              name={SignInInputsE.EMAIL}
-              placeholder="Email"
-            />
+            <Field type="email" name={EMAIL} placeholder="Email" />
 
-            <Field
-              type="password"
-              name={SignInInputsE.PASSWORD}
-              placeholder="Password"
-            />
+            <Field type="password" name={PASSWORD} placeholder="Password" />
 
             <Button type="submit">Sign in</Button>
 
-            <AuthLink href={RoutesE.SIGN_UP}>Sign up</AuthLink>
+            <StyledLink href={RoutesE.SIGN_UP}>Sign up</StyledLink>
           </AuthForm>
         )}
       />

@@ -1,7 +1,7 @@
-import { Loader } from '@/styles'
+import { CircularProgress } from '@mui/material'
 
 function Loading() {
-  return <Loader />
+  return <CircularProgress />
 }
 
 export default Loading

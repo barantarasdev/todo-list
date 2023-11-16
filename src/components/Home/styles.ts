@@ -1,10 +1,7 @@
-import { css, styled } from '@mui/material'
+import { styled } from '@mui/material'
 
-const StyledHome = styled('section')(
-  ({ theme: { spacing } }) => css`
-    display: flex;
-    gap: ${spacing(3)};
-  `
-)
+const Section = styled('section')(({ theme: { mixins } }) => ({
+  ...mixins.positionCenter,
+}))
 
-export default StyledHome
+export default Section

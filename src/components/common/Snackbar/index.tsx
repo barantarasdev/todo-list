@@ -2,7 +2,7 @@
 
 import { Alert, Snackbar as MUISnackbar } from '@mui/material'
 
-import useSnackbar from '@/components/Snackbar/useSnackbar'
+import useSnackbar from '@/components/common/Snackbar/useSnackbar'
 import { SNACKBAR_TIME } from '@/constants'
 
 function Snackbar() {

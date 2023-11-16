@@ -29,13 +29,12 @@ import {
 import { TodoT } from '@/types'
 
 function* createTodoWorker(action: PayloadAction<CreateTodoCreatorProps>) {
-  const { columnId, todo } = action.payload
+  const { todo } = action.payload
 
-  const { todoId } = yield call(createTodo, columnId, todo)
+  const { todoId } = yield call(createTodo, todo)
 
   yield put(
     createTodoSlice({
-      columnId,
       todo: { todoId, ...todo },
     })
   )
@@ -90,9 +89,9 @@ function* updateTodoOrderWorker(
   yield call(
     updateTodoOrder,
     todoId,
+    columnId,
     sourceTodo as TodoT,
-    destinationTodo as TodoT,
-    columnId
+    destinationTodo as TodoT
   )
 }
 

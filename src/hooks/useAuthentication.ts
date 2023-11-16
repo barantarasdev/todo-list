@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { setColumnsCreator } from '@/store/slices/columnSlice/actionCreator'
+import { setBoardsCreator } from '@/store/slices/columnSlice/actionCreator'
 import { setUser } from '@/store/slices/userSlice'
 import { useAppDispatch } from '@/hooks/useRedux'
-import { getDataFromLocalStorage } from '@/utils'
 import { RoutesE } from '@/types'
+import { getDataFromLocalStorage } from '@/utils/localeStorage'
 
 const useAuthentication = (isProtected: boolean) => {
   const dispatch = useAppDispatch()
-  const router = useRouter()
   const user = getDataFromLocalStorage('user')
+  const router = useRouter()
 
   useEffect(() => {
     if (!user && isProtected) {
@@ -19,12 +20,11 @@ const useAuthentication = (isProtected: boolean) => {
       return
     }
 
-    if (user) {
-      dispatch(setUser({ user }))
-      dispatch(setColumnsCreator({ userId: user.userId }))
-      router.replace(RoutesE.HOME)
+    if (user && user.userId) {
+      dispatch(setUser({ ...user }))
+      dispatch(setBoardsCreator({ userId: user.userId }))
     }
-  }, [isProtected, router, dispatch, user])
+  }, [isProtected, dispatch, user])
 }
 
 export default useAuthentication

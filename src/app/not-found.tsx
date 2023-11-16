@@ -1,6 +1,7 @@
 import { Button, Typography } from '@mui/material'
 import Link from 'next/link'
 
+import { RoutesE } from '@/types'
 import { MainSection } from '@/styles'
 
 function NotFound() {
@@ -13,7 +14,7 @@ function NotFound() {
         has been lost in space.
       </Typography>
 
-      <Link href="/">
+      <Link href={RoutesE.HOME}>
         <Button>Return Home</Button>
       </Link>
     </MainSection>

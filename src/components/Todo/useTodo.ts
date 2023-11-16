@@ -40,12 +40,12 @@ function useTodo({
     } else {
       dispatch(
         updateTodoCreator({
-          columnId,
           todoId,
           todo: {
             todoValue: value,
             todoCompleted: false,
           },
+          columnId,
         })
       )
     }

@@ -1,7 +1,8 @@
-import { ColumnT, CreateTodoT, TodoT, UpdateTodoT } from '@/types'
+import { BoardT, ColumnT, CreateTodoT, TodoT, UpdateTodoT } from '@/types'
 
 export type ColumnsStateT = {
   columns: ColumnT[]
+  boards: BoardT[]
 }
 
 export type UpdateColumnProps = {
@@ -11,13 +12,12 @@ export type UpdateColumnProps = {
 
 export type CreateTodoProps = {
   todo: TodoT
-  columnId: string
 }
 
 export type UpdateTodoProps = {
   todo: UpdateTodoT
-  columnId: string
   todoId: string
+  columnId: string
 }
 
 export type DeleteTodoProps = {
@@ -26,11 +26,21 @@ export type DeleteTodoProps = {
 }
 
 export type SetColumnsCreatorProps = {
+  boardId: string
+}
+
+export type SetBoardsCreatorProps = {
   userId: string
+}
+
+export type CreateBoardCreatorProps = {
+  userId: string
+  boardName: string
 }
 
 export type CreateColumnCreatorProps = {
   columnName: string
+  boardId: string
 }
 
 export type UpdateColumnCreatorProps = {
@@ -41,7 +51,6 @@ export type UpdateColumnCreatorProps = {
 }
 
 export type CreateTodoCreatorProps = {
-  columnId: string
   todo: CreateTodoT
 }
 
@@ -51,9 +60,9 @@ export type DeleteTodoCreatorProps = {
 }
 
 export type UpdateTodoCreatorProps = {
-  columnId: string
   todoId: string
   todo: UpdateTodoT
+  columnId: string
 }
 
 export type UpdateTodoOrderCreatorProps = {
@@ -72,6 +81,8 @@ export enum ColsCreators {
   ASYNC_DELETE_TODO = 'ASYNC_DELETE_TODO',
   ASYNC_UPDATE_TODO = 'ASYNC_UPDATE_TODO',
   ASYNC_SET_COLUMNS = 'ASYNC_SET_COLUMNS',
+  ASYNC_SET_BOARDS = 'ASYNC_SET_BOARDS',
   ASYNC_UPDATE_COLUMN = 'ASYNC_UPDATE_COL',
   ASYNC_UPDATE_TODO_ORDER = 'ASYNC_UPDATE_TODO_ORDER',
+  ASYNC_SET_BOARD = 'ASYNC_SET_BOARD',
 }

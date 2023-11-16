@@ -6,7 +6,7 @@ import {
   getFilterTodos,
   getTodoIndex,
 } from '@/store/slices/columnSlice/helpers'
-import { ColumnT } from '@/types'
+import { BoardT, ColumnT } from '@/types'
 import {
   ColumnsStateT,
   CreateTodoProps,
@@ -16,9 +16,17 @@ import {
 } from '@/store/slices/columnSlice/types'
 
 const reducers = {
-  setColumns: (_: ColumnsStateT, action: PayloadAction<ColumnT[]>) => ({
+  setColumns: (state: ColumnsStateT, action: PayloadAction<ColumnT[]>) => ({
+    ...state,
     columns: action.payload,
   }),
+  setBoards: (state: ColumnsStateT, action: PayloadAction<BoardT[]>) => ({
+    ...state,
+    boards: action.payload,
+  }),
+  setBoard: (state: ColumnsStateT, action: PayloadAction<BoardT>) => {
+    state.boards.push(action.payload)
+  },
   setColumn: (state: ColumnsStateT, action: PayloadAction<ColumnT>) => {
     state.columns.push(action.payload)
   },
@@ -29,6 +37,7 @@ const reducers = {
     const { columnId, todos } = action.payload
 
     return {
+      ...state,
       columns: state.columns.map(column =>
         column.columnId === columnId ? { ...column, todos } : column
       ),
@@ -38,8 +47,8 @@ const reducers = {
     state: ColumnsStateT,
     action: PayloadAction<CreateTodoProps>
   ) => {
-    const { columnId, todo } = action.payload
-    const column = getColumn(columnId, state.columns)
+    const { todo } = action.payload
+    const column = getColumn(todo.columnId, state.columns)
 
     if (column) {
       column.todos.push(todo)
@@ -82,6 +91,8 @@ const columnSlice = createSlice({
 export const {
   setColumns,
   setColumn,
+  setBoards,
+  setBoard,
   updateTodos,
   createTodo,
   updateTodo,

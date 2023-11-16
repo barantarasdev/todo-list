@@ -1,18 +1,15 @@
 import client from '@/services/apiClient'
-import { getDataFromLocalStorage } from '@/utils'
 import { ColumnT, CreateTodoT, TodoT, UpdateTodoT } from '@/types'
+import { getDataFromLocalStorage } from '@/utils/localeStorage'
 
-export const getColumns = (userId: string) =>
-  client.get(`/users/${userId}/cols`, true)
+export const getColumns = (boardId: string) =>
+  client.get(`/columns/${boardId}`, true)
 
-export const createTodo = (columnId: string, todo: CreateTodoT) =>
-  client.post('/todos', { columnId, todo }, true)
+export const createTodo = (todo: CreateTodoT) =>
+  client.post('/todos', { todo }, true)
 
-export const createColumn = (columnName: string) => {
-  const { userId } = getDataFromLocalStorage('user')
-
-  return client.post('/cols', { columnName, userId }, true)
-}
+export const createColumn = (columnName: string, boardId: string) =>
+  client.post('/columns', { columnName, boardId }, true)
 
 export const updateColumn = (
   id: string,
@@ -22,7 +19,7 @@ export const updateColumn = (
   const { userId } = getDataFromLocalStorage('user')
 
   return client.post(
-    `/cols/${id}`,
+    `/columns/${id}`,
     { userId, sourceColumn, destinationColumn },
     true
   )
@@ -35,16 +32,16 @@ export const updateTodo = (id: string, data: UpdateTodoT) =>
 
 export const updateTodoOrder = (
   id: string,
+  columnId: string,
   sourceTodo: TodoT,
-  destinationTodo: TodoT,
-  columnId: string
+  destinationTodo: TodoT
 ) =>
   client.post(
     `/todos/${id}/updateOrder`,
     {
+      columnId,
       sourceTodo,
       destinationTodo,
-      columnId,
     },
     true
   )

@@ -20,6 +20,7 @@ export enum RoutesE {
   HOME = '/',
   SIGN_IN = `${AUTH_PATH}/signIn`,
   SIGN_UP = `${AUTH_PATH}/signUp`,
+  BOARDS = `/boards`,
 }
 
 export enum SignUpInputsE {

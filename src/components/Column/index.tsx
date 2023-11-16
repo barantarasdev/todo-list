@@ -1,17 +1,24 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Typography } from '@mui/material'
+
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 
-import AddTodo from '@/components/AddTodo'
+import useColumn from '@/components/Column/useColumn'
+import Input from '@/components/common/Input'
 import TodoList from '@/components/Column/TodoList'
 import { DNDE } from '@/types'
 import { ColumnProps } from '@/components/Column/types'
-import { Item, List } from '@/components/Column/styles'
+import { FormButton } from '@/styles'
+import { Form, Item, List, Title } from '@/components/Column/styles'
 
 function Column({
-  column: { columnName, columnId, todos },
+  column: { columnName, columnId, todos, boardId },
   index,
 }: ColumnProps) {
+  const { onSubmit, inputRef, value, onChange, onClear } = useColumn({
+    columnId,
+    boardId,
+  })
+
   return (
     <Draggable draggableId={columnId} index={index}>
       {provided => (
@@ -20,9 +27,21 @@ function Column({
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <Typography variant="h3">{columnName}</Typography>
+          <Title variant="h3">{columnName}</Title>
 
-          <AddTodo columnId={columnId} />
+          <Form onSubmit={onSubmit}>
+            <Input
+              inputRef={inputRef}
+              value={value}
+              onChange={onChange}
+              placeholder="New todo..."
+              helperText=""
+              onClear={onClear}
+              isClear
+            />
+
+            <FormButton type="submit">Add</FormButton>
+          </Form>
 
           <Droppable droppableId={columnId} type={DNDE.TODO}>
             {dropProvider => (

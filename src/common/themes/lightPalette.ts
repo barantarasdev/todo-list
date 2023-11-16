@@ -7,6 +7,9 @@ const lightPalette: Theme = createTheme({
       main: '#fee146',
       light: '#ffffff',
     },
+    secondary: {
+      main: '#8B4000',
+    },
     text: {
       primary: '#ffffff',
       secondary: '#173646',

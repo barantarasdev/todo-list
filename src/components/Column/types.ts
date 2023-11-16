@@ -9,3 +9,8 @@ export type ColumnProps = {
   column: ColumnT
   index: number
 }
+
+export type UseColumnProps = {
+  columnId: string
+  boardId: string
+}

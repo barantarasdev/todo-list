@@ -3,8 +3,10 @@ import type { Metadata } from 'next'
 import StoreProvider from '@/store/StoreProvider'
 import ThemeProvider from '@/common/themes/ThemeProvider'
 import Header from '@/components/Header'
-import Main from '@/components/Main/styles'
-import Snackbar from '@/components/Snackbar'
+import Snackbar from '@/components/common/Snackbar'
+import { Main } from '@/styles'
+import { Suspense } from 'react'
+import Loading from '@/app/loading'
 
 export const metadata: Metadata = {
   title: 'TodoList',
@@ -23,7 +25,9 @@ export default function RootLayout({
           <ThemeProvider>
             <Header />
 
-            <Main>{children}</Main>
+            <Suspense fallback={<Loading />}>
+              <Main>{children}</Main>
+            </Suspense>
 
             <Snackbar />
           </ThemeProvider>

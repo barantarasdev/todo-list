@@ -1,12 +1,16 @@
-import { ChangeEvent } from 'react'
+import { ChangeEvent, RefObject } from 'react'
 
 export type InputProps = {
-  type: string
-  name: string
+  inputRef?: RefObject<HTMLInputElement>
+  type?: string
+  name?: string
   value: string
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
   placeholder: string
-  helperText: string
+  helperText?: string
+  isClear?: boolean
   error?: boolean
   isPassword?: boolean
+  autofocus?: boolean
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onClear?: () => void
 }

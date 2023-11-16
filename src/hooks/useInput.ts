@@ -1,9 +1,5 @@
-import { ChangeEvent, RefObject, useCallback, useState } from 'react'
-
-type UseInputProps = {
-  valueProp?: string
-  inputRef?: RefObject<HTMLInputElement> | null
-}
+import { UseInputProps } from '@/types'
+import { ChangeEvent, useCallback, useState } from 'react'
 
 function useInput({ valueProp = '', inputRef = null }: UseInputProps) {
   const [value, setValue] = useState(valueProp)

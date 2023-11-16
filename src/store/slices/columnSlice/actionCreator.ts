@@ -1,24 +1,40 @@
 import {
   ColsCreators,
+  CreateBoardCreatorProps,
   CreateColumnCreatorProps,
   CreateTodoCreatorProps,
   DeleteTodoCreatorProps,
+  SetBoardsCreatorProps,
   SetColumnsCreatorProps,
   UpdateColumnCreatorProps,
   UpdateTodoCreatorProps,
   UpdateTodoOrderCreatorProps,
 } from '@/store/slices/columnSlice/types'
 
-export const setColumnsCreator = ({ userId }: SetColumnsCreatorProps) => ({
+export const setColumnsCreator = ({ boardId }: SetColumnsCreatorProps) => ({
   type: ColsCreators.ASYNC_SET_COLUMNS,
+  payload: { boardId },
+})
+
+export const setBoardsCreator = ({ userId }: SetBoardsCreatorProps) => ({
+  type: ColsCreators.ASYNC_SET_BOARDS,
   payload: { userId },
+})
+
+export const createBoardCreator = ({
+  userId,
+  boardName,
+}: CreateBoardCreatorProps) => ({
+  type: ColsCreators.ASYNC_SET_BOARD,
+  payload: { userId, boardName },
 })
 
 export const createColumnCreator = ({
   columnName,
+  boardId,
 }: CreateColumnCreatorProps) => ({
   type: ColsCreators.ASYNC_CREATE_COLUMN,
-  payload: { columnName },
+  payload: { columnName, boardId },
 })
 
 export const updateColumnCreator = ({
@@ -31,12 +47,9 @@ export const updateColumnCreator = ({
   payload: { columns, sourceColumn, destinationColumn, columnId },
 })
 
-export const createTodoCreator = ({
-  columnId,
-  todo,
-}: CreateTodoCreatorProps) => ({
+export const createTodoCreator = ({ todo }: CreateTodoCreatorProps) => ({
   type: ColsCreators.ASYNC_CREATE_TODO,
-  payload: { todo, columnId },
+  payload: { todo },
 })
 
 export const deleteTodoCreator = ({
@@ -48,12 +61,12 @@ export const deleteTodoCreator = ({
 })
 
 export const updateTodoCreator = ({
-  columnId,
   todoId,
   todo,
+  columnId,
 }: UpdateTodoCreatorProps) => ({
   type: ColsCreators.ASYNC_UPDATE_TODO,
-  payload: { columnId, todoId, todo },
+  payload: { todoId, todo, columnId },
 })
 
 export const updateTodoOrderCreator = ({

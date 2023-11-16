@@ -1,7 +1,12 @@
-import { GendersT, MenuItemsE, OptionT } from '@/types'
+import { GendersT, MenuItemsE, OptionT, RoutesE } from '@/types'
 
 export const MENU_ITEMS: OptionT<MenuItemsE>[] = [
   { value: MenuItemsE.LOGOUT, name: 'Logout' },
+]
+
+export const NAVIGATION_ITEMS = [
+  { href: RoutesE.HOME, name: 'Home' },
+  { href: RoutesE.BOARDS, name: 'Boards' },
 ]
 
 export const GENDER_OPTIONS: OptionT<GendersT>[] = [
@@ -28,3 +33,7 @@ export const PASSWORD_PATTERN: RegExp =
   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,15}$/
 
 export const SNACKBAR_TIME: number = 3000
+
+export const REQUIRED_FIELD = 'is required'
+
+export const NOT_VALID_FIELD = 'is not valid'

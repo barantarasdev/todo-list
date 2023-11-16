@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -12,7 +14,7 @@ function useMenuItem({ option: { value }, onClose }: MenuItemProps) {
   const onClick = useCallback(() => {
     processClick({ value, router, dispatch })
     onClose()
-  }, [onClose, value, dispatch, router])
+  }, [onClose, value, dispatch])
 
   return { onClick }
 }
