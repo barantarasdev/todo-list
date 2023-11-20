@@ -7,16 +7,16 @@ import {
   removeUser,
   storeUser,
 } from '@/utils/localeStorage'
+import { setColumns } from '@/store/slices/boardsSlice'
+import { logOut, signIn, signUp } from '@/services/authService'
+import { setBoardsCreator } from '@/store/slices/boardsSlice/actionCreator'
 import {
   LogoutCreatorProps,
   SignInCreatorProps,
   SignUpCreatorProps,
   UserCreators,
 } from '@/store/slices/userSlice/types'
-import { setColumns } from '@/store/slices/boardsSlice'
 import { RoutesE } from '@/types'
-import { logOut, signIn, signUp } from '@/services/authService'
-import { setBoardsCreator } from '../slices/boardsSlice/actionCreator'
 
 function* signInWorker(action: PayloadAction<SignInCreatorProps>) {
   const { userEmail, userPassword, router } = action.payload

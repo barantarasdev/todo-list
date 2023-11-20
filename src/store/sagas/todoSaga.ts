@@ -26,7 +26,7 @@ import {
   updateTodo,
   updateTodoOrder,
 } from '@/services/todosService'
-import { LogoutCreator } from '../slices/userSlice/actionCreator'
+import { LogoutCreator } from '@/store/slices/userSlice/actionCreator'
 
 function* createTodoWorker(action: PayloadAction<CreateTodoCreatorProps>) {
   const { todoValue, boardId, columnId, router } = action.payload

@@ -3,7 +3,7 @@ import {
   setDataToLocalStorage,
 } from '@/utils/localeStorage'
 import { MethodsE } from '@/types'
-import { SendRequestProps } from './types'
+import { SendRequestProps } from '@/services/types'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 

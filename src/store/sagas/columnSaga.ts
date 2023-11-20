@@ -3,18 +3,18 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import { setColumn, setColumns } from '@/store/slices/boardsSlice'
 import {
+  createColumn,
+  getColumns,
+  updateColumnOrder,
+} from '@/services/columnsService'
+import { LogoutCreator } from '@/store/slices/userSlice/actionCreator'
+import { ColumnT } from '@/types'
+import {
   BoardsCreators,
   CreateColumnCreatorProps,
   SetColumnsCreatorProps,
   UpdateColumnCreatorProps,
 } from '@/store/slices/boardsSlice/types'
-import {
-  createColumn,
-  getColumns,
-  updateColumnOrder,
-} from '@/services/columnsService'
-import { ColumnT } from '@/types'
-import { LogoutCreator } from '../slices/userSlice/actionCreator'
 
 function* setColumnsWorker(action: PayloadAction<SetColumnsCreatorProps>) {
   const { boardId, router } = action.payload

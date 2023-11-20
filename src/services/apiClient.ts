@@ -1,6 +1,6 @@
+import sendRequest from '@/services/apiCall'
 import { MethodsE } from '@/types'
-import { SendRequestProps } from './types'
-import sendRequest from './apiCall'
+import { SendRequestProps } from '@/services/types'
 
 const { POST, PATCH, DELETE } = MethodsE
 

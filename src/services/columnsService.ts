@@ -1,4 +1,4 @@
-import client from './apiClient'
+import client from '@/services/apiClient'
 
 export const getColumns = (boardId: string) =>
   client.get({ url: `/boards/${boardId}/columns` })

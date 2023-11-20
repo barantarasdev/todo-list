@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import { FormEvent, useCallback, useRef } from 'react'
 
 import { createTodoCreator } from '@/store/slices/boardsSlice/actionCreator'

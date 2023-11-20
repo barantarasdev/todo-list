@@ -1,17 +1,17 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
+import { createBoard, getBoards, inviteUser } from '@/services/boardsService'
 import { setBoard, setBoards } from '@/store/slices/boardsSlice'
+import { setSnackbar } from '@/store/slices/snackbarSlice'
+import { LogoutCreator } from '@/store/slices/userSlice/actionCreator'
+import { BoardT } from '@/types'
 import {
   BoardsCreators,
   CreateBoardCreatorProps,
   InviteUserCreatorProps,
   SetBoardsCreatorProps,
 } from '@/store/slices/boardsSlice/types'
-import { createBoard, getBoards, inviteUser } from '@/services/boardsService'
-import { BoardT } from '@/types'
-import { setSnackbar } from '../slices/snackbarSlice'
-import { LogoutCreator } from '../slices/userSlice/actionCreator'
 
 function* setBoardsWorker(action: PayloadAction<SetBoardsCreatorProps>) {
   try {

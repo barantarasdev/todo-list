@@ -1,6 +1,6 @@
+import client from '@/services/apiClient'
 import { AUTH_PATH } from '@/constants'
 import { SignInT, SignUpT } from '@/types'
-import client from './apiClient'
 
 export const signUp = (data: SignUpT) =>
   client.post({ url: `${AUTH_PATH}/signUp`, isVerify: false, data })
