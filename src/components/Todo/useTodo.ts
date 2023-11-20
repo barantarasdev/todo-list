@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useReducer, useRef, useState } from 'react'
 
 import useInput from '@/hooks/useInput'
@@ -5,8 +6,9 @@ import { useAppDispatch } from '@/hooks/useRedux'
 import {
   deleteTodoCreator,
   updateTodoCreator,
-} from '@/store/slices/columnSlice/actionCreator'
+} from '@/store/slices/boardsSlice/actionCreator'
 import { TodoProps } from '@/components/Todo/types'
+import { useParams, useRouter } from 'next/navigation'
 
 function useTodo({
   todo: { todoCompleted, todoValue, todoId },
@@ -14,6 +16,8 @@ function useTodo({
 }: Omit<TodoProps, 'index'>) {
   const inputRef = useRef<HTMLInputElement>(null)
   const dispatch = useAppDispatch()
+  const { id } = useParams()
+  const router = useRouter()
 
   const [isEditing, setIsEditing] = useState(false)
   const [isCompleted, onToggleIsCompleted] = useReducer(v => !v, todoCompleted)
@@ -23,16 +27,20 @@ function useTodo({
     onToggleIsCompleted()
     dispatch(
       updateTodoCreator({
-        todo: { todoValue: value, todoCompleted: !isCompleted },
+        boardId: id as string,
+        data: { todoCompleted: !isCompleted },
         todoId,
         columnId,
+        router,
       })
     )
-  }, [onToggleIsCompleted, dispatch, columnId, value, isCompleted, todoId])
+  }, [onToggleIsCompleted, dispatch, id, columnId, isCompleted, todoId])
 
   const onDelete = useCallback(() => {
-    dispatch(deleteTodoCreator({ columnId, todoId }))
-  }, [dispatch, columnId, todoId])
+    dispatch(
+      deleteTodoCreator({ columnId, boardId: id as string, todoId, router })
+    )
+  }, [dispatch, columnId, todoId, id])
 
   const onSubmit = useCallback(() => {
     if (!value.length) {
@@ -40,10 +48,11 @@ function useTodo({
     } else {
       dispatch(
         updateTodoCreator({
+          router,
           todoId,
-          todo: {
+          boardId: id as string,
+          data: {
             todoValue: value,
-            todoCompleted: false,
           },
           columnId,
         })
@@ -52,7 +61,7 @@ function useTodo({
 
     setIsEditing(false)
     inputRef.current?.blur()
-  }, [value, onDelete, columnId, todoId, dispatch])
+  }, [value, onDelete, columnId, id, todoId, dispatch])
 
   const onDoubleClick = useCallback(() => {
     if (!isCompleted) {

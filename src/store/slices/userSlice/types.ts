@@ -23,14 +23,8 @@ export type LogoutCreatorProps = {
   router: AppRouterInstance
 }
 
-export type InviteUserCreatorProps = {
-  friendEmail: string
-  boardId: string
-}
-
 export enum UserCreators {
   ASYNC_SING_IN = 'ASYNC_SING_IN',
   ASYNC_SIGN_UP = 'ASYNC_SIGN_UP',
   ASYNC_LOGOUT = 'ASYNC_LOGOUT',
-  ASYNC_INVITE_USER = 'ASYNC_INVITE_USER',
 }

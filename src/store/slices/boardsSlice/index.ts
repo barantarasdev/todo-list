@@ -1,11 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import initialState from '@/store/slices/columnSlice/initialState'
+import initialState from '@/store/slices/boardsSlice/initialState'
 import {
   getColumn,
   getFilterTodos,
   getTodoIndex,
-} from '@/store/slices/columnSlice/helpers'
+} from '@/store/slices/boardsSlice/helpers'
 import { BoardT, ColumnT } from '@/types'
 import {
   ColumnsStateT,
@@ -13,7 +13,7 @@ import {
   DeleteTodoProps,
   UpdateColumnProps,
   UpdateTodoProps,
-} from '@/store/slices/columnSlice/types'
+} from '@/store/slices/boardsSlice/types'
 
 const reducers = {
   setColumns: (state: ColumnsStateT, action: PayloadAction<ColumnT[]>) => ({
@@ -58,14 +58,14 @@ const reducers = {
     state: ColumnsStateT,
     action: PayloadAction<UpdateTodoProps>
   ) => {
-    const { columnId, todoId, todo } = action.payload
+    const { columnId, todoId, data } = action.payload
     const column = getColumn(columnId, state.columns)
 
     if (column) {
       const index = getTodoIndex(todoId, column.todos)
 
-      if (index !== -1) {
-        column.todos[index] = { ...column.todos[index], ...todo }
+      if (index !== -1 && data) {
+        column.todos[index] = { ...column.todos[index], ...data }
       }
     }
   },

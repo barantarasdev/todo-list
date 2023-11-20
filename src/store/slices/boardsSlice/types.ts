@@ -1,4 +1,5 @@
-import { BoardT, ColumnT, CreateTodoT, TodoT, UpdateTodoT } from '@/types'
+import { BoardT, ColumnT, TodoT } from '@/types'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
 export type ColumnsStateT = {
   columns: ColumnT[]
@@ -15,7 +16,7 @@ export type CreateTodoProps = {
 }
 
 export type UpdateTodoProps = {
-  todo: UpdateTodoT
+  data: unknown
   todoId: string
   columnId: string
 }
@@ -27,62 +28,81 @@ export type DeleteTodoProps = {
 
 export type SetColumnsCreatorProps = {
   boardId: string
+  router: AppRouterInstance
 }
 
 export type SetBoardsCreatorProps = {
-  userId: string
+  router: AppRouterInstance
 }
 
 export type CreateBoardCreatorProps = {
-  userId: string
   boardName: string
+  router: AppRouterInstance
 }
 
 export type CreateColumnCreatorProps = {
+  router: AppRouterInstance
   columnName: string
   boardId: string
 }
 
 export type UpdateColumnCreatorProps = {
   columns: ColumnT[]
-  sourceColumn: ColumnT
-  destinationColumn: ColumnT
+  sourceColumnId: string
+  destinationColumnId: string
   columnId: string
+  boardId: string
+  router: AppRouterInstance
 }
 
 export type CreateTodoCreatorProps = {
-  todo: CreateTodoT
+  todoValue: string
+  boardId: string
+  router: AppRouterInstance
+  columnId: string
 }
 
 export type DeleteTodoCreatorProps = {
   columnId: string
+  router: AppRouterInstance
   todoId: string
+  boardId: string
 }
 
 export type UpdateTodoCreatorProps = {
+  router: AppRouterInstance
   todoId: string
-  todo: UpdateTodoT
+  boardId: string
+  data: unknown
   columnId: string
 }
 
 export type UpdateTodoOrderCreatorProps = {
+  router: AppRouterInstance
+  boardId: string
   todoId: string
-  sourceTodo: TodoT | null
-  destinationTodo: TodoT | null
+  sourceTodoId: string | null
+  destinationTodoId: string | null
   columnId: string
   todos: TodoT[]
   startColumnId?: string | null
   startTodoList?: TodoT[]
 }
 
-export enum ColsCreators {
+export type InviteUserCreatorProps = {
+  friendEmail: string
+  boardId: string
+}
+
+export enum BoardsCreators {
+  ASYNC_INVITE_USER = 'ASYNC_INVITE_USER',
   ASYNC_CREATE_TODO = 'ASYNC_CREATE_TODO',
   ASYNC_CREATE_COLUMN = 'ASYNC_CREATE_COL',
   ASYNC_DELETE_TODO = 'ASYNC_DELETE_TODO',
   ASYNC_UPDATE_TODO = 'ASYNC_UPDATE_TODO',
   ASYNC_SET_COLUMNS = 'ASYNC_SET_COLUMNS',
   ASYNC_SET_BOARDS = 'ASYNC_SET_BOARDS',
-  ASYNC_UPDATE_COLUMN = 'ASYNC_UPDATE_COL',
+  ASYNC_UPDATE_COLUMN = 'ASYNC_UPDATE_COLUMN',
   ASYNC_UPDATE_TODO_ORDER = 'ASYNC_UPDATE_TODO_ORDER',
   ASYNC_SET_BOARD = 'ASYNC_SET_BOARD',
 }

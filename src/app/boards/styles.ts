@@ -6,15 +6,17 @@ export const Section = styled('section')(({ theme: { mixins, spacing } }) => ({
   ...mixins.flexCenter,
 }))
 
-export const StyledLink = styled(Link)(({ theme: { mixins } }) => ({
+export const StyledLink = styled(Link)(({ theme: { mixins, spacing } }) => ({
   display: 'block',
   height: '100%',
   width: '100%',
+  padding: spacing(2),
   fontWeight: 700,
-  fontSize: 40,
+  fontSize: 35,
+  textAlign: 'center',
   color: 'inherit',
   textDecoration: 'none',
-  ...mixins.flexCenter,
+  ...mixins.textEllipsis,
 }))
 
 export const Form = styled('form')({

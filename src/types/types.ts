@@ -10,7 +10,6 @@ export type OptionT<T> = {
 
 export type TodoT = {
   todoId: string
-  boardId: string
   columnId: string
   todoValue: string
   todoCompleted: boolean
@@ -24,7 +23,6 @@ export type ColumnT = {
 }
 
 export type BoardT = {
-  userId: string
   boardId: string
   boardName: string
 }
@@ -33,9 +31,8 @@ export type SignUpT = {
   userName: string
   userEmail: string
   userPassword: string
-  userConfirmPassword: string
   userPhone: string
-  userAge: string
+  userAge: number
   userGender: GendersT
   userSite: string
 }
@@ -44,7 +41,7 @@ export type SignInT = Pick<SignUpT, 'userEmail' | 'userPassword'>
 
 export type ValidateValuesT = Record<string, string>
 
-export type CreateTodoT = Omit<TodoT, 'todoId'>
+export type CreateTodoT = Omit<TodoT, 'todoId' | 'todoCompleted'>
 
 export type UpdateTodoT = Omit<CreateTodoT, 'boardId' | 'columnId'>
 

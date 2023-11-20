@@ -1,71 +1,77 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { createColumn, getColumns, updateColumn } from '@/services/todoServices'
+import { setColumn, setColumns } from '@/store/slices/boardsSlice'
 import {
-  setBoard,
-  setBoards,
-  setColumn,
-  setColumns,
-} from '@/store/slices/columnSlice'
-import {
-  ColsCreators,
-  CreateBoardCreatorProps,
+  BoardsCreators,
   CreateColumnCreatorProps,
-  SetBoardsCreatorProps,
   SetColumnsCreatorProps,
   UpdateColumnCreatorProps,
-} from '@/store/slices/columnSlice/types'
-import { createBoard, getBoards } from '@/services/userServices'
+} from '@/store/slices/boardsSlice/types'
+import {
+  createColumn,
+  getColumns,
+  updateColumnOrder,
+} from '@/services/columnsService'
+import { ColumnT } from '@/types'
+import { LogoutCreator } from '../slices/userSlice/actionCreator'
 
 function* setColumnsWorker(action: PayloadAction<SetColumnsCreatorProps>) {
-  const { columns } = yield call(getColumns, action.payload.boardId)
+  const { boardId, router } = action.payload
 
-  yield put(setColumns(columns))
-}
+  const columns: ColumnT[] = yield call(getColumns, boardId)
 
-function* setBoardsWorker(action: PayloadAction<SetBoardsCreatorProps>) {
-  const { boards } = yield call(getBoards, action.payload.userId)
-
-  yield put(setBoards(boards))
-}
-
-function* createBoardWorker(action: PayloadAction<CreateBoardCreatorProps>) {
-  const { boardName, userId } = action.payload
-
-  const { boardId } = yield call(createBoard, userId, action.payload.boardName)
-
-  yield put(setBoard({ boardName, boardId, userId }))
+  try {
+    yield put(setColumns(columns))
+  } catch (error) {
+    yield put(LogoutCreator({ router }))
+  }
 }
 
 function* setColumnWorker(action: PayloadAction<CreateColumnCreatorProps>) {
-  const { boardId, columnName } = action.payload
+  const { boardId, columnName, router } = action.payload
 
-  const { columnId } = yield call(createColumn, columnName, boardId)
+  try {
+    const { columnId } = yield call(createColumn, boardId, columnName)
 
-  const newColumn = {
-    columnId,
-    columnName: action.payload.columnName,
-    todos: [],
-    boardId,
+    const newColumn = {
+      columnId,
+      columnName: action.payload.columnName,
+      todos: [],
+      boardId,
+    }
+
+    yield put(setColumn(newColumn))
+  } catch (error) {
+    yield put(LogoutCreator({ router }))
   }
-
-  yield put(setColumn(newColumn))
 }
 
 function* updateColumnWorker(action: PayloadAction<UpdateColumnCreatorProps>) {
-  const { columns, sourceColumn, destinationColumn, columnId } = action.payload
+  const {
+    columns,
+    sourceColumnId,
+    destinationColumnId,
+    router,
+    columnId,
+    boardId,
+  } = action.payload
 
-  yield put(setColumns(columns))
-  yield call(updateColumn, columnId, sourceColumn, destinationColumn)
+  try {
+    yield put(setColumns(columns))
+    yield call(updateColumnOrder, boardId, columnId, {
+      sourceColumnId,
+      destinationColumnId,
+    })
+  } catch (error) {
+    yield put(LogoutCreator({ router }))
+  }
 }
 
-function* colWatcher() {
-  yield takeEvery(ColsCreators.ASYNC_SET_COLUMNS, setColumnsWorker)
-  yield takeEvery(ColsCreators.ASYNC_SET_BOARDS, setBoardsWorker)
-  yield takeLatest(ColsCreators.ASYNC_CREATE_COLUMN, setColumnWorker)
-  yield takeEvery(ColsCreators.ASYNC_UPDATE_COLUMN, updateColumnWorker)
-  yield takeEvery(ColsCreators.ASYNC_SET_BOARD, createBoardWorker)
+function* columnWatcher() {
+  yield takeEvery(BoardsCreators.ASYNC_SET_COLUMNS, setColumnsWorker)
+  yield takeLatest(BoardsCreators.ASYNC_CREATE_COLUMN, setColumnWorker)
+  yield takeLatest(BoardsCreators.ASYNC_UPDATE_COLUMN, updateColumnWorker)
 }
 
-export default colWatcher
+export default columnWatcher

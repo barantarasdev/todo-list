@@ -1,4 +1,4 @@
-import { ColumnsStateT } from '@/store/slices/columnSlice/types'
+import { ColumnsStateT } from '@/store/slices/boardsSlice/types'
 
 const initialState: ColumnsStateT = {
   columns: [],

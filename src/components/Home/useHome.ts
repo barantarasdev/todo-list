@@ -1,9 +1,9 @@
-import { useAppSelector } from '@/hooks/useRedux'
+import { getDataFromLocalStorage } from '@/utils/localeStorage'
 
 function useHome() {
-  const { userName } = useAppSelector(state => state.user)
+  const user = getDataFromLocalStorage('user')
 
-  return { userName }
+  return { userName: user?.userName }
 }
 
 export default useHome

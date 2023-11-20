@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Button, Typography } from '@mui/material'
 
 import { MainSection } from '@/styles'

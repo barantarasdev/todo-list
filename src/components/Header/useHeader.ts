@@ -6,7 +6,7 @@ import { useParams, usePathname, useRouter } from 'next/navigation'
 import { RoutesE } from '@/types'
 import { useAppDispatch } from '@/hooks/useRedux'
 import useInput from '@/hooks/useInput'
-import { InviteUserCreator } from '@/store/slices/userSlice/actionCreator'
+import { InviteUserCreator } from '@/store/slices/boardsSlice/actionCreator'
 
 function useHeader() {
   const path = usePathname()

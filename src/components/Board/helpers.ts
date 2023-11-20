@@ -1,7 +1,7 @@
 import {
   updateColumnCreator,
   updateTodoOrderCreator,
-} from '@/store/slices/columnSlice/actionCreator'
+} from '@/store/slices/boardsSlice/actionCreator'
 import { ColumnT, TodoT } from '@/types'
 import {
   GetColumnProps,
@@ -31,6 +31,8 @@ export function handleColumnDrag({
   columns,
   result,
   dispatch,
+  boardId,
+  router,
 }: HandleDragProps) {
   const { source, destination, draggableId } = result
   const { list, element } = getSplicedList({
@@ -41,20 +43,28 @@ export function handleColumnDrag({
   const sourceColumnIndex = list.findIndex(
     column => column.columnId === element.columnId
   )
-  const sourceColumn = list[sourceColumnIndex - 1] || null
-  const destinationColumn = list[sourceColumnIndex + 1] || null
+  const sourceColumnId = list[sourceColumnIndex - 1]?.columnId
+  const destinationColumnId = list[sourceColumnIndex + 1]?.columnId
 
   const newColumn = {
+    boardId: boardId as string,
     columns: list,
     columnId: draggableId,
-    sourceColumn,
-    destinationColumn,
+    sourceColumnId,
+    destinationColumnId,
+    router,
   }
 
   dispatch(updateColumnCreator(newColumn))
 }
 
-export function handleTodoDrag({ columns, result, dispatch }: HandleDragProps) {
+export function handleTodoDrag({
+  columns,
+  router,
+  result,
+  dispatch,
+  boardId,
+}: HandleDragProps) {
   const { source, destination, draggableId } = result
   const startColumn = getColumn({
     columns,
@@ -72,15 +82,17 @@ export function handleTodoDrag({ columns, result, dispatch }: HandleDragProps) {
       to: destination?.index as number,
     })
     const currTodo = getTodoIndex({ todos: list, todoId: element.todoId })
-    const sourceTodo = currTodo !== -1 ? list[currTodo - 1] : null
-    const destinationTodo = currTodo !== -1 ? list[currTodo + 1] : null
+    const sourceTodoId = currTodo !== -1 ? list[currTodo - 1].todoId : null
+    const destinationTodoId = currTodo !== -1 ? list[currTodo + 1].todoId : null
 
     const resultTodos = {
+      boardId,
       todos: list,
       todoId: draggableId as string,
       columnId: startColumn.columnId,
-      sourceTodo,
-      destinationTodo,
+      sourceTodoId,
+      destinationTodoId,
+      router,
     }
 
     dispatch(updateTodoOrderCreator(resultTodos))
@@ -101,17 +113,21 @@ export function handleTodoDrag({ columns, result, dispatch }: HandleDragProps) {
   const startTodoList = startTodos.filter(
     todo => todo.todoId !== reorderedItem.todoId
   )
-  const sourceTodo = currTodo !== -1 ? finishTodos[currTodo - 1] : null
-  const destinationTodo = currTodo !== -1 ? finishTodos[currTodo + 1] : null
+  const sourceTodoId =
+    currTodo !== -1 ? finishTodos[currTodo - 1]?.todoId : null
+  const destinationTodoId =
+    currTodo !== -1 ? finishTodos[currTodo + 1]?.todoId : null
 
   const resultTodos = {
+    boardId,
+    router,
     todoId: draggableId,
     todos: finishTodos,
     startTodoList,
     columnId: finishColumn.columnId,
     startColumnId: startColumn.columnId,
-    sourceTodo,
-    destinationTodo,
+    sourceTodoId,
+    destinationTodoId,
   }
 
   dispatch(updateTodoOrderCreator(resultTodos))

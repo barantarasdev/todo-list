@@ -14,12 +14,10 @@ export enum DNDE {
   TODO = 'TODO',
 }
 
-const AUTH_PATH = '/auth'
-
 export enum RoutesE {
   HOME = '/',
-  SIGN_IN = `${AUTH_PATH}/signIn`,
-  SIGN_UP = `${AUTH_PATH}/signUp`,
+  SIGN_IN = `/auth/signIn`,
+  SIGN_UP = `/auth/signUp`,
   BOARDS = `/boards`,
 }
 

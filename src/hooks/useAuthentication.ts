@@ -2,11 +2,10 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { setBoardsCreator } from '@/store/slices/columnSlice/actionCreator'
-import { setUser } from '@/store/slices/userSlice'
 import { useAppDispatch } from '@/hooks/useRedux'
 import { RoutesE } from '@/types'
 import { getDataFromLocalStorage } from '@/utils/localeStorage'
+import { setBoardsCreator } from '@/store/slices/boardsSlice/actionCreator'
 
 const useAuthentication = (isProtected: boolean) => {
   const dispatch = useAppDispatch()
@@ -20,9 +19,8 @@ const useAuthentication = (isProtected: boolean) => {
       return
     }
 
-    if (user && user.userId) {
-      dispatch(setUser({ ...user }))
-      dispatch(setBoardsCreator({ userId: user.userId }))
+    if (user && user.userName) {
+      dispatch(setBoardsCreator({ router }))
     }
   }, [isProtected, dispatch, user])
 }

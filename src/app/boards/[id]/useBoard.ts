@@ -8,7 +8,7 @@ import { useAppDispatch } from '@/hooks/useRedux'
 import {
   createColumnCreator,
   setColumnsCreator,
-} from '@/store/slices/columnSlice/actionCreator'
+} from '@/store/slices/boardsSlice/actionCreator'
 
 function useBoard() {
   const router = useRouter()
@@ -22,7 +22,9 @@ function useBoard() {
       e.preventDefault()
 
       if (columnName.length) {
-        dispatch(createColumnCreator({ columnName, boardId: id as string }))
+        dispatch(
+          createColumnCreator({ columnName, boardId: id as string, router })
+        )
       }
 
       onClear()
@@ -35,7 +37,7 @@ function useBoard() {
   }, [])
 
   useEffect(() => {
-    dispatch(setColumnsCreator({ boardId: id as string }))
+    dispatch(setColumnsCreator({ boardId: id as string, router }))
   }, [dispatch, id])
 
   return { value: columnName, onChange, onClear, onSubmit, inputRef, onBack }

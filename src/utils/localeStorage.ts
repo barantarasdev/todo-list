@@ -21,7 +21,7 @@ export function removeUser(): void {
 }
 
 export function storeUser(
-  user: { userId: string; userName: string },
+  user: { userName: string },
   accessToken: string,
   refreshToken: string
 ): void {

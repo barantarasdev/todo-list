@@ -37,3 +37,5 @@ export const SNACKBAR_TIME: number = 3000
 export const REQUIRED_FIELD = 'is required'
 
 export const NOT_VALID_FIELD = 'is not valid'
+
+export const AUTH_PATH = '/auth'

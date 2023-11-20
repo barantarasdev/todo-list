@@ -1,5 +1,4 @@
 import {
-  InviteUserCreatorProps,
   LogoutCreatorProps,
   SignInCreatorProps,
   SignUpCreatorProps,
@@ -27,12 +26,4 @@ export const SignUpCreator = ({
 export const LogoutCreator = ({ router }: LogoutCreatorProps) => ({
   type: UserCreators.ASYNC_LOGOUT,
   payload: { router },
-})
-
-export const InviteUserCreator = ({
-  friendEmail,
-  boardId,
-}: InviteUserCreatorProps) => ({
-  type: UserCreators.ASYNC_INVITE_USER,
-  payload: { friendEmail, boardId },
 })
