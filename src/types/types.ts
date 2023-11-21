@@ -1,40 +1,56 @@
-import { useNavigate } from 'react-router-dom'
+import { RefObject } from 'react'
+import { AnyObject, ObjectSchema } from 'yup'
 
-type GendersT = 'f' | 'g' | ''
+export type GendersT = 'f' | 'm' | ''
+
+export type OptionT<T> = {
+  value: T
+  name: string
+}
 
 export type TodoT = {
   todoId: string
-  userId: string
+  columnId: string
   todoValue: string
   todoCompleted: boolean
 }
 
-export type UserT = {
+export type ColumnT = {
+  columnId: string
+  columnName: string
+  todos: TodoT[]
+  boardId: string
+}
+
+export type BoardT = {
+  boardId: string
+  boardName: string
+}
+
+export type SignUpT = {
   userName: string
   userEmail: string
   userPassword: string
-  userConfirmPassword: string
   userPhone: string
-  userAge: string
+  userAge: number
   userGender: GendersT
   userSite: string
 }
 
-export type ColT = {
-  colId: string
-  colName: string
-  todos: TodoT[]
-  colOrder?: string
+export type SignInT = Pick<SignUpT, 'userEmail' | 'userPassword'>
+
+export type ValidateValuesT = Record<string, string>
+
+export type CreateTodoT = Omit<TodoT, 'todoId' | 'todoCompleted'>
+
+export type UpdateTodoT = Omit<CreateTodoT, 'boardId' | 'columnId'>
+
+export type ValidateProps<T extends AnyObject> = {
+  values: T
+  schema: ObjectSchema<T>
 }
 
-export type CreateTodoT = Omit<TodoT, 'todoId'>
-
-export type UpdateTodoT = Omit<CreateTodoT, 'userId'>
-
-export type GeneralOptionT = { value: string; title: string }
-
-export type SignInT = Pick<UserT, 'userEmail' | 'userPassword'>
-
-export type NavigateT = {
-  navigate: ReturnType<typeof useNavigate>
+export type UseInputProps = {
+  valueProp?: string
+  inputRef?: RefObject<HTMLInputElement> | null
 }

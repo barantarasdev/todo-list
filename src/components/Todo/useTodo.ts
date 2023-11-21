@@ -1,71 +1,67 @@
-import React, { useCallback, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { TodoProps } from 'src/components/Todo/types'
-import useActive from 'src/hooks/useActive'
-import useInput from 'src/hooks/useInput'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useReducer, useRef, useState } from 'react'
+
+import useInput from '@/hooks/useInput'
+import { useAppDispatch } from '@/hooks/useRedux'
 import {
   deleteTodoCreator,
   updateTodoCreator,
-} from 'src/store/slices/todosSlice/actionCreators'
+} from '@/store/slices/boardsSlice/actionCreator'
+import { TodoProps } from '@/components/Todo/types'
+import { useParams, useRouter } from 'next/navigation'
 
 function useTodo({
   todo: { todoCompleted, todoValue, todoId },
-  colId,
+  columnId,
 }: Omit<TodoProps, 'index'>) {
-  const dispatch = useDispatch()
   const inputRef = useRef<HTMLInputElement>(null)
+  const dispatch = useAppDispatch()
+  const { id } = useParams()
+  const router = useRouter()
 
   const [isEditing, setIsEditing] = useState(false)
-  const { value, onChange } = useInput(todoValue)
-  const { isActive: isCompleted, toggleIsActive: onToggleIsCompleted } =
-    useActive(todoCompleted)
+  const [isCompleted, onToggleIsCompleted] = useReducer(v => !v, todoCompleted)
+  const { value, onChange } = useInput({ valueProp: todoValue })
 
   const onCompleted = useCallback(() => {
     onToggleIsCompleted()
     dispatch(
-      updateTodoCreator(colId, todoId, {
-        todoCompleted: !isCompleted,
-        todoValue: value,
+      updateTodoCreator({
+        boardId: id as string,
+        data: { todoCompleted: !isCompleted },
+        todoId,
+        columnId,
+        router,
       })
     )
-  }, [
-    onToggleIsCompleted,
-    dispatch,
-    updateTodoCreator,
-    todoId,
-    isCompleted,
-    value,
-  ])
+  }, [onToggleIsCompleted, dispatch, id, columnId, isCompleted, todoId])
 
   const onDelete = useCallback(() => {
-    dispatch(deleteTodoCreator(colId, todoId))
-  }, [dispatch, deleteTodoCreator, todoId, colId])
+    dispatch(
+      deleteTodoCreator({ columnId, boardId: id as string, todoId, router })
+    )
+  }, [dispatch, columnId, todoId, id])
 
   const onSubmit = useCallback(() => {
     if (!value.length) {
       onDelete()
     } else {
       dispatch(
-        updateTodoCreator(colId, todoId, {
-          todoValue: value,
-          todoCompleted: false,
+        updateTodoCreator({
+          router,
+          todoId,
+          boardId: id as string,
+          data: {
+            todoValue: value,
+          },
+          columnId,
         })
       )
     }
 
     setIsEditing(false)
     inputRef.current?.blur()
-  }, [
-    isEditing,
-    value,
-    onDelete,
-    updateTodoCreator,
-    todoId,
-    dispatch,
-    setIsEditing,
-    inputRef,
-    colId,
-  ])
+  }, [value, onDelete, columnId, id, todoId, dispatch])
 
   const onDoubleClick = useCallback(() => {
     if (!isCompleted) {
@@ -92,15 +88,15 @@ function useTodo({
   return {
     value,
     inputRef,
-    onKeyDown,
     isCompleted,
     isEditing,
     onChange,
-    onDoubleClick,
     onDelete,
     onBlur,
     onCompleted,
     onSubmit,
+    onDoubleClick,
+    onKeyDown,
   }
 }
 

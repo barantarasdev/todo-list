@@ -1,12 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import snackbarReducer from 'src/store/slices/snackbarSlice'
-import colsReducer from 'src/store/slices/todosSlice'
-import userReducer from 'src/store/slices/userSlice'
+
+import snackbarReducer from '@/store/slices/snackbarSlice'
+import columnsReducer from '@/store/slices/boardsSlice'
 
 const rootReducer = combineReducers({
   snackbar: snackbarReducer,
-  cols: colsReducer,
-  user: userReducer,
+  columns: columnsReducer,
 })
 
 export default rootReducer

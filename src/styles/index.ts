@@ -1,19 +1,48 @@
-import styled from 'styled-components'
+'use client'
 
-const RootContent = styled.div`
-  min-height: 100vh;
-  min-width: fit-content;
-  padding: 20px;
-  background-image: url('/assets/images/bg.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
-  scroll-behavior: smooth;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`
+import { Button, styled } from '@mui/material'
 
-export default RootContent
+import { HEADER_HEIGHT, PRIMARY_PADDING } from '@/constants'
+import Link from 'next/link'
+
+export const AuthFormBlock = styled('section')(
+  ({ theme: { spacing, mixins } }) => ({
+    width: '100%',
+    minHeight: '100%',
+    paddingBottom: 'inherit',
+    gap: spacing(2),
+    ...mixins.flexCenter,
+  })
+)
+
+export const AuthForm = styled('form')(({ theme: { spacing, mixins } }) => ({
+  gap: spacing(1),
+  ...mixins.flexCenter,
+}))
+
+export const MainSection = styled('section')(
+  ({ theme: { spacing, mixins } }) => ({
+    height: '100%',
+    width: '100%',
+    gap: spacing(4),
+    ...mixins.flexCenter,
+  })
+)
+
+export const Main = styled('main')({
+  height: '100%',
+  minWidth: 'fit-content',
+  padding: `${HEADER_HEIGHT + PRIMARY_PADDING}px ${PRIMARY_PADDING}px
+    ${PRIMARY_PADDING}px`,
+  position: 'relative',
+})
+
+export const StyledLink = styled(Link)(({ theme: { palette } }) => ({
+  fontSize: 23,
+  fontWeight: 700,
+  color: palette.text.primary,
+}))
+
+export const FormButton = styled(Button)({
+  borderRadius: 0,
+})

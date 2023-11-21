@@ -1,9 +1,11 @@
-import useActive from 'src/hooks/useActive'
+'use client'
+
+import { useReducer } from 'react'
 
 function useInput() {
-  const { isActive, toggleIsActive } = useActive()
+  const [showPassword, toggleShowPassword] = useReducer(v => !v, false)
 
-  return { showPassword: isActive, onClick: toggleIsActive }
+  return { showPassword, toggleShowPassword }
 }
 
 export default useInput

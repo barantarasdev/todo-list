@@ -1,30 +1,33 @@
-import { ListItem, css, styled } from '@mui/material'
+import { ListItem, styled } from '@mui/material'
 
-const TodoItem = styled(ListItem, {
+import { MAIN_BORDER_RADIUS } from '@/constants'
+
+const Item = styled(ListItem, {
   shouldForwardProp: prop => prop !== '$isFocused' && prop !== '$isCompleted',
 })<{
   $isFocused: boolean
   $isCompleted: boolean
-}>(({ theme: { palette, spacing }, $isFocused, $isCompleted }) => {
-  let bg
+}>(({ theme: { spacing, palette }, $isFocused, $isCompleted }) => {
+  let backgroundColor = 'rgb(243, 241, 239)'
+  let color = palette.text.secondary
 
   if ($isFocused) {
-    bg = palette.secondary.main
+    backgroundColor = 'rgb(210, 215, 211)'
   } else if ($isCompleted) {
-    bg = palette.text.disabled
-  } else {
-    bg = palette.primary.light
+    backgroundColor = 'rgb(108, 122, 137)'
+    color = palette.text.primary
   }
 
-  return css`
-    width: 100%;
-    padding: ${spacing(3)};
-    display: flex;
-    align-items: center;
-    background-color: ${bg};
-    text-decoration: ${$isCompleted ? 'line-through' : 'auto'};
-    border-radius: 10px;
-  `
+  return {
+    width: '100%',
+    padding: spacing(3),
+    display: 'flex',
+    alignItems: 'center',
+    color,
+    backgroundColor,
+    textDecoration: $isCompleted ? 'line-through' : 'auto',
+    borderRadius: MAIN_BORDER_RADIUS,
+  }
 })
 
-export default TodoItem
+export default Item

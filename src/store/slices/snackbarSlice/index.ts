@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { SnackbarStateT } from 'src/store/slices/snackbarSlice/types'
+
+import { SnackbarStateT } from '@/store/slices/snackbarSlice/types'
 
 const initialState: SnackbarStateT = {
   snackbar: '',

@@ -1,41 +1,49 @@
 import { useCallback } from 'react'
 import { DropResult } from 'react-beautiful-dnd'
-import { handleColumnDrag, handleTodoDrag } from 'src/components/Board/helpers'
-import { useAppDispatch, useAppSelector } from 'src/hooks/useRedux'
-import { DND } from 'src/types'
+
+import { handleColumnDrag, handleTodoDrag } from '@/components/Board/helpers'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { DNDE } from '@/types'
+import { useParams } from 'next/navigation'
 
 function useBoard() {
-  const { cols } = useAppSelector(state => state.cols)
   const dispatch = useAppDispatch()
+  const { columns } = useAppSelector(state => state.columns)
+  const { id } = useParams()
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
       const { destination, source, type } = result
-      const isTheSame =
+      const isSameTarget =
         destination?.droppableId === source.droppableId &&
         destination.index === source.index
 
-      if (!destination || isTheSame) {
+      if (!destination || isSameTarget) {
         return
       }
 
       switch (type) {
-        case DND.COLUMN:
-          handleColumnDrag(cols, result, dispatch)
+        case DNDE.COLUMN:
+          handleColumnDrag({
+            columns,
+            result,
+            dispatch,
+            boardId: id as string,
+          })
 
           break
-        case DND.TODOS:
-          handleTodoDrag(cols, result, dispatch)
+        case DNDE.TODO:
+          handleTodoDrag({ columns, result, dispatch, boardId: id as string })
 
           break
         default:
           break
       }
     },
-    [cols, handleTodoDrag, handleColumnDrag]
+    [columns, dispatch, id]
   )
 
-  return { onDragEnd, cols }
+  return { onDragEnd, columns }
 }
 
 export default useBoard

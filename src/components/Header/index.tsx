@@ -1,36 +1,77 @@
-import { Avatar } from '@mui/material'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
-import { StyledIconButton, StyledToolbar } from 'src/components/Header/styles'
-import useHeader from 'src/components/Header/useHeader'
-import Menu from 'src/components/Menu'
-import { SETTINGS } from 'src/constants'
+'use client'
+
+import { AppBar, Button, Typography, Modal } from '@mui/material'
+import { PersonAdd } from '@mui/icons-material'
+
+import Menu from '@/components/Menu'
+import Input from '@/components/common/Input'
+import Navigation from '@/components/Navigation'
+import useHeader from '@/components/Header/useHeader'
+import { Actions, Form, Logo } from '@/components/Header/styles'
+import { RoutesE } from '@/types'
 
 function Header() {
-  const { onOpen, onClick, anchorEl, onClose } = useHeader()
+  const {
+    onSubmit,
+    value,
+    onChange,
+    onClear,
+    inputRef,
+    modalActive,
+    toggleModalActive,
+    name,
+    isVisible,
+    onClick,
+    params,
+  } = useHeader()
 
   return (
     <AppBar>
-      <StyledToolbar>
-        <Typography variant="h5">TodoList</Typography>
+      <Logo href={RoutesE.HOME}>TodoList</Logo>
 
-        <Box>
-          <Tooltip title="Settings">
-            <StyledIconButton onClick={onOpen}>
-              <Avatar src="/assets/icons/user.svg" alt="icon" />
-            </StyledIconButton>
-          </Tooltip>
+      {isVisible ? (
+        <>
+          <Navigation />
 
-          <Menu
-            onClick={onClick}
-            anchorEl={anchorEl}
-            onClose={onClose}
-            settings={SETTINGS}
+          <Actions>
+            {params?.id && (
+              <Button
+                color="info"
+                size="small"
+                startIcon={<PersonAdd />}
+                onClick={toggleModalActive}
+              >
+                Invite friends
+              </Button>
+            )}
+
+            <Menu />
+          </Actions>
+        </>
+      ) : (
+        <Button color="info" onClick={onClick}>
+          {name}
+        </Button>
+      )}
+
+      <Modal open={modalActive} onClose={toggleModalActive}>
+        <Form onSubmit={onSubmit}>
+          <Typography variant="h3">Add friend</Typography>
+
+          <Input
+            inputRef={inputRef}
+            value={value}
+            onChange={onChange}
+            helperText=""
+            onClear={onClear}
+            placeholder={`Friend's email`}
+            autofocus
+            isClear
           />
-        </Box>
-      </StyledToolbar>
+
+          <Button type="submit">Add</Button>
+        </Form>
+      </Modal>
     </AppBar>
   )
 }

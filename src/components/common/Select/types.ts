@@ -1,8 +1,9 @@
 import { SelectChangeEvent } from '@mui/material'
-import { GeneralOptionT } from 'src/types'
+
+import { GendersT, OptionT } from '@/types'
 
 export type SelectProps = {
-  items: GeneralOptionT[]
+  items: OptionT<GendersT>[]
   name: string
   value: string
   placeholder: string

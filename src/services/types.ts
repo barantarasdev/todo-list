@@ -1,6 +1,9 @@
-export type AuthValuesT = {
-  accessToken: string
-  refreshToken: string
-  userId: string
-  userName: string
+import { MethodsE } from '@/types'
+
+export type SendRequestProps = {
+  url: string
+  method?: MethodsE
+  data?: unknown
+  isVerify?: boolean
+  count?: number
 }

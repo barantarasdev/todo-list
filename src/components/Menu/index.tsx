@@ -1,31 +1,32 @@
-import { Menu as MUIMenu } from '@mui/material'
-import MenuItem from '@mui/material/MenuItem'
-import Typography from '@mui/material/Typography'
-import { MenuProps } from 'src/components/Menu/types'
+import { Avatar, IconButton, Menu as MUIMenu } from '@mui/material'
+import { Person } from '@mui/icons-material'
 
-function Menu({ settings, anchorEl, onClick, onClose }: MenuProps) {
+import MenuItem from '@/components/MenuItem'
+import useMenu from '@/components/Menu/useMenu'
+import { HEADER_HEIGHT, MENU_ITEMS } from '@/constants'
+
+function Menu() {
+  const { anchorElement, onClose, onOpen } = useMenu()
+
   return (
-    <MUIMenu
-      sx={{ mt: '45px' }}
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      keepMounted
-      open={Boolean(anchorEl)}
-      onClose={onClose}
-    >
-      {settings.map(({ title, value }) => (
-        <MenuItem key={value} onClick={() => onClick(value)}>
-          <Typography>{title}</Typography>
-        </MenuItem>
-      ))}
-    </MUIMenu>
+    <>
+      <IconButton onClick={onOpen}>
+        <Avatar>
+          <Person />
+        </Avatar>
+      </IconButton>
+
+      <MUIMenu
+        style={{ marginTop: HEADER_HEIGHT }}
+        anchorEl={anchorElement}
+        open={Boolean(anchorElement)}
+        onClose={onClose}
+      >
+        {MENU_ITEMS.map(option => (
+          <MenuItem key={option.value} option={option} onClose={onClose} />
+        ))}
+      </MUIMenu>
+    </>
   )
 }
 

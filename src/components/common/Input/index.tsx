@@ -1,19 +1,25 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { IconButton, InputAdornment, TextField } from '@mui/material'
-import { InputProps } from 'src/components/common/Input/types'
-import useInput from 'src/components/common/Input/useInput'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import ClearIcon from '@mui/icons-material/Clear'
+
+import useInput from '@/components/common/Input/useInput'
+import { InputProps } from '@/components/common/Input/types'
 
 function Input({
   type,
   name,
   placeholder,
-  error,
+  error = false,
   helperText = ' ',
   value,
-  onChange,
   isPassword,
+  onChange,
+  isClear,
+  onClear,
+  autofocus = false,
+  inputRef,
 }: InputProps) {
-  const { showPassword, onClick } = useInput()
+  const { showPassword, toggleShowPassword } = useInput()
 
   return (
     <TextField
@@ -26,11 +32,19 @@ function Input({
       label={placeholder}
       error={error}
       helperText={helperText}
+      autoFocus={autofocus}
       InputProps={{
-        endAdornment: isPassword && (
+        inputRef,
+        endAdornment: (isPassword || isClear) && (
           <InputAdornment position="end">
-            <IconButton onClick={onClick} color="warning" edge="end">
-              {showPassword ? <VisibilityOff /> : <Visibility />}
+            <IconButton
+              onClick={isPassword ? toggleShowPassword : onClear}
+              color="primary"
+              edge="end"
+            >
+              {isPassword &&
+                (showPassword ? <Visibility /> : <VisibilityOff />)}
+              {isClear && !!value.length && <ClearIcon />}
             </IconButton>
           </InputAdornment>
         ),

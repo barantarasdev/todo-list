@@ -1,17 +1,17 @@
-import sendRequest from 'src/services/callApi'
-import { Methods } from 'src/types'
+import sendRequest from '@/services/apiCall'
+import { MethodsE } from '@/types'
+import { SendRequestProps } from '@/services/types'
 
-const { GET, POST, PATCH, DELETE } = Methods
+const { POST, PATCH, DELETE } = MethodsE
 
 const client = {
-  get: <T>(url: string, isVerify: boolean) =>
-    sendRequest<T>(url, GET, null, isVerify),
-  post: <T>(url: string, data: unknown, isVerify?: boolean) =>
-    sendRequest<T>(url, POST, data, isVerify),
-  patch: <T>(url: string, data: unknown) =>
-    sendRequest<T>(url, PATCH, data, true),
-  delete: <T>(url: string, isVerify: boolean) =>
-    sendRequest<T>(url, DELETE, null, isVerify),
+  get: <T>(props: SendRequestProps) => sendRequest<T>(props),
+  post: <T>(props: SendRequestProps) =>
+    sendRequest<T>({ ...props, method: POST }),
+  patch: <T>(props: SendRequestProps) =>
+    sendRequest<T>({ ...props, method: PATCH }),
+  delete: <T>(props: SendRequestProps) =>
+    sendRequest<T>({ ...props, method: DELETE }),
 }
 
 export default client

@@ -1,17 +1,27 @@
-export enum RoutesPath {
-  SIGN_IN = '/signIn',
-  SIGN_UP = '/signUp',
-  HOME = '/',
-}
-
-export enum Methods {
+export enum MethodsE {
   GET = 'GET',
   POST = 'POST',
   PATCH = 'PATCH',
   DELETE = 'DELETE',
 }
 
-export enum SignUpInputs {
+export enum MenuItemsE {
+  LOGOUT = 'logOut',
+}
+
+export enum DNDE {
+  COLUMN = 'COLUMN',
+  TODO = 'TODO',
+}
+
+export enum RoutesE {
+  HOME = '/',
+  SIGN_IN = `/auth/signIn`,
+  SIGN_UP = `/auth/signUp`,
+  BOARDS = `/boards`,
+}
+
+export enum SignUpInputsE {
   NAME = 'userName',
   AGE = 'userAge',
   EMAIL = 'userEmail',
@@ -22,7 +32,7 @@ export enum SignUpInputs {
   GENDER = 'userGender',
 }
 
-export enum DND {
-  COLUMN = 'COLUMN',
-  TODOS = 'TODOS',
+export enum SignInInputsE {
+  EMAIL = SignUpInputsE.EMAIL,
+  PASSWORD = SignUpInputsE.PASSWORD,
 }

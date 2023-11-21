@@ -1,21 +1,28 @@
 /* eslint-disable react/jsx-props-no-spreading */
+
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import useBoard from 'src/components/Board/useBoard'
-import ColumnList from 'src/components/СolumnList'
-import { HomeCols } from 'src/pages/Home/styles'
-import { DND } from 'src/types'
+
+import Empty from '@/components/Empty'
+import ColumnList from '@/components/Board/ColumnList'
+import useBoard from '@/components/Board/useBoard'
+import { DNDE } from '@/types'
+import List from '@/components/Board/styles'
 
 function Board() {
-  const { cols, onDragEnd } = useBoard()
+  const { onDragEnd, columns } = useBoard()
+
+  if (!columns.length) {
+    return <Empty name="List is empty!" />
+  }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="board" direction="horizontal" type={DND.COLUMN}>
+      <Droppable droppableId="board" direction="horizontal" type={DNDE.COLUMN}>
         {provided => (
-          <HomeCols ref={provided.innerRef} {...provided.droppableProps}>
-            <ColumnList cols={cols} />
+          <List ref={provided.innerRef} {...provided.droppableProps}>
+            <ColumnList columns={columns} />
             {provided.placeholder}
-          </HomeCols>
+          </List>
         )}
       </Droppable>
     </DragDropContext>

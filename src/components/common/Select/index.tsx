@@ -1,34 +1,25 @@
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  Select as MUISelect,
-} from '@mui/material'
+import { FormControl, FormHelperText, Select as MUISelect } from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
-import { SelectProps } from 'src/components/common/Select/types'
+
+import { SelectProps } from '@/components/common/Select/types'
 
 function Select({
   items,
-  name,
   value,
   onChange = () => {},
-  placeholder,
   error,
   helperText = ' ',
 }: SelectProps) {
   return (
     <FormControl error={error}>
-      <InputLabel id={name}>{placeholder}</InputLabel>
+      <MUISelect value={value} onChange={onChange}>
+        <MenuItem disabled value="">
+          Choose item
+        </MenuItem>
 
-      <MUISelect
-        labelId={name}
-        value={value}
-        label={placeholder}
-        onChange={onChange}
-      >
-        {items.map(({ value: itemValue, title }) => (
+        {items.map(({ value: itemValue, name: itemName }) => (
           <MenuItem key={itemValue} value={itemValue}>
-            {title}
+            {itemName}
           </MenuItem>
         ))}
       </MUISelect>

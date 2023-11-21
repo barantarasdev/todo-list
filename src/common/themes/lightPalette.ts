@@ -4,16 +4,15 @@ const lightPalette: Theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#fee55d',
-      light: '#bcbcbc',
+      main: '#fee146',
+      light: '#ffffff',
     },
     secondary: {
-      main: '#cbc2a8',
+      main: '#8B4000',
     },
     text: {
       primary: '#ffffff',
       secondary: '#173646',
-      disabled: 'gray',
     },
     background: {
       paper: '#173646',

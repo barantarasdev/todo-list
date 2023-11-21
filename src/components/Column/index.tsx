@@ -1,40 +1,60 @@
 /* eslint-disable react/jsx-props-no-spreading */
+
 import { Draggable, Droppable } from 'react-beautiful-dnd'
-import AddTodo from 'src/components/AddTodo'
-import StyledList from 'src/components/Column/styles'
-import { ColumnProps } from 'src/components/Column/types'
-import Todos from 'src/components/Todos'
-import { HomeTitle, HomeTodosItem } from 'src/pages/Home/styles'
-import { DND } from 'src/types'
 
-function Column({ col, index }: ColumnProps) {
+import useColumn from '@/components/Column/useColumn'
+import Input from '@/components/common/Input'
+import TodoList from '@/components/Column/TodoList'
+import { DNDE } from '@/types'
+import { ColumnProps } from '@/components/Column/types'
+import { FormButton } from '@/styles'
+import { Form, Item, List, Title } from '@/components/Column/styles'
+
+function Column({
+  column: { columnName, columnId, todos, boardId },
+  index,
+}: ColumnProps) {
+  const { onSubmit, inputRef, value, onChange, onClear } = useColumn({
+    columnId,
+    boardId,
+  })
+
   return (
-    <Draggable draggableId={col.colId} index={index}>
+    <Draggable draggableId={columnId} index={index}>
       {provided => (
-        <HomeTodosItem
+        <Item
           {...provided.draggableProps}
+          {...provided.dragHandleProps}
           ref={provided.innerRef}
-          item
-          xs
         >
-          <HomeTitle {...provided.dragHandleProps} variant="h3">
-            {col.colName}
-          </HomeTitle>
+          <Title variant="h3">{columnName}</Title>
 
-          <AddTodo colId={col.colId} />
+          <Form onSubmit={onSubmit}>
+            <Input
+              inputRef={inputRef}
+              value={value}
+              onChange={onChange}
+              placeholder="New todo..."
+              helperText=""
+              onClear={onClear}
+              isClear
+            />
 
-          <Droppable droppableId={col.colId} type={DND.TODOS}>
+            <FormButton type="submit">Add</FormButton>
+          </Form>
+
+          <Droppable droppableId={columnId} type={DNDE.TODO}>
             {dropProvider => (
-              <StyledList
+              <List
                 ref={dropProvider.innerRef}
                 {...dropProvider.droppableProps}
               >
-                <Todos todos={col.todos} colId={col.colId} />
+                <TodoList todos={todos} columnId={columnId} />
                 {dropProvider.placeholder}
-              </StyledList>
+              </List>
             )}
           </Droppable>
-        </HomeTodosItem>
+        </Item>
       )}
     </Draggable>
   )

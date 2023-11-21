@@ -1,10 +1,12 @@
 import { all } from 'redux-saga/effects'
-import colWatcher from 'src/store/sagas/colSaga'
-import todoWatcher from 'src/store/sagas/todoSaga'
-import userWatcher from 'src/store/sagas/userSaga'
+
+import columnWatcher from '@/store/sagas/columnSaga'
+import todoWatcher from '@/store/sagas/todoSaga'
+import userWatcher from '@/store/sagas/userSaga'
+import boardsWatcher from '@/store/sagas/boardsSaga'
 
 function* rootSaga() {
-  yield all([todoWatcher(), userWatcher(), colWatcher()])
+  yield all([todoWatcher(), userWatcher(), columnWatcher(), boardsWatcher()])
 }
 
 export default rootSaga

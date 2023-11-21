@@ -1,13 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Clear, Done } from '@mui/icons-material'
-import { IconButton, InputBase } from '@mui/material'
-import Checkbox from '@mui/material/Checkbox'
-import { Draggable } from 'react-beautiful-dnd'
-import TodoItem from 'src/components/Todo/styles'
-import { TodoProps } from 'src/components/Todo/types'
-import useTodo from 'src/components/Todo/useTodo'
 
-function Todo({ todo, colId, index }: TodoProps) {
+import { Checkbox, IconButton, InputBase } from '@mui/material'
+import { Draggable } from 'react-beautiful-dnd'
+import { Clear, Done } from '@mui/icons-material'
+
+import useTodo from '@/components/Todo/useTodo'
+import { TodoProps } from '@/components/Todo/types'
+import Item from '@/components/Todo/styles'
+
+function Todo({ todo, columnId, index }: TodoProps) {
   const {
     value,
     inputRef,
@@ -20,12 +21,12 @@ function Todo({ todo, colId, index }: TodoProps) {
     onSubmit,
     onDoubleClick,
     onKeyDown,
-  } = useTodo({ todo, colId })
+  } = useTodo({ todo, columnId })
 
   return (
     <Draggable draggableId={todo.todoId} index={index}>
       {provided => (
-        <TodoItem
+        <Item
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -43,7 +44,6 @@ function Todo({ todo, colId, index }: TodoProps) {
             onBlur={onBlur}
             onKeyDown={onKeyDown}
             readOnly={!isEditing}
-            fullWidth
           />
 
           {isEditing && (
@@ -55,7 +55,7 @@ function Todo({ todo, colId, index }: TodoProps) {
           <IconButton type="button" onClick={onDelete}>
             <Clear color="error" />
           </IconButton>
-        </TodoItem>
+        </Item>
       )}
     </Draggable>
   )

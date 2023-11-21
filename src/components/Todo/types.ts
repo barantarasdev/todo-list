@@ -1,7 +1,7 @@
-import { TodoT } from 'src/types'
+import { TodoT } from '@/types'
 
 export type TodoProps = {
   todo: TodoT
-  colId: string
+  columnId: string
   index: number
 }

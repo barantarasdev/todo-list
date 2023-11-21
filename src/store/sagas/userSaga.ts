@@ -1,73 +1,71 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { call, put, takeEvery } from 'redux-saga/effects'
-import { getDataFromLocalStorage } from 'src/helpers/storageHelper'
-import { removeUser, storeUser } from 'src/helpers/userHelper'
-import { logOut, signIn, signUp } from 'src/services/userService'
-import {
-  LogoutWorkerPayloadT,
-  SignInWorkerPayloadT,
-  SignUpWorkerPayloadT,
-} from 'src/store/sagas/types'
-import { setSnackbar } from 'src/store/slices/snackbarSlice'
-import { setCols } from 'src/store/slices/todosSlice'
-import { setColsCreator } from 'src/store/slices/todosSlice/actionCreators'
-import { deleteUser, setUser } from 'src/store/slices/userSlice'
-import { UserCreators } from 'src/store/slices/userSlice/types'
-import { RoutesPath } from 'src/types'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-function* signInWorker(action: PayloadAction<SignInWorkerPayloadT>) {
+import { setSnackbar } from '@/store/slices/snackbarSlice'
+import {
+  getDataFromLocalStorage,
+  removeUser,
+  storeUser,
+} from '@/utils/localeStorage'
+import { setColumns } from '@/store/slices/boardsSlice'
+import { logOut, signIn, signUp } from '@/services/authService'
+import { setBoardsCreator } from '@/store/slices/boardsSlice/actionCreator'
+import {
+  LogoutCreatorProps,
+  SignInCreatorProps,
+  SignUpCreatorProps,
+  UserCreators,
+} from '@/store/slices/userSlice/types'
+import { RoutesE } from '@/types'
+
+function* signInWorker(action: PayloadAction<SignInCreatorProps>) {
+  const { userEmail, userPassword, router } = action.payload
+
   try {
-    const { userEmail, userPassword, navigate } = action.payload
-    const { userName, accessToken, refreshToken, userId } = yield call(signIn, {
+    const { userName, accessToken, refreshToken } = yield call(signIn, {
       userEmail,
       userPassword,
     })
 
-    yield call(storeUser, { userId, userName }, accessToken, refreshToken)
-    yield put(setUser({ userName, userId }))
-    yield put(setColsCreator(userId))
+    yield call(storeUser, { userName }, accessToken, refreshToken)
+    yield put(setBoardsCreator({ router }))
 
-    navigate(RoutesPath.HOME)
+    router.replace(RoutesE.HOME)
   } catch (error) {
     yield put(setSnackbar('User not found!'))
   }
 }
 
-function* signUpWorker(action: PayloadAction<SignUpWorkerPayloadT>) {
+function* signUpWorker(action: PayloadAction<SignUpCreatorProps>) {
+  const { router, data, callback } = action.payload
+  const { userName } = data
+
   try {
-    const { data, navigate, callback } = action.payload
-    const { accessToken, refreshToken, userId } = yield call(signUp, data)
+    const { accessToken, refreshToken } = yield call(signUp, {
+      ...data,
+      userAge: +data.userAge,
+    })
 
-    yield call(
-      storeUser,
-      { userId, userName: data.userName },
-      accessToken,
-      refreshToken
-    )
-    yield put(setUser({ userName: data.userName, userId }))
-
+    yield call(storeUser, { userName }, accessToken, refreshToken)
+    router.replace(RoutesE.HOME)
     callback()
-    navigate(RoutesPath.HOME)
   } catch (error) {
     yield put(setSnackbar('User already exists!'))
   }
 }
 
-function* logoutWorker(action: PayloadAction<LogoutWorkerPayloadT>) {
+function* logoutWorker(action: PayloadAction<LogoutCreatorProps>) {
   const refreshToken = getDataFromLocalStorage('refreshToken')
 
-  yield put(setCols([]))
-  yield put(deleteUser())
-
+  yield put(setColumns([]))
   removeUser()
-
-  action.payload.navigate(RoutesPath.SIGN_IN)
+  action.payload.router.replace(RoutesE.SIGN_IN)
   yield call(logOut, refreshToken)
 }
 
 function* userWatcher() {
   yield takeEvery(UserCreators.ASYNC_SING_IN, signInWorker)
-  yield takeEvery(UserCreators.ASYNC_SIGN_UP, signUpWorker)
+  yield takeLatest(UserCreators.ASYNC_SIGN_UP, signUpWorker)
   yield takeEvery(UserCreators.ASYNC_LOGOUT, logoutWorker)
 }
 

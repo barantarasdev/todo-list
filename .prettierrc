@@ -1,24 +1,4 @@
 {
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports"
-  ],
-  "importOrder": [
-    "^@?\\w",
-    "^[./]",
-    "^images/.*\\.(png|jpe?g|gif|svg)$",
-    "^fonts/.*\\.(woff|woff2|eot|ttf)$",
-    "^pages/",
-    "^components/",
-    "^hocks/",
-    "^stores/",
-    "^helpers/",
-    "^services/",
-    "^constants/",
-    "^types/",
-    "^styles/"
-  ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
   "tabWidth": 2,
   "semi": false,
   "singleQuote": true,

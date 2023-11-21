@@ -1,6 +1,9 @@
-import { CssBaseline, ThemeProvider as MUIThemeProvider } from '@mui/material'
+'use client'
+
 import { ReactNode } from 'react'
-import theme from 'src/common/themes/themes'
+import { CssBaseline, ThemeProvider as MUIThemeProvider } from '@mui/material'
+
+import theme from '@/common/themes'
 
 function ThemeProvider({ children }: { children: ReactNode }) {
   return (

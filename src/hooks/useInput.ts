@@ -1,6 +1,7 @@
+import { UseInputProps } from '@/types'
 import { ChangeEvent, useCallback, useState } from 'react'
 
-function useInput(valueProp = '') {
+function useInput({ valueProp = '', inputRef = null }: UseInputProps) {
   const [value, setValue] = useState(valueProp)
 
   const onChange = useCallback(
@@ -12,7 +13,8 @@ function useInput(valueProp = '') {
 
   const onClear = useCallback(() => {
     setValue('')
-  }, [setValue])
+    inputRef?.current?.focus()
+  }, [setValue, inputRef])
 
   return { value, onChange, onClear }
 }

@@ -1,79 +1,101 @@
-import { Dispatch } from '@reduxjs/toolkit'
-import { DropResult } from 'react-beautiful-dnd'
-import { ColT } from 'src//types'
 import {
-  updateColCreator,
+  updateColumnCreator,
   updateTodoOrderCreator,
-} from 'src/store/slices/todosSlice/actionCreators'
-import { TodoT } from 'src/types'
+} from '@/store/slices/boardsSlice/actionCreator'
+import { ColumnT, TodoT } from '@/types'
+import {
+  GetColumnProps,
+  GetSplicedListProps,
+  GetTodoIndexProps,
+  HandleDragProps,
+} from '@/components/Board/types'
 
-function getSplicedList<T>(list: T[], from: number, to: number) {
-  const newList = Array.from(list)
-
-  const [reorderedEl] = newList.splice(from, 1)
-  newList.splice(to, 0, reorderedEl)
-
-  return { list: [...newList], el: reorderedEl }
+function getColumn({ columns, columnId }: GetColumnProps) {
+  return columns.find(column => column.columnId === columnId)
 }
 
-function getCol(cols: ColT[], colId: string) {
-  return cols.find(col => col.colId === colId)
-}
-
-function getTodoIndex(todos: TodoT[], todoId: string) {
+function getTodoIndex({ todos, todoId }: GetTodoIndexProps) {
   return todos.findIndex(todo => todo.todoId === todoId)
 }
 
-export function handleColumnDrag(
-  cols: ColT[],
-  result: DropResult,
-  dispatch: Dispatch
-) {
-  const { source, destination, draggableId } = result
-  const { list, el } = getSplicedList(
-    cols,
-    source.index,
-    destination?.index as number
-  )
-  const sourceColIndex = list.findIndex(col => col.colId === el.colId)
+function getSplicedList<T>({ list, from, to }: GetSplicedListProps<T>) {
+  const newList = Array.from(list)
 
-  const newCol = {
-    cols: list,
-    colId: draggableId,
-    sourceCol: list[sourceColIndex - 1] || null,
-    destinationCol: list[sourceColIndex + 1] || null,
-  }
+  const [reorderedElement] = newList.splice(from, 1)
+  newList.splice(to, 0, reorderedElement)
 
-  dispatch(updateColCreator(newCol))
+  return { list: [...newList], element: reorderedElement }
 }
 
-export function handleTodoDrag(
-  cols: ColT[],
-  result: DropResult,
-  dispatch: Dispatch
-) {
+export function handleColumnDrag({
+  columns,
+  result,
+  dispatch,
+  boardId,
+  router,
+}: HandleDragProps) {
   const { source, destination, draggableId } = result
+  const { list, element } = getSplicedList({
+    list: columns,
+    from: source.index,
+    to: destination?.index as number,
+  })
+  const sourceColumnIndex = list.findIndex(
+    column => column.columnId === element.columnId
+  )
+  const sourceColumnId = list[sourceColumnIndex - 1]?.columnId
+  const destinationColumnId = list[sourceColumnIndex + 1]?.columnId
 
-  const startColumn = getCol(cols, source.droppableId) as ColT
-  const finishColumn = getCol(cols, destination?.droppableId as string) as ColT
+  const newColumn = {
+    boardId: boardId as string,
+    columns: list,
+    columnId: draggableId,
+    sourceColumnId,
+    destinationColumnId,
+    router,
+  }
 
-  if (startColumn.colId === finishColumn.colId) {
-    const { list, el } = getSplicedList<TodoT>(
-      startColumn.todos,
-      source.index,
-      destination?.index as number
-    )
-    const currTodo = getTodoIndex(list, el.todoId)
+  dispatch(updateColumnCreator(newColumn))
+}
 
-    const res = {
+export function handleTodoDrag({
+  columns,
+  router,
+  result,
+  dispatch,
+  boardId,
+}: HandleDragProps) {
+  const { source, destination, draggableId } = result
+  const startColumn = getColumn({
+    columns,
+    columnId: source.droppableId,
+  }) as ColumnT
+  const finishColumn = getColumn({
+    columns,
+    columnId: destination?.droppableId as string,
+  }) as ColumnT
+
+  if (startColumn.columnId === finishColumn.columnId) {
+    const { list, element } = getSplicedList<TodoT>({
+      list: startColumn.todos,
+      from: source.index,
+      to: destination?.index as number,
+    })
+    const currTodo = getTodoIndex({ todos: list, todoId: element.todoId })
+    const sourceTodoId = currTodo !== -1 ? list[currTodo - 1].todoId : null
+    const destinationTodoId = currTodo !== -1 ? list[currTodo + 1].todoId : null
+
+    const resultTodos = {
+      boardId,
       todos: list,
       todoId: draggableId as string,
-      colId: startColumn.colId,
-      sourceTodo: currTodo !== -1 ? list[currTodo - 1] : null,
-      destinationTodo: currTodo !== -1 ? list[currTodo + 1] : null,
+      columnId: startColumn.columnId,
+      sourceTodoId,
+      destinationTodoId,
+      router,
     }
 
-    dispatch(updateTodoOrderCreator(res))
+    dispatch(updateTodoOrderCreator(resultTodos))
 
     return
   }
@@ -84,20 +106,29 @@ export function handleTodoDrag(
   const finishTodos = Array.from(finishColumn.todos)
   finishTodos.splice(destination?.index as number, 0, reorderedItem)
 
-  const currTodo = getTodoIndex(finishTodos, reorderedItem.todoId)
+  const currTodo = getTodoIndex({
+    todos: finishTodos,
+    todoId: reorderedItem.todoId,
+  })
   const startTodoList = startTodos.filter(
     todo => todo.todoId !== reorderedItem.todoId
   )
+  const sourceTodoId =
+    currTodo !== -1 ? finishTodos[currTodo - 1]?.todoId : null
+  const destinationTodoId =
+    currTodo !== -1 ? finishTodos[currTodo + 1]?.todoId : null
 
-  const res = {
+  const resultTodos = {
+    boardId,
+    router,
     todoId: draggableId,
     todos: finishTodos,
     startTodoList,
-    colId: finishColumn.colId,
-    startColId: startColumn.colId,
-    sourceTodo: currTodo !== -1 ? finishTodos[currTodo - 1] : null,
-    destinationTodo: currTodo !== -1 ? finishTodos[currTodo + 1] : null,
+    columnId: finishColumn.columnId,
+    startColumnId: startColumn.columnId,
+    sourceTodoId,
+    destinationTodoId,
   }
 
-  dispatch(updateTodoOrderCreator(res))
+  dispatch(updateTodoOrderCreator(resultTodos))
 }
