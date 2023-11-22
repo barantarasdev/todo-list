@@ -1,7 +1,12 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLeading } from 'redux-saga/effects'
 
-import { createBoard, getBoards, inviteUser } from '@/services/boardsService'
+import {
+  createBoard,
+  getBoards,
+  inviteUser,
+  updateSocketId,
+} from '@/services/boardsService'
 import { setBoard, setBoards } from '@/store/slices/boardsSlice'
 import { setSnackbar } from '@/store/slices/snackbarSlice'
 import { LogoutCreator } from '@/store/slices/userSlice/actionCreator'
@@ -11,6 +16,7 @@ import {
   CreateBoardCreatorProps,
   InviteUserCreatorProps,
   SetBoardsCreatorProps,
+  UpdateSocketIdCreatorsProps,
 } from '@/store/slices/boardsSlice/types'
 
 function* setBoardsWorker(action: PayloadAction<SetBoardsCreatorProps>) {
@@ -45,10 +51,22 @@ function* inviteUserWorker(action: PayloadAction<InviteUserCreatorProps>) {
   }
 }
 
+function* updateSocketIdWorker(
+  action: PayloadAction<UpdateSocketIdCreatorsProps>
+) {
+  const { router, sockedId, boardId } = action.payload
+  try {
+    yield call(updateSocketId, boardId, sockedId)
+  } catch (error) {
+    yield put(LogoutCreator({ router }))
+  }
+}
+
 function* boardsWatcher() {
   yield takeEvery(BoardsCreators.ASYNC_SET_BOARDS, setBoardsWorker)
   yield takeEvery(BoardsCreators.ASYNC_SET_BOARD, createBoardWorker)
-  yield takeLatest(BoardsCreators.ASYNC_INVITE_USER, inviteUserWorker)
+  yield takeEvery(BoardsCreators.ASYNC_INVITE_USER, inviteUserWorker)
+  yield takeLeading(BoardsCreators.ASYNC_UPDATE_SOCKET_ID, updateSocketIdWorker)
 }
 
 export default boardsWatcher

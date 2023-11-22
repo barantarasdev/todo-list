@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
+import React from 'react'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 
 import useColumn from '@/components/Column/useColumn'
@@ -60,4 +61,4 @@ function Column({
   )
 }
 
-export default Column
+export default React.memo(Column)

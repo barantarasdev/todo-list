@@ -1,12 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useCallback } from 'react'
 import { DropResult } from 'react-beautiful-dnd'
+import { useParams, useRouter } from 'next/navigation'
 
 import { handleColumnDrag, handleTodoDrag } from '@/components/Board/helpers'
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { DNDE } from '@/types'
-import { useParams } from 'next/navigation'
 
 function useBoard() {
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const { columns } = useAppSelector(state => state.columns)
   const { id } = useParams()
@@ -25,6 +28,7 @@ function useBoard() {
       switch (type) {
         case DNDE.COLUMN:
           handleColumnDrag({
+            router,
             columns,
             result,
             dispatch,
@@ -33,7 +37,13 @@ function useBoard() {
 
           break
         case DNDE.TODO:
-          handleTodoDrag({ columns, result, dispatch, boardId: id as string })
+          handleTodoDrag({
+            router,
+            columns,
+            result,
+            dispatch,
+            boardId: id as string,
+          })
 
           break
         default:

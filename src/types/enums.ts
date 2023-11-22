@@ -36,3 +36,8 @@ export enum SignInInputsE {
   EMAIL = SignUpInputsE.EMAIL,
   PASSWORD = SignUpInputsE.PASSWORD,
 }
+
+export enum SocketsEventsE {
+  COLUMNS = 'columnsUpdated',
+  REGISTER_ID = 'registerSocketId',
+}

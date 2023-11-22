@@ -89,6 +89,12 @@ export type UpdateTodoOrderCreatorProps = {
   startTodoList?: TodoT[]
 }
 
+export type UpdateSocketIdCreatorsProps = {
+  sockedId: string
+  boardId: string
+  router: AppRouterInstance
+}
+
 export type InviteUserCreatorProps = {
   friendEmail: string
   boardId: string
@@ -105,4 +111,5 @@ export enum BoardsCreators {
   ASYNC_UPDATE_COLUMN = 'ASYNC_UPDATE_COLUMN',
   ASYNC_UPDATE_TODO_ORDER = 'ASYNC_UPDATE_TODO_ORDER',
   ASYNC_SET_BOARD = 'ASYNC_SET_BOARD',
+  ASYNC_UPDATE_SOCKET_ID = 'ASYNC_UPDATE_SOCKET_ID',
 }

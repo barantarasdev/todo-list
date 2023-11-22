@@ -7,7 +7,11 @@ import useHome from '@/components/Home/useHome'
 import Section from '@/components/Home/styles'
 
 function Main() {
-  const { userName } = useHome()
+  const { domLoaded, userName } = useHome()
+
+  if (!domLoaded) {
+    return null
+  }
 
   return (
     <Section>

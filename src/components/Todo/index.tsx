@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
+import React from 'react'
 import { Checkbox, IconButton, InputBase } from '@mui/material'
 import { Draggable } from 'react-beautiful-dnd'
 import { Clear, Done } from '@mui/icons-material'
@@ -61,4 +62,4 @@ function Todo({ todo, columnId, index }: TodoProps) {
   )
 }
 
-export default Todo
+export default React.memo(Todo)
