@@ -54,3 +54,8 @@ export type UseInputProps = {
   valueProp?: string
   inputRef?: RefObject<HTMLInputElement> | null
 }
+
+export type SocketDataT = {
+  todos: TodoT[]
+  columns: ColumnT[]
+} | null

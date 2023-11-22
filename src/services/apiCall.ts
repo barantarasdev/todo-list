@@ -2,8 +2,8 @@ import {
   getDataFromLocalStorage,
   setDataToLocalStorage,
 } from '@/utils/localeStorage'
-import { MethodsE } from '@/types'
 import { SendRequestProps } from '@/services/types'
+import { MethodsE } from '@/types'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 

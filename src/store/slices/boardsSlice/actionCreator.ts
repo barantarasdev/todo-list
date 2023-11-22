@@ -8,6 +8,7 @@ import {
   SetBoardsCreatorProps,
   SetColumnsCreatorProps,
   UpdateColumnCreatorProps,
+  UpdateSocketIdCreatorsProps,
   UpdateTodoCreatorProps,
   UpdateTodoOrderCreatorProps,
 } from '@/store/slices/boardsSlice/types'
@@ -114,6 +115,19 @@ export const updateTodoOrderCreator = ({
     sourceTodoId,
     columnId,
     router,
+  },
+})
+
+export const updateSocketIdCreator = ({
+  router,
+  sockedId,
+  boardId,
+}: UpdateSocketIdCreatorsProps) => ({
+  type: BoardsCreators.ASYNC_UPDATE_SOCKET_ID,
+  payload: {
+    sockedId,
+    router,
+    boardId,
   },
 })
 

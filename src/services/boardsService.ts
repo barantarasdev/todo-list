@@ -10,3 +10,9 @@ export const inviteUser = (boardId: string, friendEmail: string) =>
     url: `/boards/${boardId}/invite`,
     data: { friendEmail },
   })
+
+export const updateSocketId = (boardId: string, socketId: string) =>
+  client.post({
+    url: `/boards/${boardId}/updateSocketId`,
+    data: { socketId },
+  })

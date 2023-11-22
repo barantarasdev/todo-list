@@ -70,7 +70,7 @@ function* updateColumnWorker(action: PayloadAction<UpdateColumnCreatorProps>) {
 
 function* columnWatcher() {
   yield takeEvery(BoardsCreators.ASYNC_SET_COLUMNS, setColumnsWorker)
-  yield takeLatest(BoardsCreators.ASYNC_CREATE_COLUMN, setColumnWorker)
+  yield takeEvery(BoardsCreators.ASYNC_CREATE_COLUMN, setColumnWorker)
   yield takeLatest(BoardsCreators.ASYNC_UPDATE_COLUMN, updateColumnWorker)
 }
 
